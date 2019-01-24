@@ -3,6 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
+      - cd order-app
       - npm install
   build:
     commands:
