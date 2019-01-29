@@ -1,28 +1,39 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/chips.jpg">
-    <HelloWorld msg="Fairbanks Distributors"/>
-  </div>
+  <v-app>
+    <v-toolbar app>
+      <v-toolbar-title class="headline text-uppercase">
+        <span>Fairbanks Distributors</span>
+        <span class="font-weight-light ml-2" >ORDER APP</span>
+      </v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn flat>
+        <v-icon>reorder</v-icon>
+      </v-btn>
+    </v-toolbar>
+
+    <v-content>
+      <Login/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Login from './components/Login'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    HelloWorld
+    Login
+  },
+  data () {
+    return {
+      //
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
