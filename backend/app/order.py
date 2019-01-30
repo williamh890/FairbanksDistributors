@@ -20,20 +20,25 @@ def place_order():
 
 
 def send_order(order_info):
-    msg = MIMEText(order_info)
     smtp_config = get_smtp_config()
-    msg['Subject'] = 'An order'
-    msg['From'] = smtp_config['USER']['smtpUserAddress']
-    msg['To'] = smtp_config['DEST']['destAddress']
 
-    s = smtplib.SMTP_SSL(smtp_config['SERVER']['smtpServerURL'],
-                         smtp_config['SERVER']['smtpServerPort'])
-    s.login(smtp_config['USER']['smtpUserAddress'],
-            smtp_config['USER']['smtpUserPassword'])
-    s.send_message(msg)
-    s.quit()
+    email = create_email(order_info, smtp_config)
+
+    with smtplib.SMTP_SSL(smtp_config['SERVER']['smtpServerURL'],
+                         smtp_config['SERVER']['smtpServerPort']) as s:
+        s.login(smtp_config['USER']['smtpUserAddress'],
+                smtp_config['USER']['smtpUserPassword'])
+        s.send_message(email)
 
 def get_smtp_config():
     smtp_config = configparser.ConfigParser()
     smtp_config.read('app/email_creds.cfg')
     return smtp_config
+
+def create_email(order_info, smtp_config):
+    email = MIMEText(order_info)
+    email['Subject'] = 'An order'
+    email['From'] = smtp_config['USER']['smtpUserAddress']
+    email['To'] = smtp_config['DEST']['destAddress']
+
+    return email
