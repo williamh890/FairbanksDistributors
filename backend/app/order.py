@@ -25,10 +25,10 @@ def send_order(order_info):
     email = create_email(order_info, smtp_config)
 
     with smtplib.SMTP_SSL(smtp_config['SERVER']['smtpServerURL'],
-                         smtp_config['SERVER']['smtpServerPort']) as s:
-        s.login(smtp_config['USER']['smtpUserAddress'],
+                         smtp_config['SERVER']['smtpServerPort']) as server:
+        server.login(smtp_config['USER']['smtpUserAddress'],
                 smtp_config['USER']['smtpUserPassword'])
-        s.send_message(email)
+        server.send_message(email)
 
 def get_smtp_config():
     smtp_config = configparser.ConfigParser()
