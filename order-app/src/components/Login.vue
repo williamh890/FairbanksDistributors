@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="size">
     <v-layout
       text-xs-center
       wrap
@@ -38,5 +38,9 @@ export default {
 </script>
 
 <style>
-
+.size {
+  width: 40%;
+  min-width: 300px;
+  max-width: 600px;
+}
 </style>
