@@ -40,5 +40,7 @@ export default {
 <style>
 .size {
   width: 40%;
+  min-width: 300px;
+  max-width: 600px;
 }
 </style>
