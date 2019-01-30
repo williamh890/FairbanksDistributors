@@ -1,5 +1,7 @@
 # order-app
 
+** dev site **: http://water-monitor.s3-website-us-east-1.amazonaws.com/
+
 ## Project setup
 ```
 npm install
