@@ -1,0 +1,7 @@
+
+#cfg
+email_creds.cfg
+
+# pyc files
+*.pyc
+__pycache__
