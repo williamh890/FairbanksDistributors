@@ -11,25 +11,45 @@
       <v-btn flat>
         <v-icon>reorder</v-icon>
       </v-btn>
+      <v-btn flat
+         v-if="isLoggedIn"
+         v-on:click="onLogout">
+        Logout
+      </v-btn>
+
     </v-toolbar>
 
     <v-content>
-      <Login/>
+      <Login
+        v-if="!isLoggedIn"
+        v-on:login="onLoggin"
+      />
+      <Order v-else/>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import Login from './components/Login'
+import Login from './components/Login';
+import Order from './components/Order';
 
 export default {
   name: 'App',
   components: {
-    Login
+    Login,
+    Order
+  },
+  methods: {
+    onLoggin: function(event) {
+      this.isLoggedIn = true;
+    },
+    onLogout: function(event) {
+      this.isLoggedIn = false;
+    }
   },
   data () {
     return {
-      //
+      isLoggedIn: false
     }
   }
 }
