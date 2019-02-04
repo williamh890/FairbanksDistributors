@@ -23,6 +23,7 @@
       :disabled="!valid"
       color="secondary"
       @click="validate"
+      v-on:click="$emit('login')"
     >
       Login
     </v-btn>

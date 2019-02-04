@@ -19,7 +19,9 @@
 
       <v-flex mb-4>
 
-        <LoginForm />
+        <LoginForm
+          v-on:login="$emit('login')"
+        />
 
       </v-flex>
     </v-layout>
