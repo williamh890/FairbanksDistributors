@@ -1,7 +1,12 @@
 
 #cfg
 email_creds.cfg
+zappa_settings.json
+backend-dev-template*.json
 
 # pyc files
 *.pyc
 __pycache__
+
+#output
+*.csv
