@@ -44,15 +44,9 @@ def get_smtp_config():
     smtp_config.read('app/email_creds.cfg')
     return smtp_config
 
-def create_email(smtp_config):
-    email = MIMEMultipart()
-    email['Subject'] = 'An order'
-    email['From'] = smtp_config['USER']['smtpUserAddress']
-    email['To'] = smtp_config['DEST']['destAddress']
-
+def create_order_attachment():
     ctype, encoding = mimetypes.guess_type("order.csv")
     if ctype is None or encoding is not None:
-        print("henlo")
         ctype = "application/octet-stream"
 
     maintype, subtype = ctype.split("/", 1)
@@ -62,7 +56,17 @@ def create_email(smtp_config):
         attachment.set_payload(order.read())
 
     encoders.encode_base64(attachment)
-    attachment.add_header("Content-Disposition", "attachment", filename="order.csv")
-    email.attach(attachment)
+    attachment.add_header("Content-Disposition", "attachment",
+                          filename="order.csv")
+
+    return attachment
+
+def create_email(smtp_config):
+    email = MIMEMultipart()
+    email['Subject'] = 'An order'
+    email['From'] = smtp_config['USER']['smtpUserAddress']
+    email['To'] = smtp_config['DEST']['destAddress']
+
+    email.attach(create_order_attachment())
 
     return email
