@@ -1,58 +1,6 @@
-<template>
-  <v-container class="size" fluid grid-list-xl>
-    <h1>Create Order</h1>
-    <v-select
-      :items="Object.keys(chips)"
-      v-model="type"
-      label="Chip Type"
-      ></v-select>
-
-      <v-list v-if="!!type" two-line>
-        <template v-for="(item, index) in chips[type]">
-          <v-list-tile
-            :key="item.name"
-            avatar
-            @click=""
-          >
-          <v-list-tile-avatar>
-
-            <v-select :items="numbers"></v-select>
-
-              </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>
-                {{ item.name }}
-              </v-list-tile-title>
-              <v-list-tile-sub-title>
-                <b>upc:</b> {{ item.upc }}, <b>oz:</b> {{ item.oz }}, <b>case:</b> {{ item.case }}
-
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </template>
-      </v-list>
-      </div>
-
-    <v-btn
-      block
-      color="secondary"
-      style="margin-top: 10px"
-      v-on:click="$emit('submit-order')"
-    >
-      Submit Order
-    </v-btn>
-  </v-container>
-</template>
-
-<script>
-
-export default {
-  name: 'Order',
-  data: () => ({
-    numbers: [0,1,2,3,4,5,6,7,8,9,10],
-    type: null,
-    chips: {
-      'Doritors': [{
+{
+  "Doritos": [
+    {
       "name": "DORITOS COOL RANCH",
       "oz": 10.00,
       "upc": "FL-64132",
@@ -107,9 +55,8 @@ export default {
       "oz": 9.75,
       "upc": "FL-19924",
       "case": 7
-    }
-      ],
-      'Cheetos': [{
+    }],
+  "Cheetos": [{
     "name": "CHEETOS JUMBO PUFFS",
     "oz":8.00,
     "upc":"FL-59668",
@@ -134,9 +81,8 @@ export default {
     "oz":	7.50,
     "upc": "FL-63801",
     "case":12
-  }
-      ],
-      'Fritos': [{
+  }],
+  "Fritos": [{
       "name":"FS LAYS REGULAR",
       "oz":"10.25",
       "upc":"FL-64549",
@@ -166,15 +112,5 @@ export default {
       "upc":"FL-64644",
       "case":"10"
    }
-      ]
-    }
-  })
+  ]
 }
-</script>
-
-<style>
-.size {
-  max-width: 100%;
-  width: 600px;
-}
-</style>
