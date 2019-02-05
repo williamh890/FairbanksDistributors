@@ -25,7 +25,7 @@ def place_order():
     return redirect(url_for('order.order_success'))
 
 def write_order_csv(order_info):
-    with open("order.csv", "w") as order:
+    with open("/tmp/order.csv", "w") as order:
         order.write(order_info)
 
 def send_order():
@@ -52,7 +52,7 @@ def create_order_attachment():
     maintype, subtype = ctype.split("/", 1)
     attachment = MIMEBase(maintype, subtype)
 
-    with open("order.csv", "rb") as order:
+    with open("/tmp/order.csv", "rb") as order:
         attachment.set_payload(order.read())
 
     encoders.encode_base64(attachment)
