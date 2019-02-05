@@ -40,10 +40,10 @@ export default {
     Order
   },
   methods: {
-    onLoggin: function(event) {
+    onLoggin: function() {
       this.isLoggedIn = true;
     },
-    onLogout: function(event) {
+    onLogout: function() {
       this.isLoggedIn = false;
     }
   },

@@ -8,11 +8,10 @@
       ></v-select>
 
       <v-list v-if="!!type" two-line>
-        <template v-for="(item, index) in chips[type]">
+        <template v-for="item in chips[type]">
           <v-list-tile
             :key="item.name"
             avatar
-            @click=""
           >
           <v-list-tile-avatar>
 
@@ -31,7 +30,6 @@
           </v-list-tile>
         </template>
       </v-list>
-      </div>
 
     <v-btn
       block
