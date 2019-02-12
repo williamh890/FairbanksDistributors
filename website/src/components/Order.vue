@@ -1,164 +1,66 @@
 <template>
   <v-container class="size" fluid grid-list-xl>
-    <h1>Create Order</h1>
-    <v-select
-      :items="types"
-      v-on:change="onTypeChanged"
-      label="Chip Type"
-      ></v-select>
+    <v-stepper v-model="element">
+      <v-stepper-header>
+        <v-stepper-step :complete="element > 1" step="1">Create</v-stepper-step>
 
-      <v-list v-if="!!type" two-line>
-        <template v-for="item in selectedItems">
-          <v-list-tile
-            :key="item.name"
-            v-on:click="onOpenDialog(item)"
-            avatar
-          >
+        <v-divider></v-divider>
 
-          <v-list-tile-avatar>
-            <v-btn v-on:click="onOpenDialog(item)" flat icon color="primary">
-              <v-icon>add</v-icon>
+        <v-stepper-step :complete="element > 2" step="2">Review</v-stepper-step>
+      </v-stepper-header>
+
+      <v-stepper-items>
+        <v-stepper-content step="1">
+          <OrderCreate />
+
+            <v-btn
+              block
+              color="secondary"
+              style="margin-top: 10px"
+              v-on:click="element = 2"
+            >
+              Submit Order
             </v-btn>
-          </v-list-tile-avatar>
+        </v-stepper-content>
 
-            <v-list-tile-content>
-              <v-list-tile-title>
-                {{ item.name }}
-              </v-list-tile-title>
-              <v-list-tile-sub-title>
-                <b>upc:</b> {{ item.upc }}, <b>oz:</b> {{ item.oz }}, <b>case:</b> {{ item.case }}
+        <v-stepper-content step="2">
+          <v-card
+            class="mb-5"
+            color="grey lighten-1"
+            height="200px"
+          ></v-card>
 
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-
-          <v-list-tile-action>
-            {{ item.amount }}
-          </v-list-tile-action>
-          </v-list-tile>
-        </template>
-      </v-list>
-
-  <v-dialog v-model="dialog" max-width="290">
-
-      <v-card>
-        <v-card-title>
-            <v-text-field
-              label="Item Amount"
-              v-model="itemAmount"
-              type="number"
-              required
-          ></v-text-field>
-        </v-card-title>
-
-
-      <v-list>
-          <v-list-tile
-            v-for="(number, i) in numbers"
-            :key="i"
-            avatar
-            v-on:click="onAmountClicked(number)"
-          >
-            <v-list-tile-content>
-              <v-list-tile-title>{{ number }} </v-list-tile-title>
-            </v-list-tile-content>
-
-            <v-list-tile-avatar>
-                <v-icon v-if="number === itemAmount">done</v-icon>
-            </v-list-tile-avatar>
-
-          </v-list-tile>
-        </v-list>
-
-        <v-card-actions>
           <v-btn
-            block
             color="primary"
-            v-on:click="onAddItem"
+            @click="element = 2"
           >
-            Add Item
+            Submit
           </v-btn>
-        </v-card-actions>
 
-      </v-card>
-
-    </v-dialog>
-
-
-    <v-btn
-      block
-      color="secondary"
-      style="margin-top: 10px"
-      v-on:click="$emit('submit-order')"
-    >
-      Submit Order
-    </v-btn>
-
-
-
+          <v-btn flat
+            @click="element = 1"
+            >Previous</v-btn>
+      </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
   </v-container>
 </template>
 
 <script>
+import OrderCreate from './OrderCreate';
 import store from '../store';
 import { SET_SELECTED_ITEM_TYPE, ADD_ORDER_ITEM } from '../store/orders/mutation';
 
 export default {
   name: 'Order',
-  store,
-  computed: {
-    selectedItems() {
-      return this.$store.getters.getSelectedItems;
-    },
-    types() {
-      return this.$store.getters.getItemTypes;
-    },
-    type() {
-      return this.$store.getters.getSelectedType;
-    },
-    orderItems() {
-      return this.$store.getters.orderItems;
-    }
+  components: {
+    OrderCreate
   },
-  methods:  {
-    onTypeChanged: function(type) {
-      this.$store.dispatch(SET_SELECTED_ITEM_TYPE, type);
-    },
-    onOpenDialog: function(item) {
-      this.dialog = true;
-      this.itemAmount = 1;
-      this.currentItem = item;
-    },
-    onAmountClicked: function(amount) {
-      this.itemAmount = amount;
-    },
-    onAddItem: function() {
-      this.$store.dispatch(ADD_ORDER_ITEM, {
-        item: this.currentItem, amount: this.itemAmount
-      });
-
-      this.itemAmount = 1;
-      this.currentItem = null;
-      this.dialog = false;
-    },
-    amountInOrder: function(item, items) {
-
-      const amount = (items.length === 0) ?
-        0 : items
-          .filter(i => i !== item)
-          .map(i => i.amount)
-          .pop();
-
-      console.log(amount, items);
-
-      return amount;
-    }
-  },
-  data: () => ({
-    numbers: [1,2,3,4,5,6],
-    dialog: false,
-    currentItem: null,
-    itemAmount: 1,
-  })
+  data() {
+    return {
+      element: 0
+    };
+  }
 }
 </script>
 
