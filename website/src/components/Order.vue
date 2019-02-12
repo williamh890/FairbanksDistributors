@@ -15,31 +15,29 @@
 
             <v-btn
               block
-              color="secondary"
+              color="primary"
               style="margin-top: 10px"
               v-on:click="element = 2"
             >
-              Submit Order
+              Review Order
             </v-btn>
+
+
         </v-stepper-content>
 
         <v-stepper-content step="2">
-          <v-card
-            class="mb-5"
-            color="grey lighten-1"
-            height="200px"
-          ></v-card>
+          <OrderReview />
 
           <v-btn
             color="primary"
             @click="element = 2"
           >
-            Submit
+            Submit Order
           </v-btn>
 
           <v-btn flat
             @click="element = 1"
-            >Previous</v-btn>
+            >Edit</v-btn>
       </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -48,13 +46,15 @@
 
 <script>
 import OrderCreate from './OrderCreate';
+import OrderReview from './OrderReview';
 import store from '../store';
 import { SET_SELECTED_ITEM_TYPE, ADD_ORDER_ITEM } from '../store/orders/mutation';
 
 export default {
   name: 'Order',
   components: {
-    OrderCreate
+    OrderCreate,
+    OrderReview,
   },
   data() {
     return {

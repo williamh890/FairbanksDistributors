@@ -26,7 +26,7 @@
             </v-list-tile-content>
 
           <v-list-tile-action>
-             <v-chip color="primary" text-color="white">
+             <v-chip color="secondary" text-color="white">
                {{ item.amount }}
              </v-chip>
           </v-list-tile-action>
@@ -37,8 +37,9 @@
   <v-dialog v-model="dialog" max-width="100%">
       <v-card>
         <v-card-title>
+          {{ currentItem ? currentItem.name : '' }}
             <v-text-field
-              label="Item Amount"
+              label="Amount"
               v-model="itemAmount"
               type="number"
               required
@@ -70,7 +71,7 @@
             color="primary"
             v-on:click="onAddItem"
           >
-            Add Item
+            Add To Order
           </v-btn>
         </v-card-actions>
 

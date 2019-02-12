@@ -5,5 +5,5 @@ export const getters = {
   getSelectedType: state => state.selectedType,
   getSelectedItems: state => state.items
     .filter(item => item.type === state.selectedType),
-  getOrderItems: state => state.order.items
+  getOrderItems: state => state.order.items.map(item => item.item)
 };
