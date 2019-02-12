@@ -3,7 +3,7 @@ export const LOGOUT = 'logout';
 
 export const SET_SELECTED_ITEM_TYPE = 'setSelectedItemType';
 
-export const ADD_ITEM = 'updateItemAmount';
+export const ADD_ORDER_ITEM = 'addOrderItem';
 export const CLEAR_ORDER_ITEMS = 'clearOrderItems';
 
 export const SUBMIT_ORDER = 'submitOrder';
@@ -17,7 +17,10 @@ export const mutations = {
     state.isLoggedIn = false;
   },
 
-  [ADD_ITEM]: function(state, item, amount) {
+  [ADD_ORDER_ITEM]: function(state, item) {
+    state.order.items = [
+      ...state.order.items, item
+    ];
   },
 
   [SET_SELECTED_ITEM_TYPE]: function(state, type) {

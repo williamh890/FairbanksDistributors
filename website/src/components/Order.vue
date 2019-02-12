@@ -11,13 +11,16 @@
         <template v-for="item in selectedItems">
           <v-list-tile
             :key="item.name"
+            v-on:click="onOpenDialog(item)"
             avatar
           >
+
           <v-list-tile-avatar>
+            <v-btn v-on:click="onOpenDialog(item)" flat icon color="primary">
+              <v-icon>add</v-icon>
+            </v-btn>
+          </v-list-tile-avatar>
 
-            <v-select :items="numbers"></v-select>
-
-              </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
                 {{ item.name }}
@@ -31,6 +34,50 @@
         </template>
       </v-list>
 
+  <v-dialog v-model="dialog" max-width="290">
+
+      <v-card>
+        <v-card-title>
+            <v-text-field
+              label="Item Amount"
+              v-model="itemAmount"
+              type="number"
+              required
+          ></v-text-field>
+        </v-card-title>
+
+
+      <v-list>
+          <v-list-tile
+            v-for="(number, i) in numbers"
+            :key="i"
+            avatar
+            v-on:click="onAmountClicked(number)"
+          >
+            <v-list-tile-content>
+              <v-list-tile-title>{{ number }} </v-list-tile-title>
+            </v-list-tile-content>
+
+            <v-list-tile-avatar>
+                <v-icon v-if="number === itemAmount">done</v-icon>
+            </v-list-tile-avatar>
+
+          </v-list-tile>
+        </v-list>
+
+        <v-btn
+          block
+          color="primary"
+          v-on:click="onAddItem"
+        >
+          Add Item
+        </v-btn>
+
+      </v-card>
+
+    </v-dialog>
+
+
     <v-btn
       block
       color="secondary"
@@ -39,12 +86,15 @@
     >
       Submit Order
     </v-btn>
+
+
+
   </v-container>
 </template>
 
 <script>
 import store from '../store';
-import { SET_SELECTED_ITEM_TYPE } from '../store/orders/mutation';
+import { SET_SELECTED_ITEM_TYPE, ADD_ORDER_ITEM } from '../store/orders/mutation';
 
 export default {
   name: 'Order',
@@ -63,10 +113,30 @@ export default {
   methods:  {
     onTypeChanged: function(type) {
       this.$store.dispatch(SET_SELECTED_ITEM_TYPE, type);
+    },
+    onOpenDialog: function(item) {
+      this.dialog = true;
+      this.itemAmount = 1;
+      this.currentItem = item;
+    },
+    onAmountClicked: function(amount) {
+      this.itemAmount = amount;
+    },
+    onAddItem: function() {
+      this.$store.dispatch(ADD_ORDER_ITEM, {
+        item: this.currentItem, amount: this.itemAmount
+      });
+
+      this.itemAmount = 1;
+      this.currentItem = null;
+      this.dialog = false;
     }
   },
   data: () => ({
-    numbers: [0,1,2,3,4,5,6,7,8,9,10],
+    numbers: [1,2,3,4,5,6],
+    dialog: false,
+    currentItem: null,
+    itemAmount: 1,
   })
 }
 </script>

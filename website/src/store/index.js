@@ -8,10 +8,13 @@ import Vuex from 'vuex';
 export default new Vuex.Store({
   strict: true,
   state: {
-    isLoggedIn: false,
+    isLoggedIn: true,
     items: chips,
     itemTypes: chipTypes,
-    selectedType: null,
+    selectedType: "Doritos",
+    order: {
+      items: [],
+    },
   },
   actions,
   mutations,
