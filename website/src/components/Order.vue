@@ -30,6 +30,10 @@
 
               </v-list-tile-sub-title>
             </v-list-tile-content>
+
+          <v-list-tile-action>
+            {{ item.amount }}
+          </v-list-tile-action>
           </v-list-tile>
         </template>
       </v-list>
@@ -65,13 +69,15 @@
           </v-list-tile>
         </v-list>
 
-        <v-btn
-          block
-          color="primary"
-          v-on:click="onAddItem"
-        >
-          Add Item
-        </v-btn>
+        <v-card-actions>
+          <v-btn
+            block
+            color="primary"
+            v-on:click="onAddItem"
+          >
+            Add Item
+          </v-btn>
+        </v-card-actions>
 
       </v-card>
 
@@ -108,6 +114,9 @@ export default {
     },
     type() {
       return this.$store.getters.getSelectedType;
+    },
+    orderItems() {
+      return this.$store.getters.orderItems;
     }
   },
   methods:  {
@@ -130,6 +139,18 @@ export default {
       this.itemAmount = 1;
       this.currentItem = null;
       this.dialog = false;
+    },
+    amountInOrder: function(item, items) {
+
+      const amount = (items.length === 0) ?
+        0 : items
+          .filter(i => i !== item)
+          .map(i => i.amount)
+          .pop();
+
+      console.log(amount, items);
+
+      return amount;
     }
   },
   data: () => ({

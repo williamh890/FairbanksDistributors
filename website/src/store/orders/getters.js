@@ -4,5 +4,6 @@ export const getters = {
   getItemTypes: state => state.itemTypes,
   getSelectedType: state => state.selectedType,
   getSelectedItems: state => state.items
-    .filter(item => item.type === state.selectedType)
+    .filter(item => item.type === state.selectedType),
+  getOrderItems: state => state.order.items
 };

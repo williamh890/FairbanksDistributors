@@ -17,10 +17,14 @@ export const mutations = {
     state.isLoggedIn = false;
   },
 
-  [ADD_ORDER_ITEM]: function(state, item) {
+  [ADD_ORDER_ITEM]: function(state, orderItem) {
     state.order.items = [
-      ...state.order.items, item
+      ...state.order.items, orderItem
     ];
+
+    state.items
+      .filter(item => item === orderItem.item)
+      .forEach(item => item.amount = orderItem.amount)
   },
 
   [SET_SELECTED_ITEM_TYPE]: function(state, type) {

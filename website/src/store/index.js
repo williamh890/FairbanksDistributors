@@ -9,7 +9,10 @@ export default new Vuex.Store({
   strict: true,
   state: {
     isLoggedIn: true,
-    items: chips,
+    items: chips.map(item => {
+      item.amount = 0
+      return item
+    }),
     itemTypes: chipTypes,
     selectedType: "Doritos",
     order: {
