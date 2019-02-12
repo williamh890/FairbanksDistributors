@@ -3,7 +3,8 @@ import {
   LOGOUT,
   ADD_ORDER_ITEM ,
   CLEAR_ORDER_ITEMS,
-  SUBMIT_ORDER
+  SUBMIT_ORDER,
+  SET_SELECTED_ITEM_TYPE,
 } from './mutation';
 
 export default {
@@ -17,6 +18,10 @@ export default {
 
   addOrderItem({ commit }, item) {
     commit(ADD_ORDER_ITEM, item);
+  },
+
+  setSelectedItemType({ commit }, type) {
+    commit(SET_SELECTED_ITEM_TYPE, type);
   },
 
   clearOrderItem({ commit }) {
