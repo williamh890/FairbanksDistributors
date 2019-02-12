@@ -8,11 +8,11 @@ export const SUBMIT_ORDER = 'submitOrder';
 
 export const mutations = {
   [LOGIN]: function(state) {
-    state.login = true;
+    state.isLoggedIn = true;
   },
 
   [LOGOUT]: function(state) {
-    state.logout = false;
+    state.isLoggedIn = false;
   },
 
   [ADD_ORDER_ITEM]: function(state, item) {

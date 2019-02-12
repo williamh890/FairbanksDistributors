@@ -32,24 +32,28 @@
 <script>
 import Login from './components/Login';
 import Order from './components/Order';
+import store from './store';
+
+import { LOGIN, LOGOUT } from './store/orders/mutation';
 
 export default {
   name: 'App',
+  store,
   components: {
     Login,
     Order
   },
   methods: {
     onLoggin: function() {
-      this.isLoggedIn = true;
+      this.$store.dispatch(LOGIN);
     },
     onLogout: function() {
-      this.isLoggedIn = false;
+      this.$store.dispatch(LOGOUT);
     }
   },
-  data () {
-    return {
-      isLoggedIn: false
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.getIsLoggedIn;
     }
   }
 }
