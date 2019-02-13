@@ -131,8 +131,6 @@ export default {
           .map(i => i.amount)
           .pop();
 
-      console.log(amount, items);
-
       return amount;
     }
   },

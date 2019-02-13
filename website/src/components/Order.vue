@@ -93,6 +93,7 @@ export default {
 
         return { amount, item };
       })
+
       this.isLoading = true;
 
       this.$http.get('https://backend.uafhalpost.net/place_order')
@@ -101,10 +102,7 @@ export default {
             this.element = 3;
             this.isLoading = false;
             this.resp = resp;
-
-            console.log('Good', resp);
-          },
-          console.log
+          }
         );
     }
   }
