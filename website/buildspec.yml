@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - cd order-app
+      - cd website
       - npm install
   build:
     commands:
