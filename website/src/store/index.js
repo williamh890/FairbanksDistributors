@@ -16,8 +16,7 @@ export default new Vuex.Store({
     itemTypes: chipTypes,
     selectedType: "Doritos",
     order: {
-      items: [],
-    },
+"items":[{"item":{"type":"Doritos","name":"DORITOS COOL RANCH","oz":10,"upc":"FL-64132","case":7,"amount":3},"amount":3},{"item":{"type":"Doritos","name":"DORITOS NACHO CHEESE","oz":10,"upc":"FL-64203","case":7,"amount":3},"amount":3}]    },
   },
   actions,
   mutations,

@@ -7,6 +7,10 @@
         <v-divider></v-divider>
 
         <v-stepper-step :complete="element > 2" step="2">Review</v-stepper-step>
+
+        <v-divider></v-divider>
+
+        <v-stepper-step :complete="element > 3" step="3">Success</v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
@@ -30,15 +34,27 @@
 
           <v-btn
             color="primary"
-            @click="element = 2"
+            v-on:click="onSubmitOrder(orderItems)"
           >
-            Submit Order
+            <template >
+              Submit Order
+            </template>
           </v-btn>
 
           <v-btn flat
             @click="element = 1"
             >Edit</v-btn>
+
+            <v-progress-circular v-if="isLoading" indeterminate color="secondary" ></v-progress-circular>
       </v-stepper-content>
+      <v-stepper-content step="3">
+        <OrderSuccess />
+
+        <div v-if="resp">
+          {{ JSON.stringify(resp) }}
+        </div>
+      </v-stepper-content>
+
       </v-stepper-items>
     </v-stepper>
   </v-container>
@@ -47,20 +63,52 @@
 <script>
 import OrderCreate from './OrderCreate';
 import OrderReview from './OrderReview';
+import OrderSuccess from './OrderSuccess';
 import store from '../store';
-import { SET_SELECTED_ITEM_TYPE, ADD_ORDER_ITEM } from '../store/orders/mutation';
 
 export default {
   name: 'Order',
+  store,
   components: {
     OrderCreate,
     OrderReview,
+    OrderSuccess,
+  },
+  computed: {
+    orderItems() {
+      return this.$store.getters.getOrderItems;
+    }
   },
   data() {
     return {
-      element: 0
+      element: 0,
+      isLoading: false,
+      resp: null
     };
+  },
+  methods: {
+    onSubmitOrder(orderItems) {
+      const items = orderItems.map(orderItem => {
+        const { amount, ...item } = orderItem;
+
+        return { amount, item };
+      })
+      this.isLoading = true;
+
+      this.$http.get('https://backend.uafhalpost.net/place_order')
+        .then(
+          resp => {
+            this.element = 3;
+            this.isLoading = false;
+            this.resp = resp;
+
+            console.log('Good', resp);
+          },
+          console.log
+        );
+    }
   }
+
 }
 </script>
 
