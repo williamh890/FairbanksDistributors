@@ -34,18 +34,19 @@
         </template>
       </v-list>
 
-  <v-dialog v-model="dialog" max-width="100%">
+  <v-dialog v-model="dialog" max-width="290">
       <v-card>
         <v-card-title>
           {{ currentItem ? currentItem.name : '' }}
+        </v-card-title>
+
             <v-text-field
+              style="margin: 10px;"
               label="Amount"
               v-model="itemAmount"
               type="number"
               required
           ></v-text-field>
-        </v-card-title>
-
 
       <v-list>
           <v-list-tile
