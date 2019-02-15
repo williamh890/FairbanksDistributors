@@ -13,19 +13,51 @@
           full-width
           min-width="290px"
         >
-            <v-date-picker v-model="date" no-title scrollable>
+            <v-text-field
+            slot="activator"
+            v-model="date"
+            label="Order Delivery Date"
+            readonly
+          ></v-text-field>
+            <v-date-picker v-model="date" no-title scrollable @input="menu = false">
                 <v-spacer></v-spacer>
                 <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
-                <v-btn flat color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                <v-btn flat color="primary" @click="menu = onDateChanged(date)">OK</v-btn>
             </v-date-picker>
         </v-menu>
     </v-container>
 </template>
 
 <script>
+import store from '../store';
+import { SET_DELIVERY_LOCATION, SET_ORDER_DATE } from '../store/orders/mutation';
+
     export default {
-        name: "OrderSettings"
+        name: "OrderSettings",
+        store,
+        computed: {
+            routeRep() {
+                return this.$store.getters.getRouteRep;
+            },
+            orderDate() {
+                return this.$store.getters.getOrderDate;
+            },
+        },
+        methods: {
+                onDateChanged: function(date) {
+                    this.$store.dispatch(SET_ORDER_DATE, date);
+                    return false;
+                },
+                onLocationChanged: function(location) {
+                    this.$store.dispatch(SET_DELIVERY_LOCATION, location);
+                }
+        },
+        data: () => ({
+            routeRep: 'test',
+            date: new Date().toISOString().substr(0, 10),
+        })
     }
+
 </script>
 
 <style scoped>
