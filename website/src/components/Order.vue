@@ -98,8 +98,6 @@ export default {
       element: 0,
       isLoading: false,
       resp: null,
-      date: new Date().toISOString().substr(0, 10),
-      menu: false,
     };
   },
   methods: {
@@ -112,7 +110,7 @@ export default {
 
       this.isLoading = true;
 
-      this.$http.get('https://backend.uafhalpost.net/place_order')
+     this.$http.get('https://backend.uafhalpost.net/place_order')
         .then(
           resp => {
             this.element = 4;

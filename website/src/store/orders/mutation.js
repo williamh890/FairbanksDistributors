@@ -47,6 +47,6 @@ export const mutations = {
   },
 
   [SET_ORDER_DATE]: function(state, date) {
-    state.orderDate = date;
+    state.order.date = date;
   }
 };

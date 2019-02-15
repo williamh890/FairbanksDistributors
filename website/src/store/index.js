@@ -16,7 +16,8 @@ export default new Vuex.Store({
     itemTypes: chipTypes,
     selectedType: null,
     order: {
-      items:[]
+      items:[],
+      date: null
     },
   },
   actions,
