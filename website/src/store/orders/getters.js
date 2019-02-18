@@ -8,5 +8,6 @@ export const getters = {
   getOrderItems: state => state.order.items.map(item => item.item),
   getRouteRep: state => state.routeRep,
   getOrderDate: state => state.order.date,
-  getStoreNames: state => state.storeNames
+  getStoreNames: state => state.storeNames,
+  getDeliveryLocation: state => state.order.deliveryLocation
 };

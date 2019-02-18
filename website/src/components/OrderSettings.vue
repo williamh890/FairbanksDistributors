@@ -42,6 +42,9 @@ import { SET_DELIVERY_LOCATION, SET_ORDER_DATE } from '../store/orders/mutation'
             },
             storeNames() {
                 return this.$store.getters.getStoreNames;
+            },
+            orderLocation() {
+                return this.$store.getters.getDeliveryLocation;
             }
         },
         methods: {
