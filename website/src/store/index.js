@@ -17,7 +17,8 @@ export default new Vuex.Store({
     selectedType: null,
     order: {
       items:[],
-      date: null
+      date: null,
+      deliveryLocation: null
     },
     storeNames: storeNames,
   },

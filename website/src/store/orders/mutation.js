@@ -43,7 +43,7 @@ export const mutations = {
   },
 
   [SET_DELIVERY_LOCATION]: function(state, storeName) {
-    state.deliveryLocation = storeName;
+    state.order.deliveryLocation = storeName;
   },
 
   [SET_ORDER_DATE]: function(state, date) {
