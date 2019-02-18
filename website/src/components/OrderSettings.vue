@@ -6,7 +6,6 @@
       v-on:change="onStoreNameChanged"
       label="Store"
       ></v-select>
-       <v-flex xs12 sm6 md4>
         <v-menu
           v-model="menu"
           :close-on-content-click="false"
@@ -20,14 +19,13 @@
           <v-text-field
             slot="activator"
             v-model="date"
-            label="Picker without buttons"
+            label="Delivery Date"
             prepend-icon="event"
             readonly
           ></v-text-field>
           <v-date-picker v-model="date" v-on:input="menu = onDateChanged(date)"></v-date-picker>
         </v-menu>
            <!-- {{ orderDate }} -->
-      </v-flex>
     </v-container>
 </template>
 
