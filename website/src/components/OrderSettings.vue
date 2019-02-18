@@ -1,6 +1,11 @@
 <template>
     <v-container>
         <h1> Order Settings </h1>
+        <v-select
+      :items="storeNames"
+      v-on:change="onStoreNameChanged"
+      label="Store"
+      ></v-select>
        <v-flex xs12 sm6 md4>
         <v-menu
           v-model="menu"
@@ -36,6 +41,9 @@ import { SET_DELIVERY_LOCATION, SET_ORDER_DATE } from '../store/orders/mutation'
         computed: {
             orderDate() {
                 return this.$store.getters.getOrderDate;
+            },
+            storeNames() {
+                return this.$store.getters.getStoreNames;
             }
         },
         methods: {
@@ -43,10 +51,10 @@ import { SET_DELIVERY_LOCATION, SET_ORDER_DATE } from '../store/orders/mutation'
                     this.$store.dispatch(SET_ORDER_DATE, date);
                     console.log(date);
                     this.$store.dispatch(SET_ORDER_DATE, date);
-                    console.log()
+                    console.log();
                     return false;
                 },
-                onLocationChanged: function(location) {
+                onStoreNameChanged: function(location) {
                     this.$store.dispatch(SET_DELIVERY_LOCATION, location);
                 }
         },

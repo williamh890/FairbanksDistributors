@@ -42,8 +42,8 @@ export const mutations = {
     state.submit = true;
   },
 
-  [SET_DELIVERY_LOCATION]: function(state, place) {
-    state.deliveryLocation = place;
+  [SET_DELIVERY_LOCATION]: function(state, storeName) {
+    state.deliveryLocation = storeName;
   },
 
   [SET_ORDER_DATE]: function(state, date) {
