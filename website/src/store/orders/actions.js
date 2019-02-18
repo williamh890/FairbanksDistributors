@@ -5,7 +5,7 @@ import {
   CLEAR_ORDER_ITEMS,
   SUBMIT_ORDER,
   SET_SELECTED_ITEM_TYPE,
-  SET_ORDER_DATE,
+  SET_ORDER_DATE, SET_DELIVERY_LOCATION,
 } from './mutation';
 
 export default {
@@ -35,6 +35,10 @@ export default {
 
   setOrderDate({ commit }, date) {
     commit(SET_ORDER_DATE, date)
+  },
+
+  setDeliveryLocation({ commit}, location) {
+    commit(SET_DELIVERY_LOCATION, location)
   }
 
 };
