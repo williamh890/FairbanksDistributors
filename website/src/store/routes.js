@@ -29,7 +29,7 @@ export const routes = [
         "rsr": "Shawn"
     },
     {
-        "storeName": "Wainwright Shoppete",
+        "storeName": "Wainwright Shoppette",
         "rsr": "Terry C."
     },
     {
@@ -41,5 +41,5 @@ export const routes = [
 export const routeServiceReps = Array.from( new Set(routes
   .map(item => item.rsr)));
 
-export const storeName = Array.from( new Set(routes
+export const storeNames = Array.from( new Set(routes
   .map(item => item.storeName)));
