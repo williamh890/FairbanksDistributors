@@ -1,42 +1,45 @@
 
 export const routes = [
     {
-        "store": "West Freds",
+        "storeName": "West Freds",
         "rsr": ["Nick T.", "Bill", "Angus", "Aaron"]
     },
     {
-        "store": "S2754",
+        "storeName": "S2754",
         "rsr": ["Nick T.", "Bill", "Angus"]
     },
     {
-        "store": "S1821",
+        "storeName": "S1821",
         "rsr": ["Nick T.", "Bill", "Angus"]
     },
     {
-        "store": "East Freds",
+        "storeName": "East Freds",
         "rsr": ["Don", "Carrie", "Nick F."]
     },
     {
-        "store": "S3410",
+        "storeName": "S3410",
         "rsr": ["Don", "Carrie", "Nick F."]
     },
     {
-        "store": "Walmart",
+        "storeName": "Walmart",
         "rsr": ["Terry C.", "Ryan", "Shawn", "Duane", "Aaron"]
     },
     {
-        "store": "Costco",
+        "storeName": "Costco",
         "rsr": "Shawn"
     },
     {
-        "store": "Wainwright Shoppete",
+        "storeName": "Wainwright Shoppete",
         "rsr": "Terry C."
     },
     {
-        "store": "Wainwright Commissary",
+        "storeName": "Wainwright Commissary",
         "rsr": ["Terry C.", "Ryan"]
     }
 ];
 
 export const routeServiceReps = Array.from( new Set(routes
   .map(item => item.rsr)));
+
+export const storeName = Array.from( new Set(routes
+  .map(item => item.storeName)));
