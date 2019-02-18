@@ -106,7 +106,7 @@ export default {
         const { amount, ...item } = orderItem;
 
         return { amount, item };
-      })
+      });
 
       this.isLoading = true;
 
