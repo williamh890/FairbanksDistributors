@@ -11,7 +11,13 @@ import mimetypes
 
 order = Blueprint('order', __name__)
 
-@order.route('/order_success')
+@order.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,POST')
+    return response
+
 def order_success():
     return jsonify({"status":"order successful"})
 
@@ -24,7 +30,7 @@ def place_order():
     else:
         write_order_csv({"store":"safeway", "order":{"item":{"upc":"test", "amount":0}}})
         send_order()
-    return redirect(url_for('order.order_success'))
+    return order_success()
 
 def write_order_csv(order_info):
     with open("/tmp/order.csv", "w") as order_file:
