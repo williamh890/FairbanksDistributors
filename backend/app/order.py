@@ -1,5 +1,7 @@
+import csv
 import configparser
-from flask import Blueprint, request, url_for, redirect
+from flask import Blueprint, jsonify, request, url_for, redirect
+import json
 import smtplib
 from email import encoders
 from email.mime.multipart import MIMEMultipart
@@ -11,22 +13,30 @@ order = Blueprint('order', __name__)
 
 @order.route('/order_success')
 def order_success():
-    return 'order_successful'
+    return jsonify({"status":"order successful"})
 
 @order.route('/place_order', methods=['POST', 'GET'])
 def place_order():
     if request.method == 'POST':
-        print(request.form)
-        write_order_csv(request.form)
+        data = json.loads(request.form[''])
+        write_order_csv(data)
         send_order()
     else:
-        write_order_csv("testing")
+        write_order_csv({"store":"safeway", "order":{"item":{"upc":"test", "amount":0}}})
         send_order()
     return redirect(url_for('order.order_success'))
 
 def write_order_csv(order_info):
-    with open("/tmp/order.csv", "w") as order:
-        order.write(order_info)
+    with open("/tmp/order.csv", "w") as order_file:
+        order_writer = csv.writer(order_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        order_writer.writerow(['store'])
+        order_writer.writerow([order_info['store']])
+
+        order_writer.writerow(['upc', 'amount'])
+        order = order_info["order"]
+        for k,v in order.items():
+            order_writer.writerow([v['upc'], v['amount']])
 
 def send_order():
     smtp_config = get_smtp_config()
