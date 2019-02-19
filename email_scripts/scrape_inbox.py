@@ -1,0 +1,44 @@
+import imaplib
+import email
+from email.contentmanager import ContentManager
+import configparser
+
+def get_imap_config():
+    config = configparser.ConfigParser()
+    config.read('credentials.cfg')
+    return config
+
+
+def get_server():
+    config = get_imap_config()
+    server = imaplib.IMAP4_SSL('imap.gmail.com')
+    login_message = server.login(config['CREDS']['email'],
+                                 config['CREDS']['pass'])
+    print(login_message)
+
+    return server
+
+def extract_attachment(msg):
+    attachment = msg.get_payload()[0]
+    if attachment.get_content_type() == 'text/csv':
+        open(attachment.get_filename(), 'wb').write(attachment.get_payload(decode=True))
+
+def scrape_inbox():
+    server = get_server()
+    server.select('inbox')
+    emails = server.search(None, 'FROM', '"fdist.smtp@gmail.com"')
+    ids = emails[1][0]
+    ids = list((ids.decode()).split(' '))
+
+    content_manager = ContentManager()
+
+    for id in ids:
+        typ, data = server.fetch(id, '(RFC822)')
+        msg = email.message_from_bytes(data[0][1])
+        if msg.is_multipart():
+            csv = extract_attachment(msg)
+
+
+
+if __name__ == "__main__":
+    scrape_inbox()
