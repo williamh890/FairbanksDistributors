@@ -30,6 +30,7 @@ def order_success():
 def place_order():
     if request.method == 'POST':
         filename = f"{str(datetime.now())}_order.csv"
+        filename = filename.replace(' ', '_')
         data = json.loads(request.form['order'])
         write_order_csv(data, filename)
         send_order(filename)
@@ -44,6 +45,9 @@ def write_order_csv(order_info, filename):
     with open(f"/tmp/{filename}", "w") as order_file:
         order_writer = csv.writer(
             order_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        order_writer.writerow(['date'])
+        order_writer.writerow([order_info['date']])
 
         order_writer.writerow(['store'])
         order_writer.writerow([order_info['store']])
