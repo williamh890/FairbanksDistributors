@@ -30,6 +30,7 @@ def scrape_inbox():
     emails = server.search(None, 'FROM', '"fdist.smtp@gmail.com"')
     ids = emails[1][0]
     ids = list((ids.decode()).split(' '))
+    if ids == ['']: return
 
     content_manager = ContentManager()
 
@@ -38,7 +39,7 @@ def scrape_inbox():
         msg = email.message_from_bytes(data[0][1])
         if msg.is_multipart():
             extract_and_write_attachment(msg)
-
+        server.store(id, '+X-GM-LABELS', '\\Trash')
 
 
 if __name__ == "__main__":
