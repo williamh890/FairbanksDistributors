@@ -8,6 +8,9 @@ export const CLEAR_ORDER_ITEMS = 'clearOrderItems';
 
 export const SUBMIT_ORDER = 'submitOrder';
 
+export const SET_DELIVERY_LOCATION = 'setDeliveryLocation';
+export const SET_ORDER_DATE = 'setOrderDate';
+
 export const mutations = {
   [LOGIN]: function(state) {
     state.isLoggedIn = true;
@@ -37,5 +40,13 @@ export const mutations = {
 
   [SUBMIT_ORDER]: function(state) {
     state.submit = true;
+  },
+
+  [SET_DELIVERY_LOCATION]: function(state, storeName) {
+    state.order.deliveryLocation = storeName;
+  },
+
+  [SET_ORDER_DATE]: function(state, date) {
+    state.order.date = date;
   }
 };

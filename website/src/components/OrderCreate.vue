@@ -3,7 +3,7 @@
     <h1>Create Order</h1>
     <v-select
       :items="types"
-      v-on:change="onTypeChanged"
+        v-on:change="onTypeChanged"
       label="Chip Type"
       ></v-select>
 

@@ -5,5 +5,9 @@ export const getters = {
   getSelectedType: state => state.selectedType,
   getSelectedItems: state => state.items
     .filter(item => item.type === state.selectedType),
-  getOrderItems: state => state.order.items.map(item => item.item)
+  getOrderItems: state => state.order.items.map(item => item.item),
+  getRouteRep: state => state.routeRep,
+  getOrderDate: state => state.order.date,
+  getStoreNames: state => state.storeNames,
+  getDeliveryLocation: state => state.order.deliveryLocation
 };
