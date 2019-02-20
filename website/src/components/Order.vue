@@ -108,7 +108,7 @@ export default {
       const formData = new FormData();
       formData.append('order', JSON.stringify(order));
 
-      this.$http.post('http://127.0.0.1:5000/place_order', formData)
+      this.$http.post('https://backend.uafhalpost.net/place_order', formData)
         .then(
           resp => {
             this.element = 4;
