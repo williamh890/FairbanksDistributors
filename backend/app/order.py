@@ -1,4 +1,5 @@
 import csv
+from datetime import datetime
 import configparser
 from flask import Blueprint, jsonify, request, url_for, redirect
 import json
@@ -24,16 +25,17 @@ def order_success():
 @order.route('/place_order', methods=['POST', 'GET'])
 def place_order():
     if request.method == 'POST':
+        filename = f"{str(datetime.now())}_order.csv"
         data = json.loads(request.form[''])
-        write_order_csv(data)
-        send_order()
+        write_order_csv(data, filename)
+        send_order(filename)
     else:
-        write_order_csv({"store":"safeway", "order":{"item":{"upc":"test", "amount":0}}})
-        send_order()
+        write_order_csv({"store":"safeway", "order":{"item":{"upc":"test", "amount":0}}}, filename)
+        send_order(filename)
     return order_success()
 
-def write_order_csv(order_info):
-    with open("/tmp/order.csv", "w") as order_file:
+def write_order_csv(order_info, filename):
+    with open(f"/tmp/{filename}", "w") as order_file:
         order_writer = csv.writer(order_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
         order_writer.writerow(['store'])
@@ -44,10 +46,10 @@ def write_order_csv(order_info):
         for k,v in order.items():
             order_writer.writerow([v['upc'], v['amount']])
 
-def send_order():
+def send_order(filename):
     smtp_config = get_smtp_config()
 
-    email = create_email(smtp_config)
+    email = create_email(smtp_config, filename)
 
     with smtplib.SMTP_SSL(smtp_config['SERVER']['smtpServerURL'],
                          smtp_config['SERVER']['smtpServerPort']) as server:
@@ -60,29 +62,29 @@ def get_smtp_config():
     smtp_config.read('app/email_creds.cfg')
     return smtp_config
 
-def create_order_attachment():
-    ctype, encoding = mimetypes.guess_type("order.csv")
+def create_order_attachment(filename):
+    ctype, encoding = mimetypes.guess_type(filename)
     if ctype is None or encoding is not None:
         ctype = "application/octet-stream"
 
     maintype, subtype = ctype.split("/", 1)
     attachment = MIMEBase(maintype, subtype)
 
-    with open("/tmp/order.csv", "rb") as order:
+    with open(f"/tmp/{filename}", "rb") as order:
         attachment.set_payload(order.read())
 
     encoders.encode_base64(attachment)
     attachment.add_header("Content-Disposition", "attachment",
-                          filename="order.csv")
+                          filename=f"{str(datetime.now())}_order.csv")
 
     return attachment
 
-def create_email(smtp_config):
+def create_email(smtp_config, filename):
     email = MIMEMultipart()
     email['Subject'] = 'An order'
     email['From'] = smtp_config['USER']['smtpUserAddress']
     email['To'] = smtp_config['DEST']['destAddress']
 
-    email.attach(create_order_attachment())
+    email.attach(create_order_attachment(filename))
 
     return email

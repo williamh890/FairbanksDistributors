@@ -18,7 +18,7 @@ def get_server():
 
     return server
 
-def extract_attachment(msg):
+def extract_and_write_attachment(msg):
     attachment = msg.get_payload()[0]
     if attachment.get_content_type() == 'text/csv':
         open(attachment.get_filename(), 'wb').write(attachment.get_payload(decode=True))
@@ -36,7 +36,7 @@ def scrape_inbox():
         typ, data = server.fetch(id, '(RFC822)')
         msg = email.message_from_bytes(data[0][1])
         if msg.is_multipart():
-            csv = extract_attachment(msg)
+            extract_and_write_attachment(msg)
 
 
 
