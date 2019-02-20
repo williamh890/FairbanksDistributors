@@ -25,7 +25,6 @@
           ></v-text-field>
           <v-date-picker v-model="date" v-on:input="menu = onDateChanged(date)"></v-date-picker>
         </v-menu>
-           <!-- {{ orderDate }} -->
     </v-container>
 </template>
 
@@ -50,9 +49,7 @@ import { SET_DELIVERY_LOCATION, SET_ORDER_DATE } from '../store/orders/mutation'
         methods: {
                 onDateChanged: function(date) {
                     this.$store.dispatch(SET_ORDER_DATE, date);
-                    console.log(date);
                     this.$store.dispatch(SET_ORDER_DATE, date);
-                    console.log();
                     return false;
                 },
                 onStoreNameChanged: function(location) {

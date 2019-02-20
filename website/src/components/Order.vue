@@ -102,7 +102,6 @@ export default {
   },
   methods: {
     onSubmitOrder(order) {
-      console.log(order);
       this.isLoading = true;
 
       const formData = new FormData();
