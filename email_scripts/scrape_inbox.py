@@ -12,9 +12,10 @@ def get_imap_config():
 def get_server():
     config = get_imap_config()
     server = imaplib.IMAP4_SSL('imap.gmail.com')
-    login_message = server.login(config['CREDS']['email'],
+    typ, login_message = server.login(config['CREDS']['email'],
                                  config['CREDS']['pass'])
-    print(login_message)
+    if typ.lower() != 'ok':
+        raise Exception(f"Connection failed with type {typ} and message {login_message}")
 
     return server
 
