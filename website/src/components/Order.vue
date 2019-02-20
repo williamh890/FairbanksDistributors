@@ -46,7 +46,7 @@
 
           <v-btn
             color="primary"
-            v-on:click="onSubmitOrder(orderItems)"
+            v-on:click="onSubmitOrder(order)"
           >
             <template >
               Submit Order
@@ -89,8 +89,8 @@ export default {
     OrderSuccess,
   },
   computed: {
-    orderItems() {
-      return this.$store.getters.getOrderItems;
+    order() {
+      return this.$store.getters.getOrder;
     }
   },
   data() {
@@ -101,16 +101,14 @@ export default {
     };
   },
   methods: {
-    onSubmitOrder(orderItems) {
-      const items = orderItems.map(orderItem => {
-        const { amount, ...item } = orderItem;
-
-        return { amount, item };
-      });
-
+    onSubmitOrder(order) {
+      console.log(order);
       this.isLoading = true;
 
-     this.$http.get('https://backend.uafhalpost.net/place_order')
+      const formData = new FormData();
+      formData.append('order', JSON.stringify(order));
+
+      this.$http.post('http://127.0.0.1:5000/place_order', formData)
         .then(
           resp => {
             this.element = 4;
