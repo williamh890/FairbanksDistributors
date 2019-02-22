@@ -10,7 +10,7 @@
         </h1>
 
         <v-img
-          :src="require('../assets/chips.jpg')"
+          :src="require('../../../images/FD_Logo.png')"
           class="my-3"
           contain
           height="200"
