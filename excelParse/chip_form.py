@@ -8,7 +8,7 @@ import csv
 
 
 def csv_from_excel():
-    wb = xlrd.open_workbook('chipForm.xls')
+    wb = xlrd.open_workbook('/tmp/chipForm.xls')
     sh = wb.sheet_by_index(0)
     your_csv_file = open('output.csv', 'w', encoding='utf8')
     wr = csv.writer(your_csv_file, quoting=csv.QUOTE_ALL)
@@ -20,21 +20,21 @@ def csv_from_excel():
 
 
 def get_data():
-    book = xlrd.open_workbook('chipForm.xls')
+    book = xlrd.open_workbook('/tmp/chipForm.xls')
     sheet = book.sheet_by_index(0)
-    num_pages = math.ceil(sheet.nrows / 70)
+    num_pages = math.ceil(sheet.nrows // 70)
     return_data = []
     for page in range(num_pages):
         row_range = range(page*70, min(page*70+70, sheet.nrows))
-        return_data.extend([[sheet.cell_value(r, c) for c in range(0, 5)] for r in row_range])
-        return_data.extend([[sheet.cell_value(r, c) for c in range(5, 10)] for r in row_range])
+        return_data += [[sheet.cell_value(r, c) for c in range(0, 5)] for r in row_range] + \
+                       [[sheet.cell_value(r, c) for c in range(5, 10)] for r in row_range]
     return return_data
 
 
 def is_category(row):
     not_categories = ['', 'Bridges', 'TMD Bottoms', 'TMD Tops', 'Clipstrips', 'Weekenders   Empty',
                       'Weekenders   Product-', '4X4 Display  Empty', '4X4 Display  Product-', 'Rolling Dip Rack']
-    return True if '-' not in row[3] and row[1] not in not_categories else False
+    return '-' not in row[3] and row[1] not in not_categories
 
 
 def get_categories(data):
@@ -58,9 +58,4 @@ def make_json(data):
 if __name__ == "__main__":
     csv_from_excel()
     data = get_data()
-    print("Categories:")
-    print(get_categories(data))
-    print("Items:")
-    print(get_items(data))
-    print("JSON")
-    print(make_json(data))
+
