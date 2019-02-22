@@ -23,8 +23,11 @@ def get_data():
     book = xlrd.open_workbook('chipForm.xls')
     sheet = book.sheet_by_index(0)
     num_pages = math.ceil(sheet.nrows / 70)
-    return_data = [[sheet.cell_value(r, c) for c in range(0, 5)] for r in range(sheet.nrows)]
-    return_data.extend([[sheet.cell_value(r, c) for c in range(5, 10)] for r in range(sheet.nrows)])
+    return_data = []
+    for page in range(num_pages):
+        row_range = range(page*70, min(page*70+70, sheet.nrows))
+        return_data.extend([[sheet.cell_value(r, c) for c in range(0, 5)] for r in row_range])
+        return_data.extend([[sheet.cell_value(r, c) for c in range(5, 10)] for r in row_range])
     return return_data
 
 
@@ -55,3 +58,9 @@ def make_json(data):
 if __name__ == "__main__":
     csv_from_excel()
     data = get_data()
+    print("Categories:")
+    print(get_categories(data))
+    print("Items:")
+    print(get_items(data))
+    print("JSON")
+    print(make_json(data))
