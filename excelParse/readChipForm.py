@@ -1,5 +1,7 @@
 import xlrd
 import csv
+import math
+import json
 
 import xlrd
 import csv
@@ -20,6 +22,11 @@ def csv_from_excel():
 def parse_excel():
     book = xlrd.open_workbook('chipForm.xls')
     sheet = book.sheet_by_index(0)
+    num_pages = math.ceil(sheet.nrows / 70)
+    print("Number of pages:")
+    print(num_pages)
+    data = []
+    # for pages in range(num_pages):
     data = [[sheet.cell_value(r, c) for c in range(0, 5)] for r in range(sheet.nrows)]
     data.extend([[sheet.cell_value(r, c) for c in range(5, 10)] for r in range(sheet.nrows)])
     # Profit !
@@ -30,6 +37,8 @@ def parse_excel():
     print(get_categories(data))
     print("Items:")
     print(get_items(data))
+    print("Json:")
+    print(make_json(data))
 
 
 def is_category(row):
@@ -42,21 +51,21 @@ def is_category(row):
 
 
 def get_categories(data):
-
-    categories = []
-    for item in data:
-        if is_category(item):
-            # print(item[1])
-            categories.append(item[1])
-    return categories
+    return [row[1] for row in data if is_category(row)]
 
 
 def get_items(data):
-    items = []
+    return [row[1] for row in data if not is_category(row) and row[1] != '']
+
+
+def make_json(data):
+    all_items, current_category = {category:[] for category in get_categories(data)}, None
     for row in data:
-        if not is_category(row) and row[1] != '':
-            items.append(row[1])
-    return items
+        if is_category(row):
+            current_category = row[1]
+        elif row[1] != '':
+            all_items[current_category].append(row[1:])
+    print(json.dumps(all_items))
 
 
 if __name__ == "__main__":
