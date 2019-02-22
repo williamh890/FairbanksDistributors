@@ -45,10 +45,7 @@ def parse_excel():
 def is_category(row):
     not_categories = ['', 'Bridges', 'TMD Bottoms', 'TMD Tops', 'Clipstrips', 'Weekenders   Empty',
                       'Weekenders   Product-', '4X4 Display  Empty', '4X4 Display  Product-', 'Rolling Dip Rack']
-    if '-' not in row[3]:
-        if row[1] not in not_categories:
-            return True
-    return False
+    return True if '-' not in row[3] and row[1] not in not_categories else False
 
 
 def get_categories(data):
