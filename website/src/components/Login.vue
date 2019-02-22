@@ -5,16 +5,16 @@
       wrap
     >
       <v-flex xs12>
-        <h1 class="display-2 font-weight-bold mb-3">
-            Login
-        </h1>
-
         <v-img
           :src="require('../../../images/FD_Logo.png')"
           class="my-3"
           contain
           height="200"
         ></v-img>
+
+        <h1 class="font-weight-bold mb-3">
+            Login
+        </h1>
       </v-flex>
 
       <v-flex mb-4>
