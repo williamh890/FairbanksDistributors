@@ -19,27 +19,13 @@ def csv_from_excel():
     your_csv_file.close()
 
 
-def parse_excel():
+def get_data():
     book = xlrd.open_workbook('chipForm.xls')
     sheet = book.sheet_by_index(0)
     num_pages = math.ceil(sheet.nrows / 70)
-    print("Number of pages:")
-    print(num_pages)
-    data = []
-    # for pages in range(num_pages):
-    data = [[sheet.cell_value(r, c) for c in range(0, 5)] for r in range(sheet.nrows)]
-    data.extend([[sheet.cell_value(r, c) for c in range(5, 10)] for r in range(sheet.nrows)])
-    # Profit !
-    print(data)
-    # for item in data:
-    #     print(item)
-    print("Categories:")
-    print(get_categories(data))
-    print("Items:")
-    for item in get_items(data):
-        print(item)
-    print("Json:")
-    print(make_json(data))
+    return_data = [[sheet.cell_value(r, c) for c in range(0, 5)] for r in range(sheet.nrows)]
+    return_data.extend([[sheet.cell_value(r, c) for c in range(5, 10)] for r in range(sheet.nrows)])
+    return return_data
 
 
 def is_category(row):
@@ -63,9 +49,9 @@ def make_json(data):
             current_category = row[1]
         elif row[1] != '':
             all_items[current_category].append(row[1:])
-    print(json.dumps(all_items))
+    return json.dumps(all_items)
 
 
 if __name__ == "__main__":
     csv_from_excel()
-    parse_excel()
+    data = get_data()
