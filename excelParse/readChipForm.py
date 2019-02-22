@@ -36,13 +36,14 @@ def parse_excel():
     print("Categories:")
     print(get_categories(data))
     print("Items:")
-    print(get_items(data))
+    for item in get_items(data):
+        print(item)
     print("Json:")
     print(make_json(data))
 
 
 def is_category(row):
-    not_categories = ['', 'DISPLAY SUPPLIES', 'Bridges', 'TMD Bottoms', 'TMD Tops', 'Clipstrips', 'Weekenders   Empty',
+    not_categories = ['', 'Bridges', 'TMD Bottoms', 'TMD Tops', 'Clipstrips', 'Weekenders   Empty',
                       'Weekenders   Product-', '4X4 Display  Empty', '4X4 Display  Product-', 'Rolling Dip Rack']
     if '-' not in row[3]:
         if row[1] not in not_categories:
@@ -59,7 +60,7 @@ def get_items(data):
 
 
 def make_json(data):
-    all_items, current_category = {category:[] for category in get_categories(data)}, None
+    all_items, current_category = {category: [] for category in get_categories(data)}, None
     for row in data:
         if is_category(row):
             current_category = row[1]
