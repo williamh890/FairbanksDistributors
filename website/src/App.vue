@@ -1,8 +1,16 @@
 <template>
   <v-app>
     <v-toolbar app>
+      <v-toolbar-items>
+        <v-img
+            :src="require('../../images/FD_Monogram.png')"
+            height="50"
+            width="50"
+            contain
+        ></v-img>
+      </v-toolbar-items>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Fairbanks Distributors</span>
+        <span>FD</span>
         <span class="font-weight-light ml-2" >ORDER APP</span>
       </v-toolbar-title>
 
