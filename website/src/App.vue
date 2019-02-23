@@ -5,8 +5,7 @@
       <v-toolbar-items>
         <v-img
             :src="require('../../images/FD_Monogram.png')"
-            height="50"
-            width="50"
+            width="60"
             contain
         ></v-img>
       </v-toolbar-items>
@@ -16,7 +15,7 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      
+
       <v-btn flat
          v-if="isLoggedIn"
          v-on:click="onLogout">
