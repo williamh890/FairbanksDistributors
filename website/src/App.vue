@@ -24,6 +24,10 @@
         v-if="!isLoggedIn"
         v-on:login="onLoggin"
       />
+      <MainMenu
+        v-else-if="mainMenuActive"
+        v-on:createOrder="createOrder"
+      />
       <Order v-else/>
     </v-content>
   </v-app>
@@ -32,15 +36,17 @@
 <script>
 import Login from './components/Login';
 import Order from './components/Order';
+import MainMenu from './components/MainMenu'
 import store from './store';
 
-import { LOGIN, LOGOUT } from './store/orders/mutation';
+import { LOGIN, LOGOUT, HIDEMAIN } from './store/orders/mutation';
 
 export default {
   name: 'App',
   store,
   components: {
     Login,
+    MainMenu,
     Order
   },
   methods: {
@@ -49,11 +55,17 @@ export default {
     },
     onLogout: function() {
       this.$store.dispatch(LOGOUT);
-    }
+    },
+    createOrder: function() {
+      this.$store.dispatch(HIDEMAIN);
+    },
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.getIsLoggedIn;
+    },
+    mainMenuActive() {
+      return this.$store.getters.getIsMainMenuActive;
     }
   }
 }

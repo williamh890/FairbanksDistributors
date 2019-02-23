@@ -1,5 +1,6 @@
 export const getters = {
   getIsLoggedIn: state => state.isLoggedIn,
+  getIsMainMenuActive: state => state.mainMenu,
   getItems: state => state.items,
   getItemTypes: state => state.itemTypes,
   getSelectedType: state => state.selectedType,

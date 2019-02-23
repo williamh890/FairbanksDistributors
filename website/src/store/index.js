@@ -9,6 +9,7 @@ export default new Vuex.Store({
   strict: true,
   state: {
     isLoggedIn: false,
+    mainMenu: false,
     items: chips.map(item => {
       item.amount = 0;
       return item
