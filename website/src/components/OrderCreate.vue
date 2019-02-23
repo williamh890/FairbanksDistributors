@@ -114,6 +114,8 @@ export default {
     },
     onAmountClicked: function(amount) {
       this.itemAmount = amount;
+      this.dialog = false;
+      this.onAddItem()
     },
     onAddItem: function() {
       this.$store.dispatch(ADD_ORDER_ITEM, {
