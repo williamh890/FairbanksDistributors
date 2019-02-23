@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-toolbar app
-    v-if="isLoggedIn">
+      v-if="isLoggedIn">
       <v-toolbar-items>
-        <v-btn round outline
+        <v-btn large icon
           v-on:click="goHome">
           <v-img
             :src="require('../../images/FD_Monogram.png')"
