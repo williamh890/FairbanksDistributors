@@ -12,39 +12,51 @@ import mimetypes
 
 order = Blueprint('order', __name__)
 
+
 @order.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Headers',
+                         'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,POST')
     return response
 
+
 def order_success():
-    return jsonify({"status":"order successful"})
+    return jsonify({"status": "order successful"})
+
 
 @order.route('/place_order', methods=['POST', 'GET'])
 def place_order():
     if request.method == 'POST':
         filename = f"{str(datetime.now())}_order.csv"
-        data = json.loads(request.form[''])
+        filename = filename.replace(' ', '_')
+        data = json.loads(request.form['order'])
         write_order_csv(data, filename)
         send_order(filename)
     else:
-        write_order_csv({"store":"safeway", "order":{"item":{"upc":"test", "amount":0}}}, filename)
+        write_order_csv({"store": "safeway", "order": {
+                        "item": {"upc": "test", "amount": 0}}}, filename)
         send_order(filename)
     return order_success()
 
+
 def write_order_csv(order_info, filename):
     with open(f"/tmp/{filename}", "w") as order_file:
-        order_writer = csv.writer(order_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        order_writer = csv.writer(
+            order_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        order_writer.writerow(['date'])
+        order_writer.writerow([order_info['date']])
 
         order_writer.writerow(['store'])
         order_writer.writerow([order_info['store']])
 
         order_writer.writerow(['upc', 'amount'])
-        order = order_info["order"]
-        for k,v in order.items():
-            order_writer.writerow([v['upc'], v['amount']])
+        order = order_info["items"]
+        for item in order:
+            order_writer.writerow([item['upc'], item['amount']])
+
 
 def send_order(filename):
     smtp_config = get_smtp_config()
@@ -52,15 +64,17 @@ def send_order(filename):
     email = create_email(smtp_config, filename)
 
     with smtplib.SMTP_SSL(smtp_config['SERVER']['smtpServerURL'],
-                         smtp_config['SERVER']['smtpServerPort']) as server:
+                          smtp_config['SERVER']['smtpServerPort']) as server:
         server.login(smtp_config['USER']['smtpUserAddress'],
-                smtp_config['USER']['smtpUserPassword'])
+                     smtp_config['USER']['smtpUserPassword'])
         server.send_message(email)
+
 
 def get_smtp_config():
     smtp_config = configparser.ConfigParser()
     smtp_config.read('app/email_creds.cfg')
     return smtp_config
+
 
 def create_order_attachment(filename):
     ctype, encoding = mimetypes.guess_type(filename)
@@ -78,6 +92,7 @@ def create_order_attachment(filename):
                           filename=f"{str(datetime.now())}_order.csv")
 
     return attachment
+
 
 def create_email(smtp_config, filename):
     email = MIMEMultipart()
