@@ -12,7 +12,7 @@
           height="200"
         ></v-img>
 
-        <h1 class="font-weight-bold mb-3">
+        <h1 class="display-2 font-weight-bold mb-3">
             Login
         </h1>
       </v-flex>
