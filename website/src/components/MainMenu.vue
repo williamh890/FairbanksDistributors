@@ -2,11 +2,18 @@
   <v-container fill-height class="size">
       <v-container>
           <v-layout
-          align-center
+          align-space-around
+          text-xs-center
+          pa-5
           column>
               <v-flex>
-                  <h1 class="font-weight-bold mb-3"> Main Menu </h1>
+                  <h1 class="display-1 font-weight-bold mb-4"> Main Menu </h1>
+              </v-flex>
+              <v-flex>
                       <v-btn
+                          round
+                          block
+                          large
                           color="primary"
                           v-on:click="$emit('createOrder')">
                           Create Order
@@ -14,18 +21,27 @@
               </v-flex>
               <v-flex>
                       <v-btn
+                          round
+                          block
+                          large
                           color="primary">
                           Edit Order
                       </v-btn>
               </v-flex>
               <v-flex>
                       <v-btn
+                          round
+                          block
+                          large
                           color="primary">
                           Settings
                       </v-btn>
               </v-flex>
               <v-flex>
                       <v-btn
+                          round
+                          block
+                          large
                           color="primary"
                           v-on:click="$emit('Logout')">
                           Logout
