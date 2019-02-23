@@ -27,6 +27,7 @@
       <MainMenu
         v-else-if="mainMenuActive"
         v-on:createOrder="createOrder"
+        v-on:Logout="onLogout"
       />
       <Order v-else/>
     </v-content>

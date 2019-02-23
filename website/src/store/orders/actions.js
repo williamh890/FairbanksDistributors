@@ -16,7 +16,7 @@ export default {
   logout({ commit }) {
     commit(LOGOUT);
   },
-  
+
   hideMain({ commit }) {
     commit(HIDEMAIN)
   },
