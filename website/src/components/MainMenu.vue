@@ -14,7 +14,8 @@
                           round
                           block
                           large
-                          color="primary"
+                          color=rgba(21,38,112)
+                          dark
                           v-on:click="$emit('createOrder')">
                           Create Order
                       </v-btn>
@@ -24,7 +25,8 @@
                           round
                           block
                           large
-                          color="primary">
+                          color=rgba(21,38,112)
+                          dark>
                           Edit Order
                       </v-btn>
               </v-flex>
@@ -33,7 +35,8 @@
                           round
                           block
                           large
-                          color="primary">
+                          color=rgba(21,38,112)
+                          dark>
                           Settings
                       </v-btn>
               </v-flex>
@@ -42,7 +45,8 @@
                           round
                           block
                           large
-                          color="primary"
+                          color=rgba(21,38,112)
+                          dark
                           v-on:click="$emit('Logout')">
                           Logout
                       </v-btn>
