@@ -20,7 +20,7 @@
             slot="activator"
             v-model="date"
             label="Delivery Date"
-            prepend-icon="event"
+            append-icon="event"
             readonly
           ></v-text-field>
           <v-date-picker v-model="date" v-on:input="menu = onDateChanged(date)"></v-date-picker>
