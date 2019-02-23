@@ -3,11 +3,13 @@
     <v-toolbar app
     v-if="isLoggedIn">
       <v-toolbar-items>
-        <v-img
+        <v-btn round outline
+          v-on:click="goHome">
+          <v-img
             :src="require('../../images/FD_Monogram.png')"
-            width="60"
             contain
-        ></v-img>
+            ></v-img>
+        </v-btn>
       </v-toolbar-items>
       <v-toolbar-title class="headline text-uppercase">
         <span>FD</span>
@@ -45,7 +47,7 @@ import Order from './components/Order';
 import MainMenu from './components/MainMenu'
 import store from './store';
 
-import { LOGIN, LOGOUT, HIDEMAIN } from './store/orders/mutation';
+import { LOGIN, LOGOUT, HIDEMAIN, SHOWMAIN } from './store/orders/mutation';
 
 export default {
   name: 'App',
@@ -64,6 +66,9 @@ export default {
     },
     createOrder: function() {
       this.$store.dispatch(HIDEMAIN);
+    },
+    goHome: function() {
+      this.$store.dispatch(SHOWMAIN);
     },
   },
   computed: {

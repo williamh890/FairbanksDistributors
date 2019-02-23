@@ -5,7 +5,10 @@ import {
   CLEAR_ORDER_ITEMS,
   SUBMIT_ORDER,
   SET_SELECTED_ITEM_TYPE,
-  SET_ORDER_DATE, SET_DELIVERY_LOCATION, HIDEMAIN,
+  SET_ORDER_DATE,
+  SET_DELIVERY_LOCATION,
+  HIDEMAIN,
+  SHOWMAIN
 } from './mutation';
 
 export default {
@@ -18,7 +21,11 @@ export default {
   },
 
   hideMain({ commit }) {
-    commit(HIDEMAIN)
+    commit(HIDEMAIN);
+  },
+
+  showMain({ commit }) {
+    commit(SHOWMAIN);
   },
 
   addOrderItem({ commit }, item) {
