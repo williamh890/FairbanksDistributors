@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <v-toolbar app>
+    <v-toolbar app
+    v-if="logged">
       <v-toolbar-items>
         <v-img
             :src="require('../../images/FD_Monogram.png')"
