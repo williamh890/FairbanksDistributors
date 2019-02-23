@@ -16,10 +16,7 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-
-      <v-btn flat>
-        <v-icon>reorder</v-icon>
-      </v-btn>
+      
       <v-btn flat
          v-if="isLoggedIn"
          v-on:click="onLogout">
