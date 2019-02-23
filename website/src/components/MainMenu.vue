@@ -45,7 +45,7 @@
                           round
                           block
                           large
-                          color=rgba(21,38,112)
+                          color=secondary
                           dark
                           v-on:click="$emit('Logout')">
                           Logout
