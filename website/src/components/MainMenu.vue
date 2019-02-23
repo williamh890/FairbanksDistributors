@@ -27,7 +27,7 @@
               <v-flex>
                       <v-btn
                           color="primary"
-                          v-on:click="$emit('onLogout')">
+                          v-on:click="$emit('Logout')">
                           Logout
                       </v-btn>
               </v-flex>
@@ -39,7 +39,7 @@
 <script>
 
 export default {
-  name: 'MainMenu',
+    name: 'MainMenu',
 }
 </script>
 
