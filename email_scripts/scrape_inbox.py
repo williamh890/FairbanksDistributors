@@ -15,7 +15,7 @@ def get_server():
     typ, login_message = server.login(config['CREDS']['email'],
                                  config['CREDS']['pass'])
     if typ.lower() != 'ok':
-        raise Exception(f"Connection failed with type {typ} and message {login_message}")
+        raise Exception("exception")
 
     return server
 

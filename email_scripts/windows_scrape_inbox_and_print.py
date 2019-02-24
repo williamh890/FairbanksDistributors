@@ -16,15 +16,15 @@ def get_server():
     typ, login_message = server.login(config['CREDS']['email'],
                                  config['CREDS']['pass'])
     if typ.lower() != 'ok':
-        raise Exception(f"Connection failed with type {typ} and message {login_message}")
+        raise Exception("Exception")
 
     return server
 
 def extract_and_write_attachment(msg):
     attachment = msg.get_payload()[0]
     if attachment.get_content_type() == 'text/csv':
-        open(attachment.get_filename(), 'wb').write(attachment.get_payload(decode=True))
-        os.startfile(attachment.get_filename(), "print")
+        open('order.csv', 'wb').write(attachment.get_payload(decode=True))
+        os.startfile(".\{}".format('order.csv'), "print")
 
 def scrape_inbox():
     server = get_server()
@@ -45,4 +45,8 @@ def scrape_inbox():
 
 
 if __name__ == "__main__":
-    scrape_inbox()
+    try:
+        scrape_inbox()
+    except Exception as e:
+        print(e)
+    variable = input("Press something")
