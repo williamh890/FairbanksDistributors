@@ -16,7 +16,7 @@
                           large
                           color=rgba(21,38,112)
                           dark
-                          v-on:click="$emit('createOrder')">
+                          v-on:click=newOrder>
                           Create Order
                       </v-btn>
               </v-flex>
@@ -57,9 +57,18 @@
 </template>
 
 <script>
+import store from '../store';
+import { CLEAR_ORDER_ITEMS } from "../store/orders/mutation";
 
 export default {
     name: 'MainMenu',
+    store,
+    methods:    {
+        newOrder: function () {
+            this.$store.dispatch(CLEAR_ORDER_ITEMS);
+            this.$emit('createOrder')
+        }
+    }
 }
 </script>
 

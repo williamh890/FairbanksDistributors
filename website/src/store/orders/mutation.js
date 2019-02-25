@@ -46,7 +46,8 @@ export const mutations = {
   },
 
   [CLEAR_ORDER_ITEMS]: function(state) {
-    state.items = [];
+    state.order.items = [];
+    state.selectedType = null;
   },
 
   [SUBMIT_ORDER]: function(state) {
@@ -58,7 +59,7 @@ export const mutations = {
   },
 
   [SET_ORDER_DATE]: function(state, date) {
-    console.log(state.order.date.toString());
+    // console.log(state.order.date.toString());
     state.order.date = date;
   }
 };

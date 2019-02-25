@@ -36,7 +36,7 @@ export default {
     commit(SET_SELECTED_ITEM_TYPE, type);
   },
 
-  clearOrderItem({ commit }) {
+  clearOrderItems({ commit }) {
     commit(CLEAR_ORDER_ITEMS);
   },
 
