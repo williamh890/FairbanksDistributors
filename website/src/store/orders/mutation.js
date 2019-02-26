@@ -1,5 +1,7 @@
 export const LOGIN = 'login';
 export const LOGOUT = 'logout';
+export const SHOWMAIN = 'showMain';
+export const HIDEMAIN = 'hideMain';
 
 export const SET_SELECTED_ITEM_TYPE = 'setSelectedItemType';
 
@@ -14,10 +16,19 @@ export const SET_ORDER_DATE = 'setOrderDate';
 export const mutations = {
   [LOGIN]: function(state) {
     state.isLoggedIn = true;
+    state.mainMenu = true;
   },
 
   [LOGOUT]: function(state) {
     state.isLoggedIn = false;
+  },
+
+  [SHOWMAIN]: function(state) {
+    state.mainMenu = true;
+  },
+
+  [HIDEMAIN]: function(state) {
+    state.mainMenu = false;
   },
 
   [ADD_ORDER_ITEM]: function(state, orderItem) {
@@ -47,6 +58,7 @@ export const mutations = {
   },
 
   [SET_ORDER_DATE]: function(state, date) {
+    console.log(state.order.date.toString());
     state.order.date = date;
   }
 };
