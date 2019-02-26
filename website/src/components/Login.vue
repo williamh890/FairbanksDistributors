@@ -6,7 +6,7 @@
     >
       <v-flex xs12>
         <v-img
-          :src="require('../../../images/FD_Logo.png')"
+          :src="require('../assets/FD_Logo.png')"
           class="my-3"
           contain
           height="200"
