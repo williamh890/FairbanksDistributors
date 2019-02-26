@@ -4,6 +4,8 @@ phases:
   install:
     commands:
       - cd backend
+      - python -m venv fd
+      - source /fd/bin/activate
       - pip install -r requirements.txt
       - aws s3 cp s3://${CONFIG_BUCKET}/${MATURITY}/email_creds.cfg app/email_creds.cfg
   build:
