@@ -9,6 +9,7 @@ export default new Vuex.Store({
   strict: true,
   state: {
     isLoggedIn: false,
+    mainMenu: false,
     items: chips.map(item => {
       item.amount = 0;
       return item
@@ -17,7 +18,7 @@ export default new Vuex.Store({
     selectedType: null,
     order: {
       items:[],
-      date: new Date().toISOString().substr(0, 10),
+      date: null,
       deliveryLocation: null
     },
     storeNames: storeNames,

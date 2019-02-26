@@ -8,7 +8,7 @@
       ></v-select>
         <v-menu
           v-model="menu"
-          :close-on-content-click="false"
+          :close-on-content-click="true"
           :nudge-right="40"
           lazy
           transition="scale-transition"
@@ -20,7 +20,7 @@
             slot="activator"
             v-model="date"
             label="Delivery Date"
-            prepend-icon="event"
+            append-icon="event"
             readonly
           ></v-text-field>
           <v-date-picker v-model="date" v-on:input="menu = onDateChanged(date)"></v-date-picker>
@@ -58,7 +58,7 @@ import { SET_DELIVERY_LOCATION, SET_ORDER_DATE } from '../store/orders/mutation'
         },
         data: () => ({
             routeRep: 'test',
-            date: new Date().toISOString().substr(0, 10),
+            date: null,
             menu: false,
         })
     }
