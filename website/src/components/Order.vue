@@ -24,6 +24,10 @@
             </v-btn>
         </v-stepper-content>
         <v-stepper-content step="2">
+          <v-btn
+            @click="element = 1"
+            >Back
+          </v-btn>
           <OrderCreate />
 
             <v-btn
@@ -34,14 +38,13 @@
             >
               Review Order
             </v-btn>
-          <v-btn flat
-            @click="element = 1"
-            >Back</v-btn>
-
-
         </v-stepper-content>
 
         <v-stepper-content step="3">
+          <v-btn
+            @click="element = 2"
+            >Back
+          </v-btn>
           <OrderReview />
 
           <v-btn
@@ -52,11 +55,6 @@
               Submit Order
             </template>
           </v-btn>
-
-          <v-btn flat
-            @click="element = 2"
-            >Edit</v-btn>
-
             <v-progress-circular v-if="isLoading" indeterminate color="secondary" ></v-progress-circular>
       </v-stepper-content>
       <v-stepper-content step="4">
