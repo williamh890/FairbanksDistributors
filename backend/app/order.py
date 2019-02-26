@@ -52,10 +52,10 @@ def write_order_csv(order_info, filename):
         order_writer.writerow(['store'])
         order_writer.writerow([order_info['store']])
 
-        order_writer.writerow(['upc', 'amount'])
+        order_writer.writerow(['name', 'upc', 'amount'])
         order = order_info["items"]
         for item in order:
-            order_writer.writerow([item['upc'], item['amount']])
+            order_writer.writerow([item['name'], item['upc'], item['amount']])
 
 
 def send_order(filename):
