@@ -6,7 +6,7 @@
         <v-btn large icon
           v-on:click="goHome">
           <v-img
-            :src="require('../assets/FD_Monogram.png')"
+            :src="require('./assets/FD_Monogram.png')"
             contain
             ></v-img>
         </v-btn>
