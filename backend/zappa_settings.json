@@ -5,5 +5,12 @@
         "project_name": "backend",
         "runtime": "python3.6",
         "s3_bucket": "fd-order-app-backend-prod"
+    },
+    "dev": {
+        "app_function": "application.app",
+        "aws_region": "us-west-2",
+        "project_name": "backend",
+        "runtime": "python3.6",
+        "s3_bucket": "fd-order-app-backend-dev"
     }
 }
