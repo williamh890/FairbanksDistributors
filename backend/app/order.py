@@ -34,7 +34,7 @@ def place_order():
         filename = filename.replace(' ', '_')
         data = json.loads(request.form['order'])
         write_order_csv(data, filename)
-        send_order(filename)
+        send_order(filename, data['store'])
     else:
         write_order_csv({"store": "safeway", "order": {
                         "item": {"upc": "test", "amount": 0}}}, filename)
@@ -75,10 +75,10 @@ def write_order_csv(order_info, filename):
             order_writer.writerow([item['name'], item['upc'], item['amount']])
 
 
-def send_order(filename):
+def send_order(filename, store_name):
     smtp_config = get_smtp_config()
 
-    email = create_email(smtp_config, filename)
+    email = create_email(smtp_config, filename, store_name)
 
     with smtplib.SMTP_SSL(smtp_config['SERVER']['smtpServerURL'],
                           smtp_config['SERVER']['smtpServerPort']) as server:
@@ -111,9 +111,9 @@ def create_order_attachment(filename):
     return attachment
 
 
-def create_email(smtp_config, filename):
+def create_email(smtp_config, filename, store_name):
     email = MIMEMultipart()
-    email['Subject'] = 'An order'
+    email['Subject'] = store_name
     email['From'] = smtp_config['USER']['smtpUserAddress']
     email['To'] = smtp_config['DEST']['destAddress']
 
