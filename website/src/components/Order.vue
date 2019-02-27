@@ -9,54 +9,76 @@
         <v-divider></v-divider>
         <v-stepper-step :complete="element > 3" step="3">Review</v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step :complete ="element > 4" step="4">Success</v-stepper-step>
+        <v-stepper-step :complete="element > 4" step="4">Success</v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
         <v-stepper-content step="1">
           <OrderSettings />
-
-            <v-btn
-              color="primary"
-              @click="element =2"
-              >
-              Continue
-            </v-btn>
+          <v-btn
+            round
+            bottom
+            large
+            color="primary"
+            style="margin: auto -10px"
+            @click="element =2"
+            fixed
+          >
+            Continue
+          </v-btn>
         </v-stepper-content>
         <v-stepper-content step="2">
           <OrderCreate />
-
-            <v-btn
-              block
-              color="primary"
-              style="margin-top: 10px"
-              v-on:click="element = 3"
-            >
-              Review Order
-            </v-btn>
-          <v-btn flat
-            @click="element = 1"
-            >Back</v-btn>
-
-
+          <v-btn
+            round
+            large
+            bottom
+            color="Primary"
+            style="margin: auto -10px"
+            v-on:click="element = 1"
+            fixed
+          >
+            Back
+          </v-btn>
+          <v-btn
+            round
+            large
+            bottom
+            color="primary"
+            style="margin: auto 100px"
+            v-on:click="element = 3"
+            fixed
+          >
+            Review Order
+          </v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="3">
           <OrderReview />
-
           <v-btn
-            color="primary"
-            v-on:click="onSubmitOrder(order)"
+            round
+            large
+            color="Primary"
+            style="margin: auto -10px"
+            v-on:click="element = 2"
+            bottom
+            fixed
           >
-            <template >
+            Back
+          </v-btn>
+          <v-btn
+            round
+            large
+            color="primary"
+            style="margin: auto 100px"
+            v-on:click="onSubmitOrder(order)"
+            bottom
+            fixed
+          >
+            <template>
               Submit Order
             </template>
           </v-btn>
-
-          <v-btn flat
-            @click="element = 2"
-            >Edit</v-btn>
-
             <v-progress-circular v-if="isLoading" indeterminate color="secondary" ></v-progress-circular>
       </v-stepper-content>
       <v-stepper-content step="4">
