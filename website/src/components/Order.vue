@@ -15,70 +15,15 @@
       <v-stepper-items>
         <v-stepper-content step="1">
           <OrderSettings />
-          <v-btn
-            round
-            bottom
-            large
-            color="primary"
-            style="margin: auto -10px"
-            @click="element =2"
-            fixed
-          >
-            Continue
-          </v-btn>
+
         </v-stepper-content>
         <v-stepper-content step="2">
           <OrderCreate />
-          <v-btn
-            round
-            large
-            bottom
-            color="Primary"
-            style="margin: auto -10px"
-            v-on:click="element = 1"
-            fixed
-          >
-            Back
-          </v-btn>
-          <v-btn
-            round
-            large
-            bottom
-            color="primary"
-            style="margin: auto 100px"
-            v-on:click="element = 3"
-            fixed
-          >
-            Review Order
-          </v-btn>
+ 
         </v-stepper-content>
 
         <v-stepper-content step="3">
           <OrderReview />
-          <v-btn
-            round
-            large
-            color="Primary"
-            style="margin: auto -10px"
-            v-on:click="element = 2"
-            bottom
-            fixed
-          >
-            Back
-          </v-btn>
-          <v-btn
-            round
-            large
-            color="primary"
-            style="margin: auto 100px"
-            v-on:click="onSubmitOrder(order)"
-            bottom
-            fixed
-          >
-            <template>
-              Submit Order
-            </template>
-          </v-btn>
             <v-progress-circular v-if="isLoading" indeterminate color="secondary" ></v-progress-circular>
       </v-stepper-content>
       <v-stepper-content step="4">
@@ -89,6 +34,70 @@
         </div>
       </v-stepper-content>
 
+      </v-stepper-items>
+      <v-stepper-items>
+        <v-btn
+          v-if="element == 1"
+          round
+          large
+          bottom
+          color="primary"
+          style="margin: auto 10px"
+          v-on:click="element = 2"
+          fixed
+        >
+          Continue
+        </v-btn>
+        <v-btn
+          v-if="element == 2"
+          round
+          large
+          bottom
+          color="Primary"
+          style="margin: auto 10px"
+          v-on:click="element = 1"
+          fixed
+        >
+          Back
+        </v-btn>
+        <v-btn
+          v-if="element == 2"
+          round
+          large
+          bottom
+          color="primary"
+          style="margin: auto 120px"
+          v-on:click="element = 3"
+          fixed
+        >
+          Review Order
+        </v-btn>
+        <v-btn
+          v-if="element == 3"
+          round
+          large
+          bottom
+          color="Primary"
+          style="margin: auto 10px"
+          v-on:click="element = 2"
+          fixed
+        >
+          Back
+        </v-btn>
+        <v-btn
+          v-if="element == 3"
+          round
+          large
+          bottom
+          color="primary"
+          style="margin: auto 120px"
+          v-on:click="onSubmitOrder(order)"
+          fixed
+        > 
+          <template>
+            Summit Order
+          </template>
+        </v-btn>
       </v-stepper-items>
     </v-stepper>
   </v-container>
