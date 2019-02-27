@@ -25,14 +25,22 @@ def order_success():
     return jsonify({"status": "order successful"})
 
 
+def order_failure(message):
+    return jsonify({"status": "order failed",
+                    "message": message})
+
+
 @order.route('/place_order', methods=['POST', 'GET'])
 def place_order():
     if request.method == 'POST':
-        filename = f"{str(datetime.now())}_order.csv"
-        filename = filename.replace(' ', '_')
-        data = json.loads(request.form['order'])
-        write_order_csv(data, filename)
-        send_order(filename, data['store'])
+        try:
+            filename = f"{str(datetime.now())}_order.csv"
+            filename = filename.replace(' ', '_')
+            data = json.loads(request.form['order'])
+            write_order_csv(data, filename)
+            send_order(filename, data['store'])
+        except Exception as e:
+            return order_failure(str(e))
     else:
         write_order_csv({"store": "safeway", "order": {
                         "item": {"upc": "test", "amount": 0}}}, filename)
