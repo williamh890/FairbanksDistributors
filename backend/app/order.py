@@ -10,8 +10,6 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 import mimetypes
 
-WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-
 order = Blueprint('order', __name__)
 
 @order.after_request
