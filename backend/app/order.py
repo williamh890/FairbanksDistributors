@@ -50,9 +50,9 @@ def is_next_week(delivery_date):
 def format_date(date_iso):
     today = date.today()
     delivery_date = date(int(date_iso[0:4]),int(date_iso[5:7]), int(date_iso[8:10]))
-    delivery_date_str = delivery_date.strftime("%A")
+    delivery_date_str = delivery_date.strftime("%a")
     if is_next_week(delivery_date):
-        delivery_date_str = delivery_date.strftime("%A %m/%d")
+        delivery_date_str = delivery_date.strftime("%a %m/%d")
 
     return delivery_date_str
 
