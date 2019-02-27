@@ -107,7 +107,8 @@ export default {
       const formData = new FormData();
       formData.append('order', JSON.stringify(order));
 
-      this.$http.post('https://backend.uafhalpost.net/place_order', formData)
+      const apiUrl = 'https://1ovq6hhh55.execute-api.us-west-2.amazonaws.com/production/place_order';
+      this.$http.post(apiUrl, formData)
         .then(
           resp => {
             this.element = 4;
