@@ -7,49 +7,30 @@
           pa-5
           column>
               <v-flex>
-                  <h1 class="display-1 font-weight-bold mb-4"> Main Menu </h1>
+                <v-btn round block large dark
+                  color=primary
+                  v-on:click=newOrder>
+                    Create Order
+                </v-btn>
               </v-flex>
               <v-flex>
-                      <v-btn
-                          round
-                          block
-                          large
-                          color=rgba(21,38,112)
-                          dark
-                          v-on:click=newOrder>
-                          Create Order
-                      </v-btn>
+                <v-btn round block large dark
+                  color=primary>
+                    Edit Order
+                </v-btn>
               </v-flex>
               <v-flex>
-                      <v-btn
-                          round
-                          block
-                          large
-                          color=rgba(21,38,112)
-                          dark>
-                          Edit Order
-                      </v-btn>
+                <v-btn round block large dark
+                  color=primary>
+                    Settings
+                </v-btn>
               </v-flex>
               <v-flex>
-                      <v-btn
-                          round
-                          block
-                          large
-                          color=rgba(21,38,112)
-                          dark>
-                          Settings
-                      </v-btn>
-              </v-flex>
-              <v-flex>
-                      <v-btn
-                          round
-                          block
-                          large
-                          color=secondary
-                          dark
-                          v-on:click="$emit('Logout')">
-                          Logout
-                      </v-btn>
+                <v-btn round block large dark
+                  color=secondary
+                  v-on:click="$emit('Logout')">
+                    Logout
+                </v-btn>
               </v-flex>
           </v-layout>
       </v-container>

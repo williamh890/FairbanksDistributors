@@ -18,7 +18,7 @@ export default new Vuex.Store({
     selectedType: null,
     order: {
       items:[],
-      date: null,
+      date: new Date().toISOString().substr(0, 10),
       deliveryLocation: null
     },
     storeNames: storeNames,

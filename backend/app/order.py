@@ -1,5 +1,5 @@
 import csv
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import configparser
 from flask import Blueprint, jsonify, request, url_for, redirect
 import json
@@ -10,8 +10,9 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 import mimetypes
 
-order = Blueprint('order', __name__)
+WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
+order = Blueprint('order', __name__)
 
 @order.after_request
 def after_request(response):
@@ -41,21 +42,37 @@ def place_order():
     return order_success()
 
 
+def is_next_week(delivery_date):
+    today = date.today()
+    return ((delivery_date - today) + timedelta(days=today.weekday())>=timedelta(days=7))
+
+
+def format_date(date_iso):
+    today = date.today()
+    delivery_date = date(int(date_iso[0:4]),int(date_iso[5:7]), int(date_iso[8:10]))
+    delivery_date_str = delivery_date.strftime("%a")
+    if is_next_week(delivery_date):
+        delivery_date_str = delivery_date.strftime("%a %m/%d")
+
+    return delivery_date_str
+
+
 def write_order_csv(order_info, filename):
     with open(f"/tmp/{filename}", "w") as order_file:
         order_writer = csv.writer(
             order_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
         order_writer.writerow(['date'])
-        order_writer.writerow([order_info['date']])
+        date = format_date(order_info['date'])
+        order_writer.writerow([date])
 
         order_writer.writerow(['store'])
         order_writer.writerow([order_info['store']])
 
-        order_writer.writerow(['upc', 'amount'])
+        order_writer.writerow(['name', 'upc', 'amount'])
         order = order_info["items"]
         for item in order:
-            order_writer.writerow([item['upc'], item['amount']])
+            order_writer.writerow([item['name'], item['upc'], item['amount']])
 
 
 def send_order(filename):
