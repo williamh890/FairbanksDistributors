@@ -15,13 +15,10 @@
       <v-stepper-items>
         <v-stepper-content step="1">
           <OrderSettings />
-
         </v-stepper-content>
         <v-stepper-content step="2">
           <OrderCreate />
- 
         </v-stepper-content>
-
         <v-stepper-content step="3">
           <OrderReview />
             <v-progress-circular v-if="isLoading" indeterminate color="secondary" ></v-progress-circular>
@@ -95,7 +92,7 @@
           fixed
         > 
           <template>
-            Summit Order
+            Submit Order
           </template>
         </v-btn>
       </v-stepper-items>
@@ -148,7 +145,6 @@ export default {
         );
     }
   }
-
 }
 </script>
 
