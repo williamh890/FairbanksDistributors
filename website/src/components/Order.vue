@@ -46,52 +46,32 @@
           Continue
         </v-btn>
         <v-btn
-          v-if="element == 2"
+          v-if="element == 2 || element == 3"
           round
           large
           bottom
           color="Primary"
           style="margin: auto 10px"
-          v-on:click="element = 1"
+          v-on:click="element -= 1"
           fixed
         >
           Back
         </v-btn>
         <v-btn
-          v-if="element == 2"
+          v-if="element == 2 || element == 3"
           round
           large
           bottom
           color="primary"
           style="margin: auto 120px"
-          v-on:click="element = 3"
+          v-on:click="element == 3 ?
+            onSubmitOrder(order) : element = 3"
           fixed
-        >
-          Review Order
-        </v-btn>
-        <v-btn
-          v-if="element == 3"
-          round
-          large
-          bottom
-          color="Primary"
-          style="margin: auto 10px"
-          v-on:click="element = 2"
-          fixed
-        >
-          Back
-        </v-btn>
-        <v-btn
-          v-if="element == 3"
-          round
-          large
-          bottom
-          color="primary"
-          style="margin: auto 120px"
-          v-on:click="onSubmitOrder(order)"
-          fixed
-        > 
-          <template>
+        >  
+          <span v-if="element == 2">
+            Review Order
+          </span>
+          <template v-if="element == 3">
             Submit Order
           </template>
         </v-btn>
