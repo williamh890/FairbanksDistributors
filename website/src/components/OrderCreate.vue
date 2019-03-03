@@ -1,11 +1,21 @@
 <template>
   <v-container class="size" fluid grid-list-xl>
     <h1>Create Order</h1>
-    <v-select
-      :items="types"
-        v-on:change="onTypeChanged"
-      label="Chip Type"
-      ></v-select>
+    <v-toolbar app v-if="shouldStick">
+      <v-spacer></v-spacer>
+      <v-select
+        single-line
+        :items="types"
+          v-on:change="onTypeChanged"
+        label="Chip Type"
+        ></v-select>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+      <v-select
+        :items="types"
+          v-on:change="onTypeChanged"
+        label="Chip Type"
+        ></v-select>
       <v-list two-line subheader>
         <template v-for="item in allItems">
             <v-list-tile
@@ -114,6 +124,9 @@ export default {
     allItems() {
       return this.$store.getters.getItems;
     },
+    shouldStick() {
+      return this.scrollY;
+    },
   },
   methods:  {
     onTypeChanged: function(type) {
@@ -123,6 +136,9 @@ export default {
     },
       scrollPage: function(index) {
           document.getElementById(index).scrollIntoView();
+    },
+    setStick: function(value) {
+      this.scrollY = value;
     },
     onOpenDialog: function(item) {
       this.dialog = true;
@@ -152,13 +168,22 @@ export default {
           .pop();
 
       return amount;
-    }
+    },
+  },
+  mounted() {
+    window.addEventListener('scroll', () => {
+      this.scrollY = Math.round(window.scrollY) > 175;
+      this.setStick(window.scrollY>175);
+      // console.log(window.scrollY);
+      // console.log(this.scrollY);
+    });
   },
   data: () => ({
     numbers: [1,2,3,4,5,6],
     dialog: false,
     currentItem: null,
     itemAmount: 1,
+    scrollY: false,
   })
 }
 </script>
