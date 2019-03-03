@@ -32,13 +32,13 @@
       </v-stepper-content>
 
       </v-stepper-items>
-      <v-footer color="primary" fixed height="auto">
-        <v-btn :disabled="element === 1" flat large dark @click="element--">
+      <v-footer fixed height="auto">
+        <v-btn color="primary" :disabled="element === 1" flat large @click="element--">
           <v-icon>arrow_back</v-icon>
           Back
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn :disabled="element === 3" flat large dark @click="element++" right>
+        <v-btn color="primary" :disabled="element === 3" flat large @click="element++" right>
           Next
           <v-icon>arrow_forward</v-icon>
         </v-btn>
