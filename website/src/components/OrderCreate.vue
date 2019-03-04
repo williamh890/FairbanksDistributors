@@ -6,14 +6,14 @@
       <v-select
         single-line
         :items="types"
-          v-on:change="onTypeChanged"
+        v-on:change="onTypeChanged"
         label="Chip Type"
         ></v-select>
       <v-spacer></v-spacer>
     </v-toolbar>
       <v-select
         :items="types"
-          v-on:change="onTypeChanged"
+        v-on:change="onTypeChanged"
         label="Chip Type"
         ></v-select>
       <v-list two-line subheader>
@@ -174,8 +174,6 @@ export default {
     window.addEventListener('scroll', () => {
       this.scrollY = Math.round(window.scrollY) > 175;
       this.setStick(window.scrollY>175);
-      // console.log(window.scrollY);
-      // console.log(this.scrollY);
     });
   },
   data: () => ({
