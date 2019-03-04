@@ -38,9 +38,12 @@
           Back
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" :disabled="element === 3" flat large @click="element++" right>
+        <v-btn color="primary" v-if="element <= 2" flat large @click="element++" right>
           Next
           <v-icon>arrow_forward</v-icon>
+        </v-btn>
+        <v-btn color="primary" v-if="element === 3" flat large v-bind:loading="this.isLoading" @click="onSubmitOrder">
+          Submit Order
         </v-btn>
       </v-footer>
     </v-stepper>
