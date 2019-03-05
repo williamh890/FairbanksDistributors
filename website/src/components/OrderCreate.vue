@@ -1,7 +1,7 @@
 <template>
   <v-container class="size" fluid grid-list-xl>
     <h1>Create Order</h1>
-    <v-toolbar app v-if="shouldStick">
+    <v-toolbar app v-show="showScrollSelector">
       <v-spacer></v-spacer>
       <v-select
         single-line
@@ -138,7 +138,7 @@ export default {
           document.getElementById(index).scrollIntoView();
     },
     setStick: function(value) {
-      this.scrollY = value;
+      this.showScrollSelector = value;
     },
     onOpenDialog: function(item) {
       this.dialog = true;
@@ -172,7 +172,7 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', () => {
-      this.scrollY = Math.round(window.scrollY) > 175;
+      this.showScrollSelector = (Math.round(window.scrollY) > 175);
       this.setStick(window.scrollY>175);
     });
   },
@@ -181,7 +181,7 @@ export default {
     dialog: false,
     currentItem: null,
     itemAmount: 1,
-    scrollY: false,
+    showScrollSelector: false,
   })
 }
 </script>
