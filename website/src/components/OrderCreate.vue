@@ -124,9 +124,6 @@ export default {
     allItems() {
       return this.$store.getters.getItems;
     },
-    shouldStick() {
-      return this.scrollY;
-    },
   },
   methods:  {
     onTypeChanged: function(type) {
