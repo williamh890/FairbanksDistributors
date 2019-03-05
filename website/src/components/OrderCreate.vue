@@ -170,8 +170,6 @@ export default {
   mounted() {
     window.addEventListener('scroll', () => {
       this.showScrollSelector = (Math.round(window.scrollY) > 175);
-      console.log(this.showScrollSelector);
-      console.log(window.scrollY);
       this.setStick(window.scrollY>220);
     });
   },
