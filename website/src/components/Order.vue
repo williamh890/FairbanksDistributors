@@ -32,50 +32,20 @@
       </v-stepper-content>
 
       </v-stepper-items>
-      <v-stepper-items>
-        <v-btn
-          v-if="element == 1"
-          round
-          large
-          bottom
-          color="primary"
-          style="margin: auto 10px"
-          v-on:click="element = 2"
-          fixed
-        >
-          Continue
-        </v-btn>
-        <v-btn
-          v-if="element == 2 || element == 3"
-          round
-          large
-          bottom
-          color="Primary"
-          style="margin: auto 10px"
-          v-on:click="element -= 1"
-          fixed
-        >
+      <v-footer fixed height="auto">
+        <v-btn color="primary" :disabled="element === 1" flat large @click="element--">
+          <v-icon>arrow_back</v-icon>
           Back
         </v-btn>
-        <v-btn
-          v-if="element == 2 || element == 3"
-          round
-          large
-          bottom
-          color="primary"
-          style="margin: auto 120px"
-          v-on:click="element == 3 ?
-            onSubmitOrder(order) : element = 3"
-          fixed
-        >  
-          <span v-if="element == 2">
-            Review Order
-          </span>
-          <template v-if="element == 3">
-            Submit Order
-          </template>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" v-if="element <= 2" flat large @click="element++" right>
+          Next
+          <v-icon>arrow_forward</v-icon>
         </v-btn>
-      </v-stepper-items>
+        <v-btn color="primary" v-if="element === 3" flat large v-bind:loading="this.isLoading" @click="onSubmitOrder(order)">
+          Submit Order
+        </v-btn>
+      </v-footer>
     </v-stepper>
   </v-container>
 </template>
@@ -103,7 +73,7 @@ export default {
   },
   data() {
     return {
-      element: 0,
+      element: 1,
       isLoading: false,
       resp: null,
     };

@@ -1,36 +1,56 @@
 <template>
   <v-container class="size" fluid grid-list-xl>
     <h1>Create Order</h1>
-    <v-select
-      :items="types"
+    <v-toolbar app v-show="showScrollSelector">
+      <v-spacer></v-spacer>
+      <v-select
+        single-line
+        :items="types"
         v-on:change="onTypeChanged"
-      label="Chip Type"
-      ></v-select>
+        label="Chip Type"
+        ></v-select>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+      <v-select
+        :items="types"
+        v-on:change="onTypeChanged"
+        label="Chip Type"
+        ></v-select>
+      <v-list two-line subheader>
+        <template v-for="item in allItems">
+            <v-list-tile
+              :key="item.name"
+              :id="item.name"
+              v-on:click="onOpenDialog(item)"
+              avatar
+            >
 
-      <v-list v-if="!!type" two-line>
-        <template v-for="item in selectedItems">
-          <v-list-tile
-            :key="item.name"
-            v-on:click="onOpenDialog(item)"
-            avatar
-          >
+              <v-list-tile-content>
+                <v-list-tile-title class="title">
+                  {{ item.name }}
+                </v-list-tile-title>
+                <v-list-tile-sub-title>
+                  <b>upc:</b> {{ item.upc }}, <b>oz:</b> {{ item.oz }}, <b>case:</b> {{ item.case }}
 
-            <v-list-tile-content>
-              <v-list-tile-title>
-                {{ item.name }}
-              </v-list-tile-title>
-              <v-list-tile-sub-title>
-                <b>upc:</b> {{ item.upc }}, <b>oz:</b> {{ item.oz }}, <b>case:</b> {{ item.case }}
+                </v-list-tile-sub-title>
+              </v-list-tile-content>
 
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-
-          <v-list-tile-action>
-             <v-chip color="secondary" text-color="white">
-               {{ item.amount }}
-             </v-chip>
-          </v-list-tile-action>
-          </v-list-tile>
+              <v-list-tile-action class="hidden-xs-only">
+                <v-btn icon>
+                  <v-icon>remove</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+              <v-list-tile-action>
+                 <v-chip color="secondary" text-color="white">
+                   {{ item.amount }}
+                 </v-chip>
+              </v-list-tile-action>
+              <v-list-tile-action class="hidden-xs-only">
+                <v-btn icon>
+                  <v-icon>add</v-icon>
+                </v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
         </template>
       </v-list>
 
@@ -62,7 +82,6 @@
             <v-list-tile-avatar>
                 <v-icon v-if="number === itemAmount">done</v-icon>
             </v-list-tile-avatar>
-
           </v-list-tile>
         </v-list>
 
@@ -101,11 +120,22 @@ export default {
     },
     orderItems() {
       return this.$store.getters.orderItems;
-    }
+    },
+    allItems() {
+      return this.$store.getters.getItems;
+    },
   },
   methods:  {
     onTypeChanged: function(type) {
       this.$store.dispatch(SET_SELECTED_ITEM_TYPE, type);
+      this.scrollPage(this.selectedItems[0].name);
+      window.scrollBy(0, -60);
+    },
+      scrollPage: function(index) {
+          document.getElementById(index).scrollIntoView();
+    },
+    setStick: function(value) {
+      this.showScrollSelector = value;
     },
     onOpenDialog: function(item) {
       this.dialog = true;
@@ -135,13 +165,20 @@ export default {
           .pop();
 
       return amount;
-    }
+    },
+  },
+  mounted() {
+    window.addEventListener('scroll', () => {
+      this.showScrollSelector = (Math.round(window.scrollY) > 175);
+      this.setStick(window.scrollY>220);
+    });
   },
   data: () => ({
     numbers: [1,2,3,4,5,6],
     dialog: false,
     currentItem: null,
     itemAmount: 1,
+    showScrollSelector: false,
   })
 }
 </script>
