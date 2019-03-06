@@ -1,0 +1,13 @@
+# Venv name
+fd
+
+#cfg
+email_creds.cfg
+backend-dev-template*.json
+
+# pyc files
+*.pyc
+__pycache__
+
+#output
+*.csv
