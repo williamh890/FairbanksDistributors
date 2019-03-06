@@ -49,4 +49,4 @@ if __name__ == "__main__":
         scrape_inbox()
     except Exception as e:
         print(e)
-    variable = input("Press something")
+    # variable = input("Press something")
