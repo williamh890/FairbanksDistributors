@@ -9,6 +9,7 @@
 </template>
 <script>
 import store from '../store';
+import { ADD_ORDER_NOTES } from '../store/orders/mutation';
 
 export default {
   name: 'Notes',
@@ -18,6 +19,7 @@ export default {
   }),
     methods: {
       addNotes() {
+          this.$store.dispatch(ADD_ORDER_NOTES, this.orderNotes);
           console.log(this.orderNotes);
       }
     }
