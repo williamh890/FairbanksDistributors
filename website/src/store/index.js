@@ -19,7 +19,8 @@ export default new Vuex.Store({
     order: {
       items:[],
       date: new Date().toISOString().substr(0, 10),
-      deliveryLocation: null
+      deliveryLocation: null,
+      orderNotes: '',
     },
     storeNames: storeNames,
   },
