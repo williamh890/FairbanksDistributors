@@ -20,7 +20,7 @@ export default {
     methods: {
       addNotes() {
           this.$store.dispatch(ADD_ORDER_NOTES, this.orderNotes);
-          console.log(this.orderNotes);
+          console.log(this.$store.getters.getOrderNotes);
       }
     }
 }
