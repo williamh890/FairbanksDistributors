@@ -26,6 +26,9 @@
             <v-progress-circular v-if="isLoading" indeterminate color="secondary" ></v-progress-circular>
       </v-stepper-content>
       <v-stepper-content step="4">
+        <OrderNotes />
+      </v-stepper-content>
+      <v-stepper-content step="5">
         <OrderSuccess />
 
         <div v-if="resp">
@@ -56,6 +59,7 @@
 import OrderSettings from './OrderSettings';
 import OrderCreate from './OrderCreate';
 import OrderReview from './OrderReview';
+import OrderNotes from './OrderNotes';
 import OrderSuccess from './OrderSuccess';
 import store from '../store';
 
