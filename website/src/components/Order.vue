@@ -44,7 +44,7 @@
           Next
           <v-icon>arrow_forward</v-icon>
         </v-btn>
-        <v-btn color="primary" v-if="element === 3" flat large v-bind:loading="this.isLoading" @click="onSubmitOrder(order)">
+        <v-btn color="primary" v-if="element === 4" flat large v-bind:loading="this.isLoading" @click="onSubmitOrder(order)">
           Submit Order
         </v-btn>
       </v-footer>
