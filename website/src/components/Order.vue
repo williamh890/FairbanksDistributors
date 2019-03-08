@@ -70,6 +70,7 @@ export default {
     OrderSettings,
     OrderCreate,
     OrderReview,
+    OrderNotes,
     OrderSuccess,
   },
   computed: {
