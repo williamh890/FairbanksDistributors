@@ -1,3 +1,5 @@
+from .auth import authenticate
+
 import csv
 from datetime import datetime, date, timedelta
 import configparser
@@ -31,20 +33,21 @@ def order_failure(message):
 
 
 @order.route('/place_order', methods=['POST', 'GET'])
+@authenticate
 def place_order():
+    filename = f"{str(datetime.now())}_order.csv"
+    filename = filename.replace(' ', '_')
     if request.method == 'POST':
         try:
-            filename = f"{str(datetime.now())}_order.csv"
-            filename = filename.replace(' ', '_')
             data = json.loads(request.form['order'])
             write_order_csv(data, filename)
             send_order(filename, data['store'])
         except Exception as e:
             return order_failure(str(e))
     else:
-        write_order_csv({"store": "safeway", "order": {
-                        "item": {"upc": "test", "amount": 0}}}, filename)
-        send_order(filename)
+        write_order_csv({"date": "2002-02-02", "store": "safeway",
+                         "items": [{"name": "chip", "upc": "test", "amount": 0}]}, filename)
+        send_order(filename, "safeway")
     return order_success()
 
 

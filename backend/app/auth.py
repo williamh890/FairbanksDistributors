@@ -39,5 +39,5 @@ def authenticate(function):
         if user_auth_key == auth_key:
             return function(*args, **kwargs)
         else:
-            return make_response(jsonify({"Error":f"{user_auth_key} is not valid"}), 401)
+            return make_response(jsonify({"Error":f"{user_auth_key} is not a valid authentication key"}), 401)
     return wrapped_function
