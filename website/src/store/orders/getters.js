@@ -18,5 +18,6 @@ export const getters = {
         return {...orderItem.item};
       }),
     date: state.order.date,
+    notes: state.order.orderNotes,
   })
 };
