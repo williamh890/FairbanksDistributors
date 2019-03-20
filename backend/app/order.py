@@ -72,6 +72,9 @@ def write_order_csv(order_info, filename):
         for item in order:
             order_writer.writerow([item['name'], item['upc'], item['amount']])
 
+        order_writer.writerow(['notes'])
+        order_writer.writerow([order_info.get('notes')])
+
 
 def send_order(filename, store_name):
     smtp_config = get_smtp_config()
