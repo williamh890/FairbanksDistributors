@@ -9,7 +9,9 @@
         <v-divider></v-divider>
         <v-stepper-step :complete="element > 3" step="3">Review</v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step :complete="element > 4" step="4">Success</v-stepper-step>
+        <v-stepper-step :complete="element > 4" step="4">Add Notes</v-stepper-step>
+        <v-divider></v-divider>
+        <v-stepper-step :complete="element > 5" step="5">Success</v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
@@ -24,6 +26,9 @@
             <v-progress-circular v-if="isLoading" indeterminate color="secondary" ></v-progress-circular>
       </v-stepper-content>
       <v-stepper-content step="4">
+        <OrderNotes />
+      </v-stepper-content>
+      <v-stepper-content step="5">
         <OrderSuccess />
 
         <div v-if="resp">
@@ -38,11 +43,11 @@
           Back
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" v-if="element <= 2" flat large @click="element++" right>
+        <v-btn color="primary" v-if="element <= 3" flat large @click="element++" right>
           Next
           <v-icon>arrow_forward</v-icon>
         </v-btn>
-        <v-btn color="primary" v-if="element === 3" flat large v-bind:loading="this.isLoading" @click="onSubmitOrder(order)">
+        <v-btn color="primary" v-if="element === 4" flat large v-bind:loading="this.isLoading" @click="onSubmitOrder(order)">
           Submit Order
         </v-btn>
       </v-footer>
@@ -54,6 +59,7 @@
 import OrderSettings from './OrderSettings';
 import OrderCreate from './OrderCreate';
 import OrderReview from './OrderReview';
+import OrderNotes from './OrderNotes';
 import OrderSuccess from './OrderSuccess';
 import store from '../store';
 
@@ -64,6 +70,7 @@ export default {
     OrderSettings,
     OrderCreate,
     OrderReview,
+    OrderNotes,
     OrderSuccess,
   },
   computed: {
