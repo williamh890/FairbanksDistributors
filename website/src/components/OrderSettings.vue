@@ -33,7 +33,8 @@ import store from '../store';
 import { SET_DELIVERY_LOCATION, SET_ORDER_DATE } from '../store/orders/mutation';
 
 function alaskaTime(){
-    return new Date(new Date().getTime() + 3600000*(-8.0));
+    var offset = new Date().getTimezoneOffset()/60.0;
+    return new Date(new Date().getTime() + 3600000*(-offset));
 }
 
 function nextDay(date){
