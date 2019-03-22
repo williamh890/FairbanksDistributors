@@ -1,7 +1,7 @@
 import csv
+import pathlib as pl
 from datetime import datetime, date, timedelta
 import configparser
-from flask import Blueprint, jsonify, request, url_for, redirect
 import json
 import smtplib
 from email import encoders
@@ -10,7 +10,11 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 import mimetypes
 
+from flask import Blueprint, jsonify, request, url_for, redirect
+import boto3
+
 order = Blueprint('order', __name__)
+
 
 @order.after_request
 def after_request(response):
@@ -23,6 +27,23 @@ def after_request(response):
 
 def order_success():
     return jsonify({"status": "order successful"})
+
+
+@order.route('/items/chips', methods=['GET'])
+def get_chips():
+    BUCKET_NAME = 'fd-order-app-storage'
+    KEY = 'chips.json'
+
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket(BUCKET_NAME)
+
+    download_path = pl.Path('/') / 'tmp' / KEY
+    bucket.download_file(KEY, str(download_path))
+
+    with download_path.open('r') as f:
+        items = json.load(f)
+
+    return jsonify(items)
 
 
 @order.route('/place_order', methods=['POST', 'GET'])
@@ -42,12 +63,13 @@ def place_order():
 
 def is_next_week(delivery_date):
     today = date.today()
-    return ((delivery_date - today) + timedelta(days=today.weekday())>=timedelta(days=7))
+    return ((delivery_date - today) + timedelta(days=today.weekday()) >= timedelta(days=7))
 
 
 def format_date(date_iso):
     today = date.today()
-    delivery_date = date(int(date_iso[0:4]),int(date_iso[5:7]), int(date_iso[8:10]))
+    delivery_date = date(int(date_iso[0:4]), int(
+        date_iso[5:7]), int(date_iso[8:10]))
     delivery_date_str = delivery_date.strftime("%a")
     if is_next_week(delivery_date):
         delivery_date_str = delivery_date.strftime("%a %m/%d")
@@ -71,6 +93,9 @@ def write_order_csv(order_info, filename):
         order = order_info["items"]
         for item in order:
             order_writer.writerow([item['name'], item['upc'], item['amount']])
+
+        order_writer.writerow(['notes'])
+        order_writer.writerow([order_info.get('notes')])
 
 
 def send_order(filename, store_name):

@@ -32,6 +32,15 @@
 import store from '../store';
 import { SET_DELIVERY_LOCATION, SET_ORDER_DATE } from '../store/orders/mutation';
 
+function alaskaTime(){
+    var offset = new Date().getTimezoneOffset()/60.0;
+    return new Date(new Date().getTime() + 3600000*(-offset));
+}
+
+function nextDay(date){
+    return new Date(date.getTime() + 86400000);
+}
+
     export default {
         name: "OrderSettings",
         store,
@@ -58,7 +67,7 @@ import { SET_DELIVERY_LOCATION, SET_ORDER_DATE } from '../store/orders/mutation'
         },
         data: () => ({
             routeRep: 'test',
-            date: null,
+            date: new nextDay(alaskaTime()).toISOString().substr(0, 10),
             menu: false,
         })
     }

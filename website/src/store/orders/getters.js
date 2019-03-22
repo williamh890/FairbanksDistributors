@@ -11,11 +11,13 @@ export const getters = {
   getOrderDate: state => state.order.date,
   getStoreNames: state => state.storeNames,
   getDeliveryLocation: state => state.order.deliveryLocation,
+  getOrderNotes: state => state.order.orderNotes,
   getOrder: state => ({
     store: state.order.deliveryLocation,
     items: state.order.items.map(orderItem => {
         return {...orderItem.item};
       }),
     date: state.order.date,
+    notes: state.order.orderNotes,
   })
 };
