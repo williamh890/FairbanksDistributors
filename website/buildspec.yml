@@ -1,14 +1,7 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - cd website
-      - npm install
   build:
     commands:
-      - npm run build
-  post_build:
-    commands:
-      - cd dist
-      - aws s3 sync . "s3://${S3_BUCKET}"
+      - chmod +x update_deployment.sh
+      - ./update_deployment.sh ${MATURITY}
