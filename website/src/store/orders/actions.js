@@ -3,6 +3,7 @@ import {
   LOGOUT,
   ADD_ORDER_ITEM,
   CLEAR_ORDER_ITEMS,
+  CLEAR_ORDER_SETTINGS,
   SUBMIT_ORDER,
   SET_SELECTED_ITEM_TYPE,
   SET_ORDER_DATE,
@@ -39,6 +40,10 @@ export default {
 
   clearOrderItems({ commit }) {
     commit(CLEAR_ORDER_ITEMS);
+  },
+
+  clearOrderSettings({ commit }) {
+    commit(CLEAR_ORDER_SETTINGS);
   },
 
   submitOrder({ commit }) {
