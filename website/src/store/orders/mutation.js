@@ -52,6 +52,10 @@ export const mutations = {
 
   [CLEAR_ORDER_ITEMS]: function(state) {
     state.order.items = [];
+    state.items = chips.map(item => {
+      item.amount = 0;
+      return item;
+    });
     state.selectedType = null;
   },
 
