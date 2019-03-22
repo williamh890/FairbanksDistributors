@@ -5,6 +5,15 @@ import { chips, chipTypes } from './chips';
 import { routes, storeNames } from './routes';
 import Vuex from 'vuex';
 
+function alaskaTime(){
+    var offset = new Date().getTimezoneOffset()/60.0;
+    return new Date(new Date().getTime() + 3600000*(-offset));
+}
+
+function nextDay(date){
+    return new Date(date.getTime() + 86400000);
+}
+
 export default new Vuex.Store({
   strict: true,
   state: {
@@ -18,7 +27,7 @@ export default new Vuex.Store({
     selectedType: null,
     order: {
       items:[],
-      date: new Date().toISOString().substr(0, 10),
+      date: new nextDay(alaskaTime()).toISOString().substr(0, 10),
       deliveryLocation: null,
       orderNotes: '',
     },
