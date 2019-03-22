@@ -10,7 +10,7 @@ import {
   SET_DELIVERY_LOCATION,
   HIDEMAIN,
   SHOWMAIN,
-  ADD_ORDER_NOTES,
+  ADD_ORDER_NOTES, SET_ORDER_TYPE,
 } from './mutation';
 
 export default {
@@ -52,6 +52,10 @@ export default {
 
   setOrderDate({ commit }, date) {
     commit(SET_ORDER_DATE, date);
+  },
+
+  setOrderType({ commit }, type) {
+    commit(SET_ORDER_TYPE, type);
   },
 
   setDeliveryLocation({ commit}, location) {

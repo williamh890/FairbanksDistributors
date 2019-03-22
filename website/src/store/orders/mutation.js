@@ -15,6 +15,7 @@ export const SUBMIT_ORDER = 'submitOrder';
 
 export const SET_DELIVERY_LOCATION = 'setDeliveryLocation';
 export const SET_ORDER_DATE = 'setOrderDate';
+export const SET_ORDER_TYPE = 'setOrderType';
 
 export const ADD_ORDER_NOTES = 'addOrderNotes';
 
@@ -74,6 +75,10 @@ export const mutations = {
   [SET_ORDER_DATE]: function(state, date) {
     // console.log(state.order.date.toString());
     state.order.date = date;
+  },
+
+  [SET_ORDER_TYPE]: function(state, type) {
+    state.order.type = type;
   },
 
   [ADD_ORDER_NOTES]: function(state, notes) {

@@ -9,7 +9,9 @@ export const getters = {
   getOrderItems: state => state.order.items.map(item => item.item),
   getRouteRep: state => state.routeRep,
   getOrderDate: state => state.order.date,
+  getOrderType: state => state.order.type,
   getStoreNames: state => state.storeNames,
+  getOrderTypes: state => state.orderTypes,
   getDeliveryLocation: state => state.order.deliveryLocation,
   getOrderNotes: state => state.order.orderNotes,
   getOrder: state => ({
