@@ -23,7 +23,6 @@
         </v-stepper-content>
         <v-stepper-content step="3">
           <OrderReview />
-            <v-progress-circular v-if="isLoading" indeterminate color="secondary" ></v-progress-circular>
       </v-stepper-content>
       <v-stepper-content step="4">
         <OrderNotes />
