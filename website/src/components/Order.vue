@@ -36,7 +36,7 @@
       </v-stepper-content>
 
       </v-stepper-items>
-      <v-snackbar v-model="snackbar" :timeout="3000" :color="color">
+      <v-snackbar v-model="unselectedSettingsNotifier" :timeout="3000" :color="color">
         {{ text }}
       </v-snackbar>
       <v-footer fixed height="auto">
@@ -85,7 +85,7 @@ export default {
       element: 1,
       isLoading: false,
       resp: null,
-      snackbar: false,
+      unselectedSettingsNotifier: false,
       color: "error",
       text: "Please select all settings."
     };
@@ -96,7 +96,7 @@ export default {
         this.element++
       }
       else {
-        this.snackbar=true
+        this.unselectedSettingsNotifier=true
       }
     },
     onSubmitOrder(order) {
