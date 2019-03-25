@@ -7,14 +7,14 @@
         single-line
         :items="types"
         v-on:input="onTypeChanged"
-        label="Chip Type"
+        label="Select Item Category"
         ></v-select>
       <v-spacer></v-spacer>
     </v-toolbar>
       <v-select
         :items="types"
         v-on:input="onTypeChanged"
-        label="Chip Type"
+        label="Select Item Category"
         ></v-select>
       <v-list two-line subheader>
         <template v-for="item in allItems">
