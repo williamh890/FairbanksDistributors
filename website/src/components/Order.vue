@@ -23,19 +23,19 @@
         </v-stepper-content>
         <v-stepper-content step="3">
           <OrderReview />
-      </v-stepper-content>
-      <v-stepper-content step="4">
-        <OrderNotes />
-      </v-stepper-content>
-      <v-stepper-content step="5">
-        <OrderSuccess />
+        </v-stepper-content>
+        <v-stepper-content step="4">
+          <OrderNotes />
+        </v-stepper-content>
+        <v-stepper-content step="5">
+          <OrderSuccess />
 
-        <div v-if="resp">
-          <!--{{ JSON.stringify(resp) }}-->
-        </div>
-      </v-stepper-content>
-
+          <div v-if="resp">
+            <!--{{ JSON.stringify(resp) }}-->
+          </div>
+        </v-stepper-content>
       </v-stepper-items>
+
       <v-snackbar v-model="unselectedSettingsNotifier" :timeout="3000" :color="color">
         {{ text }}
       </v-snackbar>
