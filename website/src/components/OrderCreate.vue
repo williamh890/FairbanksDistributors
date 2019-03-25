@@ -6,14 +6,14 @@
       <v-select
         single-line
         :items="types"
-        v-on:change="onTypeChanged"
+        v-on:input="onTypeChanged"
         label="Chip Type"
         ></v-select>
       <v-spacer></v-spacer>
     </v-toolbar>
       <v-select
         :items="types"
-        v-on:change="onTypeChanged"
+        v-on:input="onTypeChanged"
         label="Chip Type"
         ></v-select>
       <v-list two-line subheader>
