@@ -1,4 +1,5 @@
 import boto3
+from flask import Flask, make_response, jsonify
 import base64
 from functools import wraps
 from flask import session, g, request, redirect, url_for, make_response, jsonify
@@ -36,8 +37,10 @@ def authenticate(function):
     def wrapped_function(*args, **kwargs):
         auth_key = get_auth_key_from_aws()
         user_auth_key = request.args.get("auth_key")
+
         if user_auth_key == auth_key:
             return function(*args, **kwargs)
         else:
             return make_response(jsonify({"Error":f"{user_auth_key} is not a valid authentication key"}), 401)
+
     return wrapped_function

@@ -7,11 +7,6 @@ app = Flask(__name__)
 def index():
     return "Send emails"
 
-@app.route('/login')
-@authenticate
-def login():
-    return make_response(jsonify({"Success":"Authentication code is valid"}), 200)
-
 
 def create_app():
     from .order import order

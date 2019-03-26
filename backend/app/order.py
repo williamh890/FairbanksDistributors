@@ -12,7 +12,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 import mimetypes
 
-from flask import Blueprint, jsonify, request, url_for, redirect
+from flask import Blueprint, jsonify, request, url_for, redirect, make_response
 import boto3
 
 order = Blueprint('order', __name__)
@@ -27,8 +27,10 @@ def after_request(response):
     return response
 
 
-def order_success():
-    return jsonify({"status": "order successful"})
+@order.route('/login')
+@authenticate
+def login():
+    return make_response(jsonify({"Success": "Authentication code is valid"}), 200)
 
 
 @order.route('/items/chips', methods=['GET'])
@@ -46,6 +48,11 @@ def get_chips():
         items = json.load(f)
 
     return jsonify(items)
+
+
+def order_success():
+    return jsonify({"status": "order successful"})
+
 
 def order_failure(message):
     return jsonify({"status": "order failed",
