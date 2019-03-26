@@ -39,8 +39,30 @@
       <v-snackbar v-model="unselectedSettingsNotifier" :timeout="3000" :color="color">
         {{ text }}
       </v-snackbar>
+
+      <v-dialog v-model="returnToHomeDialog">
+        <v-card>
+          <v-card-title class="headline">Discard Order?</v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" flat
+              @click="returnToHomeDialog = false"
+            >
+              No
+            </v-btn>
+
+            <v-btn
+              color="primary" flat
+              @click="mainMenu"
+            >
+              Yes
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
       <v-footer fixed height="auto">
-        <v-btn color="primary" :disabled="element === 1" flat large @click="element--">
+        <v-btn color="primary" flat large @click=goBack>
           <v-icon>arrow_back</v-icon>
           Back
         </v-btn>
@@ -64,6 +86,7 @@ import OrderReview from './OrderReview';
 import OrderNotes from './OrderNotes';
 import OrderSuccess from './OrderSuccess';
 import store from '../store';
+import { SHOWMAIN } from '../store/orders/mutation';
 
 export default {
   name: 'Order',
@@ -87,10 +110,29 @@ export default {
       resp: null,
       unselectedSettingsNotifier: false,
       color: "error",
-      text: "Please select all settings."
+      text: "Please select all settings.",
+      returnToHomeDialog: false,
     };
   },
   methods: {
+    goBack() {
+      if (this.element === 1) {
+        console.log(this.$store.getters.getOrderItems);
+        if (this.$store.getters.getOrderItems.length === 0) {
+          this.mainMenu();
+        }
+        else {
+          this.returnToHomeDialog = true;
+        }
+      }
+      else {
+        this.element--;
+      }
+    },
+    mainMenu() {
+      this.returnToHomeDialog = false;
+      this.$store.dispatch(SHOWMAIN);
+    },
     canProgress() {
       if (this.$store.getters.getOrderDate != null && this.$store.getters.getDeliveryLocation != null){
         this.element++
