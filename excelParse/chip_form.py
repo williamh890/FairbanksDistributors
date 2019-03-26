@@ -36,7 +36,7 @@ def is_category(row):
 
 
 def get_categories(data):
-    return [row[1] for row in data if is_category(row)]
+    return [row[1].strip() for row in data if is_category(row)]
 
 
 def get_items(data):
@@ -48,9 +48,10 @@ def get_chips_by_category(data):
                                    for category in get_categories(data)}, None
     for row in data:
         if is_category(row):
-            current_category = row[1]
+            current_category = row[1].strip()
         elif row[1] != '':
             name, oz, upc, case = row[1:]
+            print(name.strip())
 
             item = {
                 'name': name.strip(),
