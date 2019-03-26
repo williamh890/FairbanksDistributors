@@ -4,13 +4,17 @@
         "aws_region": "us-west-2",
         "project_name": "backend",
         "runtime": "python3.6",
-        "s3_bucket": "fd-order-app-backend-prod"
+        "s3_bucket": "fd-order-app-backend-prod",
+        "certificate_arn": "arn:aws:acm:us-east-1:168560130205:certificate/5304bdaf-197d-47b9-99f4-1d5fb802d600",
+        "domain": "api.fdak-orders.com"
     },
     "dev": {
         "app_function": "application.app",
         "aws_region": "us-west-2",
         "project_name": "backend",
         "runtime": "python3.6",
-        "s3_bucket": "fd-order-app-backend-dev"
+        "s3_bucket": "fd-order-app-backend-dev",
+        "certificate_arn": "arn:aws:acm:us-east-1:168560130205:certificate/5304bdaf-197d-47b9-99f4-1d5fb802d600",
+        "domain": "api-dev.fdak-orders.com"
     }
 }
