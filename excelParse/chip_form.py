@@ -47,15 +47,13 @@ def get_chips_by_category(data):
     all_items, current_category = {category: []
                                    for category in get_categories(data)}, None
     for row in data:
-        stripped_row = [v.strip() for v in row]
-
         if is_category(row):
-            current_category = stripped_row[1]
+            current_category = row[1]
         elif row[1] != '':
-            name, oz, upc, case = stripped_row[1:]
+            name, oz, upc, case = row[1:]
 
             item = {
-                'name': name,
+                'name': name.strip(),
                 'oz': oz,
                 'upc': upc,
                 'case': case
