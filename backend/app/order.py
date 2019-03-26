@@ -34,6 +34,7 @@ def login():
 
 
 @order.route('/items/chips', methods=['GET'])
+@authenticate
 def get_chips():
     BUCKET_NAME = 'fd-order-app-storage'
     KEY = 'chips.json'

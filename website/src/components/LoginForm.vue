@@ -11,7 +11,8 @@
       :rules="passwordRules"
       :error-messages="passwordError"
       required
-      v-on:change="clearErrors()"
+      v-on:keydown="clearErrors()"
+      type="password"
     ></v-text-field>
 
     <v-btn

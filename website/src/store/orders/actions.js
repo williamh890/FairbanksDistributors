@@ -7,6 +7,7 @@ import {
   SET_SELECTED_ITEM_TYPE,
   SET_ORDER_DATE,
   SET_DELIVERY_LOCATION,
+  SET_ITEMS,
   HIDEMAIN,
   SHOWMAIN,
   ADD_ORDER_NOTES,
@@ -23,6 +24,10 @@ export default {
 
   hideMain({ commit }) {
     commit(HIDEMAIN);
+  },
+
+  setItems({ commit }, items) {
+    commit(SET_ITEMS, items)
   },
 
   showMain({ commit }) {

@@ -5,6 +5,7 @@ from functools import wraps
 from flask import session, g, request, redirect, url_for, make_response, jsonify
 import json
 
+
 def get_auth_key_from_aws():
     secret_name = "order_app/key"
     region_name = "us-west-2"

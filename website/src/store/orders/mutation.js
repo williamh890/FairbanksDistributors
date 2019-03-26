@@ -4,6 +4,7 @@ export const SHOWMAIN = 'showMain';
 export const HIDEMAIN = 'hideMain';
 
 export const SET_SELECTED_ITEM_TYPE = 'setSelectedItemType';
+export const SET_ITEMS = 'setItems';
 
 export const ADD_ORDER_ITEM = 'addOrderItem';
 export const CLEAR_ORDER_ITEMS = 'clearOrderItems';
@@ -26,6 +27,13 @@ export const mutations = {
     state.isLoggedIn = false;
     state.mainMenu = false;
     state.password = null;
+  },
+
+  [SET_ITEMS]: function(state, items) {
+    state.items = items;
+    state.itemTypes = Array.from(new Set(items
+      .map(item => item.type)
+    ));
   },
 
   [SHOWMAIN]: function(state) {
