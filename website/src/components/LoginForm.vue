@@ -6,24 +6,19 @@
     lazy-validation
   >
     <v-text-field
-      v-model="username"
-      label="Username"
-      required
-    ></v-text-field>
-
-    <v-text-field
       v-model="password"
       label="Password"
+      :rules="passwordRules"
+      :error-messages="passwordError"
       required
-      type="password"
+      v-on:change="clearErrors()"
     ></v-text-field>
 
     <v-btn
       block
       :disabled="!valid"
       color="secondary"
-      @click="validate"
-      v-on:click="$emit('login')"
+      v-on:click="login()"
     >
       Login
     </v-btn>
@@ -37,16 +32,28 @@ export default {
   name: 'LoginForm',
   data: () => ({
     valid: true,
-    username: '',
     password: '',
+    passwordError: [],
+    passwordRules: [
+      v => !!v || 'Password is required',
+    ]
   }),
 
   methods: {
-    validate () {
-      if (this.$refs.form.validate()) {
-        this.snackbar = true
-      }
+    login () {
+      const password = this.password;
+      const apiUrl = `http://localhost:5000/login?auth_key=${password}`;
+      this.$http.get(apiUrl)
+        .then(resp => {
+          this.$emit('login', password);
+        })
+        .catch(resp => {
+          this.passwordError = ['Password is not valid.'];
+        });
     },
+    clearErrors() {
+      this.passwordError = [];
+    }
   }
 }
 </script>

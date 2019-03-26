@@ -29,7 +29,7 @@
     <v-content>
       <Login
         v-if="!isLoggedIn"
-        v-on:login="onLoggin"
+        v-on:login="onLoggin($event)"
       />
       <MainMenu
         v-else-if="mainMenuActive"
@@ -58,8 +58,8 @@ export default {
     Order
   },
   methods: {
-    onLoggin: function() {
-      this.$store.dispatch(LOGIN);
+    onLoggin: function(password) {
+      this.$store.dispatch(LOGIN, password);
     },
     onLogout: function() {
       this.$store.dispatch(LOGOUT);

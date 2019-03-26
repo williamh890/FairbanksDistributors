@@ -13,8 +13,8 @@ import {
 } from './mutation';
 
 export default {
-  login({ commit }) {
-    commit(LOGIN);
+  login({ commit }, password) {
+    commit(LOGIN, password);
   },
 
   logout({ commit }) {

@@ -16,13 +16,16 @@ export const SET_ORDER_DATE = 'setOrderDate';
 export const ADD_ORDER_NOTES = 'addOrderNotes';
 
 export const mutations = {
-  [LOGIN]: function(state) {
+  [LOGIN]: function(state, password) {
     state.isLoggedIn = true;
     state.mainMenu = true;
+    state.password = password;
   },
 
   [LOGOUT]: function(state) {
     state.isLoggedIn = false;
+    state.mainMenu = false;
+    state.password = null;
   },
 
   [SHOWMAIN]: function(state) {
