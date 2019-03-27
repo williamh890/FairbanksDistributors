@@ -6,7 +6,7 @@
           v-on:change="onStoreNameChanged"
           label="Store"
       ></v-select>
-        <v-select class='pb-4' label="Order Type" v-on:change="onOrderTypeChanged" :items="orderTypes"
+        <v-select class='pb-4' disabled label="Order Type" v-on:change="onOrderTypeChanged" :items="orderTypes"
                   hint="More order types coming soon!" persistent-hint placeholder="Chips">
                     <!--Remove the pb-4 when you remove the hint-->
         </v-select>
