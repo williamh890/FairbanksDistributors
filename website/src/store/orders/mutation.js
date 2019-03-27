@@ -1,5 +1,3 @@
-import { chips, chipTypes } from '../chips';
-
 export const LOGIN = 'login';
 export const LOGOUT = 'logout';
 export const SHOWMAIN = 'showMain';
@@ -64,7 +62,7 @@ export const mutations = {
 
   [CLEAR_ORDER_ITEMS]: function(state) {
     state.order.items = [];
-    state.items = chips.map(item => {
+    state.items = state.items.map(item => {
       item.amount = 0;
       return item;
     });
