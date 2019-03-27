@@ -1,3 +1,5 @@
+from .auth import authenticate
+
 import csv
 import pathlib as pl
 from datetime import datetime, date, timedelta
@@ -10,7 +12,7 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 import mimetypes
 
-from flask import Blueprint, jsonify, request, url_for, redirect
+from flask import Blueprint, jsonify, request, url_for, redirect, make_response
 import boto3
 
 order = Blueprint('order', __name__)
@@ -25,11 +27,14 @@ def after_request(response):
     return response
 
 
-def order_success():
-    return jsonify({"status": "order successful"})
+@order.route('/login')
+@authenticate
+def login():
+    return make_response(jsonify({"Success": "Authentication code is valid"}), 200)
 
 
 @order.route('/items/chips', methods=['GET'])
+@authenticate
 def get_chips():
     BUCKET_NAME = 'fd-order-app-storage'
     KEY = 'chips.json'
@@ -46,18 +51,31 @@ def get_chips():
     return jsonify(items)
 
 
+def order_success():
+    return jsonify({"status": "order successful"})
+
+
+def order_failure(message):
+    return jsonify({"status": "order failed",
+                    "message": message})
+
+
 @order.route('/place_order', methods=['POST', 'GET'])
+@authenticate
 def place_order():
+    filename = f"{str(datetime.now())}_order.csv"
+    filename = filename.replace(' ', '_')
     if request.method == 'POST':
-        filename = f"{str(datetime.now())}_order.csv"
-        filename = filename.replace(' ', '_')
-        data = json.loads(request.form['order'])
-        write_order_csv(data, filename)
-        send_order(filename, data['store'])
+        try:
+            data = json.loads(request.form['order'])
+            write_order_csv(data, filename)
+            send_order(filename, data['store'])
+        except Exception as e:
+            return order_failure(str(e))
     else:
-        write_order_csv({"store": "safeway", "order": {
-                        "item": {"upc": "test", "amount": 0}}}, filename)
-        send_order(filename)
+        write_order_csv({"date": "2002-02-02", "store": "safeway",
+                         "items": [{"name": "chip", "upc": "test", "amount": 0}]}, filename)
+        send_order(filename, "safeway")
     return order_success()
 
 
