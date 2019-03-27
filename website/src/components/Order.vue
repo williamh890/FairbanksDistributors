@@ -71,7 +71,7 @@
           Next
           <v-icon>arrow_forward</v-icon>
         </v-btn>
-        <v-btn color="primary" v-if="element === 4" flat large v-bind:loading="this.isLoading" @click="onSubmitOrder(order)">
+        <v-btn color="primary" v-if="element === 4" flat large v-bind:loading="this.isLoading" @click="onSubmitOrder(order, password)">
           Submit Order
         </v-btn>
       </v-footer>
@@ -86,6 +86,7 @@ import OrderReview from './OrderReview';
 import OrderNotes from './OrderNotes';
 import OrderSuccess from './OrderSuccess';
 import store from '../store';
+import { apiUrl } from '../data/api'
 import { SHOWMAIN } from '../store/orders/mutation';
 
 export default {
@@ -101,6 +102,9 @@ export default {
   computed: {
     order() {
       return this.$store.getters.getOrder;
+    },
+    password() {
+      return this.$store.getters.getPassword;
     }
   },
   data() {
@@ -140,14 +144,14 @@ export default {
         this.unselectedSettingsNotifier=true
       }
     },
-    onSubmitOrder(order) {
+    onSubmitOrder(order, password) {
       this.isLoading = true;
 
       const formData = new FormData();
       formData.append('order', JSON.stringify(order));
 
-      const apiUrl = 'https://1ovq6hhh55.execute-api.us-west-2.amazonaws.com/production/place_order';
-      this.$http.post(apiUrl, formData)
+      const url = `${apiUrl}/place_order?auth_key=${password}`;
+      this.$http.post(url, formData)
         .then(
           resp => {
             this.element = 4;

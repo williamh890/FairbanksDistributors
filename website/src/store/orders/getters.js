@@ -1,4 +1,5 @@
 export const getters = {
+  getPassword: state => state.password,
   getIsLoggedIn: state => state.isLoggedIn,
   getIsMainMenuActive: state => state.mainMenu,
   getItems: state => state.items,

@@ -24,7 +24,7 @@
     <v-content>
       <Login
         v-if="!isLoggedIn"
-        v-on:login="onLoggin"
+        v-on:login="onLoggin($event)"
       />
       <MainMenu
         v-else-if="mainMenuActive"
@@ -41,8 +41,12 @@ import Login from './components/Login';
 import Order from './components/Order';
 import MainMenu from './components/MainMenu'
 import store from './store';
+import { apiUrl } from './data/api';
 
-import { LOGIN, LOGOUT, HIDEMAIN, SHOWMAIN } from './store/orders/mutation';
+import {
+  LOGIN, LOGOUT, HIDEMAIN,
+  SHOWMAIN, SET_ITEMS
+} from './store/orders/mutation';
 
 export default {
   name: 'App',
@@ -53,8 +57,24 @@ export default {
     Order
   },
   methods: {
-    onLoggin: function() {
-      this.$store.dispatch(LOGIN);
+    onLoggin: function(password) {
+      const url = `${apiUrl}/items/chips?auth_key=${password}`;
+
+      this.$http.get(url)
+        .then(resp => {
+          const data = resp.body;
+          let chips = [];
+
+          for (const [chipType, items] of Object.entries(data)) {
+            const withType = items
+              .map(item => ({...item, type: chipType, amount: 0}));
+
+            chips = [...chips, ...withType];
+          }
+
+          this.$store.dispatch(SET_ITEMS, chips);
+          this.$store.dispatch(LOGIN, password);
+        })
     },
     onLogout: function() {
       this.$store.dispatch(LOGOUT);

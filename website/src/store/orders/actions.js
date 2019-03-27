@@ -8,14 +8,15 @@ import {
   SET_SELECTED_ITEM_TYPE,
   SET_ORDER_DATE,
   SET_DELIVERY_LOCATION,
+  SET_ITEMS,
   HIDEMAIN,
   SHOWMAIN,
   ADD_ORDER_NOTES, SET_ORDER_TYPE,
 } from './mutation';
 
 export default {
-  login({ commit }) {
-    commit(LOGIN);
+  login({ commit }, password) {
+    commit(LOGIN, password);
   },
 
   logout({ commit }) {
@@ -24,6 +25,10 @@ export default {
 
   hideMain({ commit }) {
     commit(HIDEMAIN);
+  },
+
+  setItems({ commit }, items) {
+    commit(SET_ITEMS, items)
   },
 
   showMain({ commit }) {
