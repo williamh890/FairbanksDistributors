@@ -39,7 +39,7 @@
 
 <script>
 import store from '../store';
-import { CLEAR_ORDER_ITEMS } from "../store/orders/mutation";
+import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS } from "../store/orders/mutation";
 
 export default {
     name: 'MainMenu',
@@ -47,6 +47,7 @@ export default {
     methods:    {
         newOrder: function () {
             this.$store.dispatch(CLEAR_ORDER_ITEMS);
+            this.$store.dispatch(CLEAR_ORDER_SETTINGS);
             this.$emit('createOrder')
         }
     }

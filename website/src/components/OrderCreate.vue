@@ -6,15 +6,15 @@
       <v-select
         single-line
         :items="types"
-        v-on:change="onTypeChanged"
-        label="Chip Type"
+        v-on:input="onTypeChanged"
+        label="Select Item Category"
         ></v-select>
       <v-spacer></v-spacer>
     </v-toolbar>
       <v-select
         :items="types"
-        v-on:change="onTypeChanged"
-        label="Chip Type"
+        v-on:input="onTypeChanged"
+        label="Select Item Category"
         ></v-select>
       <v-list two-line subheader>
         <template v-for="item in allItems">

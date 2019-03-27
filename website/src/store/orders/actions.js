@@ -3,6 +3,7 @@ import {
   LOGOUT,
   ADD_ORDER_ITEM,
   CLEAR_ORDER_ITEMS,
+  CLEAR_ORDER_SETTINGS,
   SUBMIT_ORDER,
   SET_SELECTED_ITEM_TYPE,
   SET_ORDER_DATE,
@@ -10,7 +11,7 @@ import {
   SET_ITEMS,
   HIDEMAIN,
   SHOWMAIN,
-  ADD_ORDER_NOTES,
+  ADD_ORDER_NOTES, SET_ORDER_TYPE,
 } from './mutation';
 
 export default {
@@ -46,12 +47,20 @@ export default {
     commit(CLEAR_ORDER_ITEMS);
   },
 
+  clearOrderSettings({ commit }) {
+    commit(CLEAR_ORDER_SETTINGS);
+  },
+
   submitOrder({ commit }) {
     commit(SUBMIT_ORDER);
   },
 
   setOrderDate({ commit }, date) {
     commit(SET_ORDER_DATE, date);
+  },
+
+  setOrderType({ commit }, type) {
+    commit(SET_ORDER_TYPE, type);
   },
 
   setDeliveryLocation({ commit}, location) {
