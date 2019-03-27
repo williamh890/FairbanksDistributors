@@ -27,7 +27,8 @@ def get_auth_key_from_aws():
         if 'SecretString' in get_secret_value_response:
             auth_key = get_secret_value_response['SecretString']
         else:
-            auth_key = base64.b64decode(get_secret_value_response['SecretBinary'])
+            auth_key = base64.b64decode(
+                get_secret_value_response['SecretBinary'])
 
         auth_key = (json.loads(auth_key))["order_app_key"]
         return auth_key
@@ -37,11 +38,12 @@ def authenticate(function):
     @wraps(function)
     def wrapped_function(*args, **kwargs):
         auth_key = get_auth_key_from_aws()
+        print(auth_key)
         user_auth_key = request.args.get("auth_key")
 
         if user_auth_key == auth_key:
             return function(*args, **kwargs)
         else:
-            return make_response(jsonify({"Error":f"{user_auth_key} is not a valid authentication key"}), 401)
+            return make_response(jsonify({"Error": f"{user_auth_key} is not a valid authentication key"}), 401)
 
     return wrapped_function

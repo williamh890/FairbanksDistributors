@@ -3,6 +3,7 @@
   <v-form
     ref="form"
     v-model="valid"
+    v-on:submit.prevent="login()"
     lazy-validation
   >
     <v-text-field
@@ -28,6 +29,7 @@
 </template>
 
 <script>
+import { apiUrl } from '../data/api';
 
 export default {
   name: 'LoginForm',
@@ -43,12 +45,12 @@ export default {
   methods: {
     login () {
       const password = this.password;
-      const apiUrl = `http://localhost:5000/login?auth_key=${password}`;
-      this.$http.get(apiUrl)
+      const url = `${apiUrl}/login?auth_key=${password}`;
+      this.$http.get(url)
         .then(resp => {
           this.$emit('login', password);
         })
-        .catch(resp => {
+        .catch(_ => {
           this.passwordError = ['Password is not valid.'];
         });
     },

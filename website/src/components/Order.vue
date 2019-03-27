@@ -62,6 +62,7 @@ import OrderReview from './OrderReview';
 import OrderNotes from './OrderNotes';
 import OrderSuccess from './OrderSuccess';
 import store from '../store';
+import { apiUrl } from '../data/api'
 
 export default {
   name: 'Order',
@@ -95,8 +96,8 @@ export default {
       const formData = new FormData();
       formData.append('order', JSON.stringify(order));
 
-      const apiUrl = `http://localhost:5000/place_order?auth_key=${password}`;
-      this.$http.post(apiUrl, formData)
+      const url = `${apiUrl}/place_order?auth_key=${password}`;
+      this.$http.post(url, formData)
         .then(
           resp => {
             this.element = 4;

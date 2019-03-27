@@ -46,6 +46,7 @@ import Login from './components/Login';
 import Order from './components/Order';
 import MainMenu from './components/MainMenu'
 import store from './store';
+import { apiUrl } from './data/api';
 
 import {
   LOGIN, LOGOUT, HIDEMAIN,
@@ -62,9 +63,9 @@ export default {
   },
   methods: {
     onLoggin: function(password) {
-      const apiUrl = `http://localhost:5000/items/chips?auth_key=${password}`;
+      const url = `${apiUrl}/items/chips?auth_key=${password}`;
 
-      this.$http.get(apiUrl)
+      this.$http.get(url)
         .then(resp => {
           const data = resp.body;
           let chips = [];
