@@ -117,7 +117,6 @@ export default {
   methods: {
     goBack() {
       if (this.element === 1) {
-        console.log(this.$store.getters.getOrderItems);
         if (this.$store.getters.getOrderItems.length === 0) {
           this.mainMenu();
         }
