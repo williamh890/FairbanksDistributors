@@ -38,7 +38,6 @@ def authenticate(function):
     @wraps(function)
     def wrapped_function(*args, **kwargs):
         auth_key = get_auth_key_from_aws()
-        print(auth_key)
         user_auth_key = request.args.get("auth_key")
 
         if user_auth_key == auth_key:
