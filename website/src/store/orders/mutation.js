@@ -1,3 +1,5 @@
+import { chips } from '../chips';
+
 export const LOGIN = 'login';
 export const LOGOUT = 'logout';
 export const SHOWMAIN = 'showMain';
@@ -7,6 +9,7 @@ export const SET_SELECTED_ITEM_TYPE = 'setSelectedItemType';
 
 export const ADD_ORDER_ITEM = 'addOrderItem';
 export const CLEAR_ORDER_ITEMS = 'clearOrderItems';
+export const CLEAR_ORDER_SETTINGS = 'clearOrderSettings';
 
 export const SUBMIT_ORDER = 'submitOrder';
 
@@ -49,7 +52,15 @@ export const mutations = {
 
   [CLEAR_ORDER_ITEMS]: function(state) {
     state.order.items = [];
+    state.items = chips.map(item => {
+      item.amount = 0;
+      return item;
+    });
     state.selectedType = null;
+  },
+
+  [CLEAR_ORDER_SETTINGS]: function(state) {
+    state.order.deliveryLocation = null;
   },
 
   [SUBMIT_ORDER]: function(state) {

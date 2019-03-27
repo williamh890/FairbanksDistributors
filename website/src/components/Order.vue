@@ -37,13 +37,16 @@
       </v-stepper-content>
 
       </v-stepper-items>
+      <v-snackbar v-model="snackbar" :timeout="3000" :color="color">
+        {{ text }}
+      </v-snackbar>
       <v-footer fixed height="auto">
         <v-btn color="primary" :disabled="element === 1" flat large @click="element--">
           <v-icon>arrow_back</v-icon>
           Back
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" v-if="element <= 3" flat large @click="element++" right>
+        <v-btn color="primary" v-if="element <= 3" flat large @click="this.canProgress" right>
           Next
           <v-icon>arrow_forward</v-icon>
         </v-btn>
@@ -83,9 +86,20 @@ export default {
       element: 1,
       isLoading: false,
       resp: null,
+      snackbar: false,
+      color: "error",
+      text: "Please select all settings."
     };
   },
   methods: {
+    canProgress() {
+      if (this.$store.getters.getOrderDate != null && this.$store.getters.getDeliveryLocation != null){
+        this.element++
+      }
+      else {
+        this.snackbar=true
+      }
+    },
     onSubmitOrder(order) {
       this.isLoading = true;
 
