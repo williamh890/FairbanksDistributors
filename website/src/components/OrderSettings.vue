@@ -2,9 +2,9 @@
     <v-container>
         <h1> Order Settings </h1>
         <v-select
-      :items="storeNames"
-      v-on:change="onStoreNameChanged"
-      label="Store"
+          :items="storeNames"
+          v-on:change="onStoreNameChanged"
+          label="Store"
       ></v-select>
         <v-select class='pb-4' disabled label="Order Type" v-on:change="onOrderTypeChanged" :items="orderTypes"
                   hint="More order types coming soon!" persistent-hint placeholder="Chips">
