@@ -18,7 +18,7 @@
         >
           <v-text-field
             slot="activator"
-            v-model="date"
+            v-model=orderDate
             label="Delivery Date"
             append-icon="event"
             readonly
@@ -57,7 +57,6 @@ function nextDay(date){
         },
         methods: {
                 onDateChanged: function(date) {
-                    this.$store.dispatch(SET_ORDER_DATE, date);
                     this.$store.dispatch(SET_ORDER_DATE, date);
                     return false;
                 },
