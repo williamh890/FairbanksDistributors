@@ -6,10 +6,14 @@
       v-on:change="onStoreNameChanged"
       label="Store"
       ></v-select>
+        <v-select class='pb-4' disabled label="Order Type" v-on:change="onOrderTypeChanged" :items="orderTypes"
+                  hint="More order types coming soon!" persistent-hint placeholder="Chips">
+                    <!--Remove the pb-4 when you remove the hint-->
+        </v-select>
         <v-menu
           v-model="menu"
           :close-on-content-click="true"
-          :nudge-right="40"
+          :nudge-right="-10"
           lazy
           transition="scale-transition"
           offset-y
@@ -30,7 +34,7 @@
 
 <script>
 import store from '../store';
-import { SET_DELIVERY_LOCATION, SET_ORDER_DATE } from '../store/orders/mutation';
+import { SET_DELIVERY_LOCATION, SET_ORDER_DATE, SET_ORDER_TYPE } from '../store/orders/mutation';
 
 function alaskaTime(){
     var offset = new Date().getTimezoneOffset()/60.0;
@@ -51,6 +55,9 @@ function nextDay(date){
             storeNames() {
                 return this.$store.getters.getStoreNames;
             },
+            orderTypes() {
+                return this.$store.getters.getOrderTypes;
+            },
             orderLocation() {
                 return this.$store.getters.getDeliveryLocation;
             }
@@ -62,6 +69,9 @@ function nextDay(date){
                 },
                 onStoreNameChanged: function(location) {
                     this.$store.dispatch(SET_DELIVERY_LOCATION, location);
+                },
+                onOrderTypeChanged: function(type) {
+                    this.$store.dispatch(SET_ORDER_TYPE, type);
                 }
         },
         data: () => ({

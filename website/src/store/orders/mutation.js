@@ -1,4 +1,4 @@
-import { chips } from '../chips';
+import { chips, chipTypes } from '../chips';
 
 export const LOGIN = 'login';
 export const LOGOUT = 'logout';
@@ -15,6 +15,7 @@ export const SUBMIT_ORDER = 'submitOrder';
 
 export const SET_DELIVERY_LOCATION = 'setDeliveryLocation';
 export const SET_ORDER_DATE = 'setOrderDate';
+export const SET_ORDER_TYPE = 'setOrderType';
 
 export const ADD_ORDER_NOTES = 'addOrderNotes';
 
@@ -72,8 +73,22 @@ export const mutations = {
   },
 
   [SET_ORDER_DATE]: function(state, date) {
-    // console.log(state.order.date.toString());
     state.order.date = date;
+  },
+
+  [SET_ORDER_TYPE]: function(state, type) {
+    state.order.type = type;
+    if (type === 'Chips') {
+      state.itemTypes = chipTypes;
+      state.items = chips.map(item => {
+      item.amount = 0;
+      return item
+      })
+    }
+    else {
+      state.itemTypes = [];
+      state.items = null;
+    }
   },
 
   [ADD_ORDER_NOTES]: function(state, notes) {

@@ -23,21 +23,20 @@
         </v-stepper-content>
         <v-stepper-content step="3">
           <OrderReview />
-            <v-progress-circular v-if="isLoading" indeterminate color="secondary" ></v-progress-circular>
-      </v-stepper-content>
-      <v-stepper-content step="4">
-        <OrderNotes />
-      </v-stepper-content>
-      <v-stepper-content step="5">
-        <OrderSuccess />
+        </v-stepper-content>
+        <v-stepper-content step="4">
+          <OrderNotes />
+        </v-stepper-content>
+        <v-stepper-content step="5">
+          <OrderSuccess />
 
-        <div v-if="resp">
-          <!--{{ JSON.stringify(resp) }}-->
-        </div>
-      </v-stepper-content>
-
+          <div v-if="resp">
+            <!--{{ JSON.stringify(resp) }}-->
+          </div>
+        </v-stepper-content>
       </v-stepper-items>
-      <v-snackbar v-model="snackbar" :timeout="3000" :color="color">
+
+      <v-snackbar v-model="unselectedSettingsNotifier" :timeout="3000" :color="color">
         {{ text }}
       </v-snackbar>
       <v-footer fixed height="auto">
@@ -86,7 +85,7 @@ export default {
       element: 1,
       isLoading: false,
       resp: null,
-      snackbar: false,
+      unselectedSettingsNotifier: false,
       color: "error",
       text: "Please select all settings."
     };
@@ -97,7 +96,7 @@ export default {
         this.element++
       }
       else {
-        this.snackbar=true
+        this.unselectedSettingsNotifier=true
       }
     },
     onSubmitOrder(order) {
