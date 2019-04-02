@@ -16,7 +16,7 @@ side_border = Border(left=thin, right=thin)
 side_with_bot_border = Border(left=thin, right=thin, bottom=thin)
 center =  Alignment(horizontal='center')
 
-catagory_color = PatternFill("solid", fgColor="dddddd")
+category_color = PatternFill("solid", fgColor="dddddd")
 top_color = PatternFill("solid", fgColor="999999")
 
 def write_xlsx(dest_dir, order_info):
@@ -26,7 +26,7 @@ def write_xlsx(dest_dir, order_info):
     ws.title = "Order"
     
     make_top(ws)
-    left_row, right_row = write_catagories(ws,order_info)
+    left_row, right_row = write_categories(ws,order_info)
     write_header(ws,order_info)
     write_footer(ws,order_info)
 
@@ -78,45 +78,45 @@ def make_top(worksheet):
         case_cell.font = small_font
         case_cell.alignment = center
 
-def write_catagories(worksheet, order_info):
-    catagories = make_catagories(order_info)
+def write_categories(worksheet, order_info):
+    categories = make_categories(order_info)
     left_row = 3
     right_row = 3
-    for catagory in catagories:
+    for category in categories:
         if left_row <= right_row:
-            left_row = write_catagory(worksheet, catagories[catagory], left_row, "left")
+            left_row = write_category(worksheet, categories[category], left_row, "left")
         else: 
-            right_row = write_catagory(worksheet, catagories[catagory], right_row, "right")
+            right_row = write_category(worksheet, categories[category], right_row, "right")
     return (left_row, right_row)
 
-def make_catagories(order_info):
-    catagories = {}
+def make_categories(order_info):
+    categories = {}
     for item in order_info['items']:
-        if item['type'] in catagories:
-            catagories[item['type']].append(item)
+        if item['type'] in categories:
+            categories[item['type']].append(item)
         else:
-            catagories[item['type']] = [item]
-    return catagories
+            categories[item['type']] = [item]
+    return categories
 
-def write_catagory(worksheet, catagory, row_index, column):
+def write_category(worksheet, category, row_index, column):
     if column == "left":
         col = 1
     if column == "right":
         col = 6
-    cat = catagory[0]['type']
-    catagory_cell = worksheet.cell(column = col+1, row = row_index)
-    catagory_cell.value = cat
-    catagory_cell.font = large_font
-    catagory_cell.alignment = center
-    catagory_cell.fill = catagory_color
+    cat = category[0]['type']
+    category_cell = worksheet.cell(column = col+1, row = row_index)
+    category_cell.value = cat
+    category_cell.font = large_font
+    category_cell.alignment = center
+    category_cell.fill = category_color
 
     for cols in range(col,col+5):
         cell = worksheet.cell(column = cols, row = row_index)
         cell.border = box_border
-        cell.fill = catagory_color
+        cell.fill = category_color
 
     row_increase = 1
-    for item in catagory:
+    for item in category:
         for col_increase in range(5):
             cell = worksheet.cell(column = col+col_increase, row = row_index+row_increase)
             if col_increase in [0,1,3]:
@@ -181,7 +181,7 @@ def write_footer(worksheet, order_info):
 def write_note(worksheet, order_info, row_index):
     for col in range(1,11):
         cell = worksheet.cell(column = col, row = row_index)
-        cell.fill = catagory_color
+        cell.fill = category_color
     cell = worksheet.cell(column = 1, row = row_index)
     cell.value = "NOTE:"
     cell.font = medium_font
