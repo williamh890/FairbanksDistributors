@@ -62,7 +62,12 @@ def get_chips_by_category(data):
 
             all_items[current_category].append(item)
 
-    return all_items
+    return {
+        "categories": [
+            {"name": category_name, "items": items}
+            for (category_name, items) in all_items.items()
+        ]
+    }
 
 
 if __name__ == "__main__":

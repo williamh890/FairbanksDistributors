@@ -62,12 +62,14 @@ export default {
 
       this.$http.get(url)
         .then(resp => {
-          const data = resp.body;
+          const { categories } = resp.body;
           let chips = [];
 
-          for (const [chipType, items] of Object.entries(data)) {
+          for (const category of categories) {
+            const { items, name } = category;
+
             const withType = items
-              .map(item => ({...item, type: chipType, amount: 0}));
+              .map(item => ({...item, type: name, amount: 0}));
 
             chips = [...chips, ...withType];
           }
