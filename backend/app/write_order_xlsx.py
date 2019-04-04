@@ -100,6 +100,9 @@ def make_categories(order_info):
     categories = {}
 
     for item in order_info['items']:
+        if 'type' not in item:
+            continue
+
         if item['type'] in categories:
             categories[item['type']].append(item)
         else:
