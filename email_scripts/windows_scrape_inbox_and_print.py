@@ -23,7 +23,7 @@ def get_server():
 def extract_and_write_attachment(msg):
     attachment = msg.get_payload()[0]
     if attachment.get_content_type() == 'text/xlsx':
-        open('order.csv', 'wb').write(attachment.get_payload(decode=True))
+        open('order.xlsx', 'wb').write(attachment.get_payload(decode=True))
         os.startfile(".\{}".format('order.xlsx'), "print")
 
 def scrape_inbox():
