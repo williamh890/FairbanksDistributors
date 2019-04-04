@@ -47,9 +47,16 @@ export const mutations = {
   },
 
   [ADD_ORDER_ITEM]: function(state, orderItem) {
-    state.order.items = [
-      ...state.order.items, orderItem
-    ];
+    for (const testItem in state.order.items) {
+      if (orderItem.item.name === state.order.items[testItem].item.name) {
+        state.order.items.splice(testItem, 1)
+      }
+    }
+    if (orderItem.amount !== 0) {
+      state.order.items = [
+        ...state.order.items, orderItem
+      ];
+    }
 
     state.items
       .filter(item => item === orderItem.item)

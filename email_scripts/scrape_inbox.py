@@ -21,7 +21,7 @@ def get_server():
 
 def extract_and_write_attachment(msg):
     attachment = msg.get_payload()[0]
-    if attachment.get_content_type() == 'text/csv':
+    if attachment.get_content_type() == 'text/xlsx':
         open(attachment.get_filename(), 'wb').write(attachment.get_payload(decode=True))
 
 def scrape_inbox():

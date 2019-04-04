@@ -10,6 +10,7 @@ from email import encoders
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
+from .write_order_xlsx import write_xlsx
 import mimetypes
 
 from flask import Blueprint, jsonify, request, url_for, redirect, make_response
@@ -63,58 +64,20 @@ def order_failure(message):
 @order.route('/place_order', methods=['POST', 'GET'])
 @authenticate
 def place_order():
-    filename = f"{str(datetime.now())}_order.csv"
+    filename = f"{str(datetime.now())}_order.xlsx"
     filename = filename.replace(' ', '_')
     if request.method == 'POST':
         try:
             data = json.loads(request.form['order'])
-            write_order_csv(data, filename)
+            write_xlsx(f"/tmp/{filename}",data)
             send_order(filename, data['store'])
         except Exception as e:
             return order_failure(str(e))
     else:
-        write_order_csv({"date": "2002-02-02", "store": "safeway",
-                         "items": [{"name": "chip", "upc": "test", "amount": 0}]}, filename)
+        write_xlsx(f"/tmp/{filename}",{"date": "2002-02-02", "store": "safeway",
+                         "items": [{"name": "chip", "upc": "test", "amount": 0}]})
         send_order(filename, "safeway")
     return order_success()
-
-
-def is_next_week(delivery_date):
-    today = date.today()
-    return ((delivery_date - today) + timedelta(days=today.weekday()) >= timedelta(days=7))
-
-
-def format_date(date_iso):
-    today = date.today()
-    delivery_date = date(int(date_iso[0:4]), int(
-        date_iso[5:7]), int(date_iso[8:10]))
-    delivery_date_str = delivery_date.strftime("%a")
-    if is_next_week(delivery_date):
-        delivery_date_str = delivery_date.strftime("%a %m/%d")
-
-    return delivery_date_str
-
-
-def write_order_csv(order_info, filename):
-    with open(f"/tmp/{filename}", "w") as order_file:
-        order_writer = csv.writer(
-            order_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
-        order_writer.writerow(['date'])
-        date = format_date(order_info['date'])
-        order_writer.writerow([date])
-
-        order_writer.writerow(['store'])
-        order_writer.writerow([order_info['store']])
-
-        order_writer.writerow(['name', 'upc', 'amount'])
-        order = order_info["items"]
-        for item in order:
-            order_writer.writerow([item['name'], item['upc'], item['amount']])
-
-        order_writer.writerow(['notes'])
-        order_writer.writerow([order_info.get('notes')])
-
 
 def send_order(filename, store_name):
     smtp_config = get_smtp_config()
@@ -147,7 +110,7 @@ def create_order_attachment(filename):
 
     encoders.encode_base64(attachment)
     attachment.add_header("Content-Disposition", "attachment",
-                          filename=f"{str(datetime.now())}_order.csv")
+                          filename=f"{str(datetime.now())}_order.xlsx")
 
     return attachment
 

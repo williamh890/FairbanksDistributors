@@ -31,7 +31,7 @@
           <OrderSuccess />
 
           <div v-if="resp">
-            <!--{{ JSON.stringify(resp) }}-->
+            <h3>Status: {{ resp.body.status }}</h3>
           </div>
         </v-stepper-content>
       </v-stepper-items>
@@ -61,7 +61,8 @@
         </v-card>
       </v-dialog>
 
-      <v-footer fixed height="auto">
+      <v-footer style="left: 50%; margin-right: -50%; transform: translate(-50%, 0); max-width: 600px"
+                fixed height="auto">
         <v-btn color="primary" flat large @click=goBack>
           <v-icon>arrow_back</v-icon>
           Back
@@ -154,7 +155,7 @@ export default {
       this.$http.post(url, formData)
         .then(
           resp => {
-            this.element = 4;
+            this.element = 5;
             this.isLoading = false;
             this.resp = resp;
           }
