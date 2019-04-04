@@ -31,7 +31,7 @@
           <OrderSuccess />
 
           <div v-if="resp">
-            <!--{{ JSON.stringify(resp) }}-->
+            <h3>Status: {{ resp.body.status }}</h3>
           </div>
         </v-stepper-content>
       </v-stepper-items>
