@@ -1,6 +1,10 @@
 
 export const routes = [
     {
+      "storeName": "Test",
+      "rsr": [""]
+    },
+    {
         "storeName": "West Freds",
         "rsr": ["Nick T.", "Bill", "Angus", "Aaron"]
     },
