@@ -149,7 +149,7 @@ export default {
     },
     onAddItem: function() {
       this.$store.dispatch(ADD_ORDER_ITEM, {
-        item: this.currentItem, amount: this.itemAmount
+        item: this.currentItem, amount: parseInt(this.itemAmount)
       });
 
       this.itemAmount = 1;
