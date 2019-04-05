@@ -22,7 +22,7 @@ def get_data(xls_path):
     num_pages = math.ceil(sheet.nrows // 70)
     return_data = []
     for page in range(num_pages):
-        row_range = range(page*70, min(page*70+70, sheet.nrows))
+        row_range = range(page*72, min(page*72+72, sheet.nrows))
         return_data += [[sheet.cell_value(r, c) for c in range(0, 5)] for r in row_range] + \
                        [[sheet.cell_value(r, c) for c in range(5, 10)]
                         for r in row_range]
