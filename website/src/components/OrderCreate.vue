@@ -54,7 +54,7 @@
         </template>
       </v-list>
 
-  <v-dialog v-model="dialog" max-width="290" transition="slide-fade" hide-overlay="True">
+  <v-dialog v-model="dialog" max-width="290" transition="slide-fade">
       <v-card>
         <v-card-title>
           {{ currentItem ? currentItem.name : '' }}

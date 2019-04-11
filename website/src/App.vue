@@ -31,6 +31,7 @@
         v-on:createOrder="createOrder"
         v-on:Logout="onLogout"
       />
+      <!--add new screen for order confirmation here-->
       <Order v-else/>
     </v-content>
   </v-app>
