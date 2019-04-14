@@ -1,65 +1,49 @@
 import xlrd
-
-
-def get_data(book, store):
-    sheet = book.sheet_by_name(store)
-    return_data = []  # Product Description, UPC, Tray
-    return return_data
-
-
-def get_freeze_items():
-
-    return None
+import pprint as pp
 
 
 def get_names_column(sheet):
-    for r in range(1, 4):
+    for r in range(1, min(10, sheet.nrows)):
         for c in range(sheet.ncols):
             if str(sheet.cell_value(r, c)).lower().strip() in ['product description', 'bread type']:
                 return c
     else:
-        print("No column found")
+        # print("No column found in ", sheet.name)
         return -1
 
 
-
-def is_category(row):
-    not_categories = ['', 'Bridges', 'TMD Bottoms', 'TMD Tops', 'Clipstrips', 'Weekenders   Empty',
-                      'Weekenders   Product-', '4X4 Display  Empty', '4X4 Display  Product-', 'Rolling Dip Rack']
-    return row[3].strip() != '' and row[2] not in not_categories
+def is_category(row, names_column):
+    return str(row[names_column-1]).strip().lower() in ['', 'rack'] and str(row[names_column]).strip() != ''
 
 
-def get_categories(data):
-    return [row[1].strip() for row in data if is_category(row)]
+def get_categories(data, names_column):
+    categories = [row[names_column].strip() for row in data if is_category(row, names_column)]
+    return categories if len(categories) != 0 else ['Bread']
+
 
 def get_bread_data(xls_path):
-    # Store names should match those in the excel sheet
-    # stores = ['COSTCO', 'WH Freezer', 'Fred Meyer', 'Military', 'Safeway', 'Walmart']
     book = xlrd.open_workbook(xls_path)
-    print([sheet.name for sheet in book.sheets()])
+    all_stores = {}
     for data in book.sheets():
         names_column = get_names_column(sheet=data)
+        if names_column == -1:
+            continue
+        sheet = [[data.cell_value(r, c) for c in range(0, data.ncols)] for r in range(0, data.nrows)]
         all_items, current_category = {category: []
-                                       for category in get_categories(data)}, None
-        for row in data:
-            if is_category(row):
+                                       for category in get_categories(sheet, names_column)}, 'Bread'
+        for row in sheet:
+            if is_category(row, names_column):
                 current_category = row[names_column].strip()
-            elif row[1] != '':
-                name, oz, upc, case = row[1:]
-                print(name.strip())
-
+            elif row[names_column].lower() not in ['product description', 'bread type', '']:
+                name, upc = row[names_column:names_column+2]
                 item = {
                     'name': name.strip(),
-                    'oz': oz,
-                    'upc': upc,
-                    'case': case
+                    'upc': upc if upc else '',
                 }
-
                 all_items[current_category].append(item)
-    # return_data = []
-    # for store in stores:
-    #     return_data.append(get_data(book, store))
+        all_stores[data.name] = all_items
+    return all_stores
 
 
 if __name__ == "__main__":
-    get_bread_data('./bread.xlsx')
+    pp.pprint(get_bread_data('./bread.xlsx'))
