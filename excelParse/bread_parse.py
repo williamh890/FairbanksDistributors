@@ -23,6 +23,7 @@ def get_categories(data, names_column):
 
 
 def get_bread_data(xls_path):
+    # Based on sheet name, give the data a better name. Later, if it's not in this map, don't parse it.
     name_map = {'COSTCO': 'Costco',
                 'WH Freezer': 'Freeze Bread',
                 'Fred Meyer': 'Fred Meyer',
