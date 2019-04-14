@@ -13,7 +13,8 @@ def get_names_column(sheet):
 
 
 def is_category(row, names_column):
-    return str(row[names_column-1]).strip().lower() in ['', 'rack'] and str(row[names_column]).strip() != ''
+    return str(row[names_column-1]).strip().lower() in ['', 'rack'] and \
+           str(row[names_column]).strip().lower() not in ['', "denny's", 'bread type']
 
 
 def get_categories(data, names_column):
@@ -22,9 +23,20 @@ def get_categories(data, names_column):
 
 
 def get_bread_data(xls_path):
+    name_map = {'COSTCO': 'Costco',
+                'WH Freezer': 'Freeze Bread',
+                'Fred Meyer': 'Fred Meyer',
+                'Military': 'Military',
+                'Greely': 'Greely',
+                'Safeway': 'Safeway',
+                'WalMart': 'Walmart',
+                'Fast Food - Order Only': 'Fast Food',
+                "Denny's": "Denny's"}
     book = xlrd.open_workbook(xls_path)
     all_stores = {}
     for data in book.sheets():
+        if data.name not in name_map:
+            continue
         names_column = get_names_column(sheet=data)
         if names_column == -1:
             continue
@@ -34,14 +46,16 @@ def get_bread_data(xls_path):
         for row in sheet:
             if is_category(row, names_column):
                 current_category = row[names_column].strip()
-            elif row[names_column].lower() not in ['product description', 'bread type', '']:
+            elif row[names_column].lower() not in ['product description', 'bread type', '', "denny's"]:
                 name, upc = row[names_column:names_column+2]
+                tray = row[names_column+3] if row[names_column+3] != '' else row[names_column+2]
                 item = {
                     'name': name.strip(),
                     'upc': upc if upc else '',
+                    'tray': tray,
                 }
                 all_items[current_category].append(item)
-        all_stores[data.name] = all_items
+        all_stores[name_map[data.name]] = all_items
     return all_stores
 
 
