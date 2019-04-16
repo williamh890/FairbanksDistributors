@@ -55,9 +55,18 @@
 
   <v-dialog v-model="dialog" max-width="290" transition="slide-fade" hide-overlay="True">
       <v-card>
-        <v-card-title>
-          {{ currentItem ? currentItem.name : '' }}
-        </v-card-title>
+         <v-card-title v-if="currentItem">
+            <div>
+              <div>
+                <h3>{{ currentItem.name }}</h3>
+              </div>
+              <span>
+                upc: {{ currentItem.upc }},
+                oz: {{ currentItem.oz }},
+                case: {{ currentItem.case }}
+              </span>
+            </div>
+          </v-card-title>
 
             <v-text-field
               style="margin: 10px;"
@@ -178,8 +187,8 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', () => {
-      this.showScrollSelector = (Math.round(window.scrollY) > 175);
-      this.setStick(window.scrollY>220);
+      this.showScrollSelector = Math.round(window.scrollY) > 175;
+      this.setStick(window.scrollY > 220);
     });
   },
   data: () => ({
