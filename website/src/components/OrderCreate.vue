@@ -29,10 +29,6 @@
                 <v-list-tile-title class="title">
                   {{ item.name }}
                 </v-list-tile-title>
-                <v-list-tile-sub-title>
-                  <b>upc:</b> {{ item.upc }}, <b>oz:</b> {{ item.oz }}, <b>case:</b> {{ item.case }}
-
-                </v-list-tile-sub-title>
               </v-list-tile-content>
 
               <v-list-tile-action class="hidden-xs-only">
@@ -86,6 +82,13 @@
         </v-list>
 
         <v-card-actions>
+          <v-btn
+            block
+            color="error"
+            v-on:click="onCloseDialog"
+          >
+            Cancel
+          </v-btn>
           <v-btn
             block
             color="primary"
@@ -142,6 +145,9 @@ export default {
       this.itemAmount = 1;
       this.currentItem = item;
     },
+    onCloseDialog: function() {
+      this.dialog = false;
+    },
     onAmountClicked: function(amount) {
       this.itemAmount = amount;
       this.dialog = false;
@@ -174,7 +180,7 @@ export default {
     });
   },
   data: () => ({
-    numbers: [1,2,3,4,5,6],
+    numbers: [0,1,2,3,4,5,6],
     dialog: false,
     currentItem: null,
     itemAmount: 1,
