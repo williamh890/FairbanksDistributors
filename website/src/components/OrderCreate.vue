@@ -37,7 +37,10 @@
                 </v-btn>
               </v-list-tile-action>
               <v-list-tile-action>
-                 <v-chip color="secondary" text-color="white">
+                 <v-chip v-if="item.amount !== 0" color="primary" text-color="white">
+                   {{ item.amount }}
+                 </v-chip>
+                 <v-chip v-else>
                    {{ item.amount }}
                  </v-chip>
               </v-list-tile-action>
