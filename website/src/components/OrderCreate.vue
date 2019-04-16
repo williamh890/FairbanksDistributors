@@ -145,7 +145,7 @@ export default {
     },
     onOpenDialog: function(item) {
       this.dialog = true;
-      this.itemAmount = 1;
+      this.itemAmount = 0;
       this.currentItem = item;
     },
     onCloseDialog: function() {
@@ -161,7 +161,7 @@ export default {
         item: this.currentItem, amount: parseInt(this.itemAmount)
       });
 
-      this.itemAmount = 1;
+      this.itemAmount = 0;
       this.currentItem = null;
       this.dialog = false;
     },
