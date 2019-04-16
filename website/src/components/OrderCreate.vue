@@ -16,7 +16,7 @@
         v-on:input="onTypeChanged"
         label="Select Item Category"
         ></v-select>
-      <v-list two-line subheader>
+      <v-list subheader>
         <template v-for="item in allItems">
             <v-list-tile
               :key="item.name"
