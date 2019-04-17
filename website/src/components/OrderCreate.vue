@@ -16,7 +16,7 @@
         v-on:input="onTypeChanged"
         label="Select Item Category"
         ></v-select>
-      <v-list two-line subheader>
+      <v-list subheader>
         <template v-for="item in allItems">
             <v-list-tile
               :key="item.name"
@@ -29,10 +29,6 @@
                 <v-list-tile-title class="title">
                   {{ item.name }}
                 </v-list-tile-title>
-                <v-list-tile-sub-title>
-                  <b>upc:</b> {{ item.upc }}, <b>oz:</b> {{ item.oz }}, <b>case:</b> {{ item.case }}
-
-                </v-list-tile-sub-title>
               </v-list-tile-content>
 
               <v-list-tile-action class="hidden-xs-only">
@@ -41,7 +37,10 @@
                 </v-btn>
               </v-list-tile-action>
               <v-list-tile-action>
-                 <v-chip color="secondary" text-color="white">
+                 <v-chip v-if="item.amount !== 0" color="primary" text-color="white">
+                   {{ item.amount }}
+                 </v-chip>
+                 <v-chip v-else>
                    {{ item.amount }}
                  </v-chip>
               </v-list-tile-action>
@@ -56,9 +55,18 @@
 
   <v-dialog v-model="dialog" max-width="290" transition="slide-fade" hide-overlay="True">
       <v-card>
-        <v-card-title>
-          {{ currentItem ? currentItem.name : '' }}
-        </v-card-title>
+         <v-card-title v-if="currentItem">
+            <div>
+              <div>
+                <h3>{{ currentItem.name }}</h3>
+              </div>
+              <span>
+                upc: {{ currentItem.upc }},
+                oz: {{ currentItem.oz }},
+                case: {{ currentItem.case }}
+              </span>
+            </div>
+          </v-card-title>
 
             <v-text-field
               style="margin: 10px;"
@@ -86,6 +94,13 @@
         </v-list>
 
         <v-card-actions>
+          <v-btn
+            block
+            color="error"
+            v-on:click="onCloseDialog"
+          >
+            Cancel
+          </v-btn>
           <v-btn
             block
             color="primary"
@@ -139,8 +154,11 @@ export default {
     },
     onOpenDialog: function(item) {
       this.dialog = true;
-      this.itemAmount = 1;
+      this.itemAmount = 0;
       this.currentItem = item;
+    },
+    onCloseDialog: function() {
+      this.dialog = false;
     },
     onAmountClicked: function(amount) {
       this.itemAmount = amount;
@@ -152,7 +170,7 @@ export default {
         item: this.currentItem, amount: parseInt(this.itemAmount)
       });
 
-      this.itemAmount = 1;
+      this.itemAmount = 0;
       this.currentItem = null;
       this.dialog = false;
     },
@@ -169,12 +187,12 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', () => {
-      this.showScrollSelector = (Math.round(window.scrollY) > 175);
-      this.setStick(window.scrollY>220);
+      this.showScrollSelector = Math.round(window.scrollY) > 175;
+      this.setStick(window.scrollY > 220);
     });
   },
   data: () => ({
-    numbers: [1,2,3,4,5,6],
+    numbers: [0,1,2,3,4,5,6],
     dialog: false,
     currentItem: null,
     itemAmount: 1,
