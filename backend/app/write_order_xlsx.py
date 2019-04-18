@@ -113,7 +113,7 @@ def make_categories(order_info):
     return categories
 
 def get_order_rows(order_info, order_catagories):
-    return len(order_info) + 2*len(order_catagories)
+    return len(order_info['items']) + 2*len(order_catagories)
 
 def write_category(worksheet, category, row_index, column):
     if column == "left":
