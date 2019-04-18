@@ -3,6 +3,7 @@ import email
 from email.contentmanager import ContentManager
 import configparser
 import os
+import time
 
 def get_imap_config():
     config = configparser.ConfigParser()
@@ -45,8 +46,10 @@ def scrape_inbox():
 
 
 if __name__ == "__main__":
-    try:
-        scrape_inbox()
-    except Exception as e:
-        print(e)
+    while(True):
+        try:
+            scrape_inbox()
+        except Exception as e:
+            print(e)
+        time.sleep(5)
     # variable = input("Press something")
