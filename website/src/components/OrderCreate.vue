@@ -60,14 +60,6 @@
             </div>
           </v-card-title>
 
-            <v-text-field
-              style="margin: 10px;"
-              label="Amount"
-              v-model="itemAmount"
-              type="number"
-              required
-          ></v-text-field>
-
       <v-list>
           <v-list-tile
             v-for="(number, i) in numbers"
@@ -78,12 +70,25 @@
             <v-list-tile-content>
               <v-list-tile-title>{{ number }} </v-list-tile-title>
             </v-list-tile-content>
-
-            <v-list-tile-avatar>
-                <v-icon v-if="number === itemAmount">done</v-icon>
-            </v-list-tile-avatar>
           </v-list-tile>
         </v-list>
+
+        <div class="custom-amount-input">
+          <v-text-field
+            style="margin-left: 10px;"
+            label="Custom Amount"
+            v-model="itemAmount"
+            type="number"
+            v-on:keyup.enter="onAddItem"
+            required
+          ></v-text-field>
+
+          <v-btn fab dark small
+            v-on:click="onAddItem"
+            color="primary">
+            <v-icon dark>check</v-icon>
+          </v-btn>
+        </div>
 
         <v-card-actions>
           <v-btn
@@ -92,13 +97,6 @@
             v-on:click="onCloseDialog"
           >
             Cancel
-          </v-btn>
-          <v-btn
-            block
-            color="primary"
-            v-on:click="onAddItem"
-          >
-            Add To Order
           </v-btn>
         </v-card-actions>
 
@@ -174,7 +172,7 @@ export default {
     });
   },
   data: () => ({
-    numbers: [0,1,2,3,4,5,6],
+    numbers: [0,1,2,3,4,5],
     dialog: false,
     currentItem: null,
     itemAmount: 1,
@@ -187,6 +185,9 @@ export default {
 .size {
   max-width: 100%;
   width: 600px;
+}
+.custom-amount-input {
+  display: flex;
 }
 .slide-fade-enter-active {
   transition: all .05s ease;
