@@ -18,17 +18,16 @@
         ></v-select>
       <v-list subheader>
         <template v-for="category of allItems">
+          <v-subheader :id="category.name" class="headline"> {{ category.name }} </v-subheader>
+
           <v-divider></v-divider>
-          <v-toolbar :id="category.name" color="primary" class="headline" dark flat>
-            {{ category.name}}
-          </v-toolbar>
+          <v-spacer></v-spacer>
+
           <template v-for="item in category.items">
-            <v-list-tile
-              v-on:click="onOpenDialog(item)"
-            >
+            <v-list-tile v-on:click="onOpenDialog(item)">
 
               <v-list-tile-content>
-                <v-list-tile-title class="title">
+                <v-list-tile-title>
                   {{ item.name.replace(category.name, '') }}
                 </v-list-tile-title>
               </v-list-tile-content>
