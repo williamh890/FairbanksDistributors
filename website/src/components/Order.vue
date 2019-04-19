@@ -63,11 +63,15 @@
 
       <v-footer style="left: 50%; margin-right: -50%; transform: translate(-50%, 0); max-width: 600px"
                 fixed height="auto">
-        <v-btn color="primary" flat large @click=goBack>
+        <v-btn v-if="element !== 5" color="primary" flat large @click=goBack>
           <v-icon>arrow_back</v-icon>
           Back
         </v-btn>
-        <v-spacer></v-spacer>
+        <v-spacer v-if="element !== 5"></v-spacer>
+        <v-btn color="primary" v-if="element === 5" block center large @click="this.mainMenu">
+              <v-icon>home</v-icon>
+              Return to Main Menu
+            </v-btn>
         <v-btn color="primary" v-if="element <= 3" flat large @click="this.canProgress" right>
           Next
           <v-icon>arrow_forward</v-icon>
@@ -106,7 +110,7 @@ export default {
     },
     password() {
       return this.$store.getters.getPassword;
-    }
+    },
   },
   data() {
     return {
