@@ -18,23 +18,20 @@
         ></v-select>
       <v-list subheader>
         <template v-for="category of allItems">
-          <v-subheader> {{ category.name }} </v-subheader>
+          <v-subheader :id="category.name" class="headline"> {{ category.name }} </v-subheader>
+
+          <v-divider></v-divider>
+          <v-spacer></v-spacer>
+
           <template v-for="item in category.items">
-            <v-list-tile
-              v-on:click="onOpenDialog(item)"
-            >
+            <v-list-tile v-on:click="onOpenDialog(item)">
 
               <v-list-tile-content>
-                <v-list-tile-title class="title">
+                <v-list-tile-title>
                   {{ item.name.replace(category.name, '') }}
                 </v-list-tile-title>
               </v-list-tile-content>
 
-              <v-list-tile-action class="hidden-xs-only">
-                <v-btn icon>
-                  <v-icon>remove</v-icon>
-                </v-btn>
-              </v-list-tile-action>
               <v-list-tile-action>
                  <v-chip v-if="item.amount !== 0" color="primary" text-color="white">
                    {{ item.amount }}
@@ -43,13 +40,8 @@
                    {{ item.amount }}
                  </v-chip>
               </v-list-tile-action>
-              <v-list-tile-action class="hidden-xs-only">
-                <v-btn icon>
-                  <v-icon>add</v-icon>
-                </v-btn>
-              </v-list-tile-action>
             </v-list-tile>
-        </template>
+          </template>
         </template>
       </v-list>
 
@@ -68,14 +60,6 @@
             </div>
           </v-card-title>
 
-            <v-text-field
-              style="margin: 10px;"
-              label="Amount"
-              v-model="itemAmount"
-              type="number"
-              required
-          ></v-text-field>
-
       <v-list>
           <v-list-tile
             v-for="(number, i) in numbers"
@@ -86,12 +70,25 @@
             <v-list-tile-content>
               <v-list-tile-title>{{ number }} </v-list-tile-title>
             </v-list-tile-content>
-
-            <v-list-tile-avatar>
-                <v-icon v-if="number === itemAmount">done</v-icon>
-            </v-list-tile-avatar>
           </v-list-tile>
         </v-list>
+
+        <div class="custom-amount-input">
+          <v-text-field
+            style="margin-left: 10px;"
+            label="Custom Amount"
+            v-model="itemAmount"
+            type="number"
+            v-on:keyup.enter="onAddItem"
+            required
+          ></v-text-field>
+
+          <v-btn fab dark small
+            v-on:click="onAddItem"
+            color="primary">
+            <v-icon dark>check</v-icon>
+          </v-btn>
+        </div>
 
         <v-card-actions>
           <v-btn
@@ -100,13 +97,6 @@
             v-on:click="onCloseDialog"
           >
             Cancel
-          </v-btn>
-          <v-btn
-            block
-            color="primary"
-            v-on:click="onAddItem"
-          >
-            Add To Order
           </v-btn>
         </v-card-actions>
 
@@ -143,7 +133,7 @@ export default {
   methods:  {
     onTypeChanged: function(type) {
       this.$store.dispatch(SET_SELECTED_ITEM_TYPE, type);
-      this.scrollPage(this.selectedItems[0].name);
+      this.scrollPage(type);
       window.scrollBy(0, -60);
     },
       scrollPage: function(index) {
@@ -182,7 +172,7 @@ export default {
     });
   },
   data: () => ({
-    numbers: [0,1,2,3,4,5,6],
+    numbers: [0,1,2,3,4,5],
     dialog: false,
     currentItem: null,
     itemAmount: 1,
@@ -195,6 +185,9 @@ export default {
 .size {
   max-width: 100%;
   width: 600px;
+}
+.custom-amount-input {
+  display: flex;
 }
 .slide-fade-enter-active {
   transition: all .05s ease;
