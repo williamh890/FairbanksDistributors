@@ -32,11 +32,6 @@
                 </v-list-tile-title>
               </v-list-tile-content>
 
-              <v-list-tile-action class="hidden-xs-only">
-                <v-btn icon>
-                  <v-icon>remove</v-icon>
-                </v-btn>
-              </v-list-tile-action>
               <v-list-tile-action>
                  <v-chip v-if="item.amount !== 0" color="primary" text-color="white">
                    {{ item.amount }}
@@ -44,11 +39,6 @@
                  <v-chip v-else>
                    {{ item.amount }}
                  </v-chip>
-              </v-list-tile-action>
-              <v-list-tile-action class="hidden-xs-only">
-                <v-btn icon>
-                  <v-icon>add</v-icon>
-                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
           </template>
