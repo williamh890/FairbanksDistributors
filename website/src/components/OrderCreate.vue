@@ -22,7 +22,6 @@
           <template v-for="item in category.items">
             <v-list-tile
               v-on:click="onOpenDialog(item)"
-              avatar
             >
 
               <v-list-tile-content>

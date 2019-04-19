@@ -148,6 +148,13 @@ export default {
     onSubmitOrder(order, password) {
       this.isLoading = true;
 
+      order.items = order.items.map(
+        category => category.items
+          .map(item => ({ ...item, type: category.name }))
+      ).reduce(
+        (allItems, items) => [...allItems, ...items], []
+      );
+
       const formData = new FormData();
       formData.append('order', JSON.stringify(order));
 
