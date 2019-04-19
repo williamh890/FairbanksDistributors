@@ -41,7 +41,7 @@
               </v-list-tile-action>
               <v-list-tile-action>
                  <v-chip v-bind:color="item.amount !== 0 ? 'primary' : '' "
-                         v-bind:dark="item.amount !== 0 ? true : false">
+                         v-bind:dark="item.amount !== 0">
                    {{ item.amount }}
                  </v-chip>
               </v-list-tile-action>
