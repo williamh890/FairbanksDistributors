@@ -40,10 +40,8 @@
                 </v-btn>
               </v-list-tile-action>
               <v-list-tile-action>
-                 <v-chip v-if="item.amount !== 0" color="primary" text-color="white">
-                   {{ item.amount }}
-                 </v-chip>
-                 <v-chip v-else>
+                 <v-chip v-bind:color="item.amount !== 0 ? 'primary' : '' "
+                         v-bind:dark="item.amount !== 0 ? true : false">
                    {{ item.amount }}
                  </v-chip>
               </v-list-tile-action>
