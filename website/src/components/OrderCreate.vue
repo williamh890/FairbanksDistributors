@@ -19,7 +19,7 @@
       <v-list subheader>
         <template v-for="category of allItems">
           <v-toolbar :id="category.name" color="primary" class="headline" dark flat>
-            <v-icon style="padding-right: 9px" dark>remove</v-icon> {{ category.name}}
+            <v-icon style="padding-right: 9px" small>local_offer</v-icon> {{ category.name}}
           </v-toolbar>
 
           <template v-for="item in category.items">
