@@ -18,7 +18,8 @@
         ></v-select>
       <v-list subheader>
         <template v-for="category of allItems">
-          <v-subheader> {{ category.name }} </v-subheader>
+          <v-divider></v-divider>
+          <v-toolbar color="primary" class="headline" dark dense flat> {{ category.name}} </v-toolbar>
           <template v-for="item in category.items">
             <v-list-tile
               v-on:click="onOpenDialog(item)"
@@ -49,7 +50,7 @@
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>
-        </template>
+          </template>
         </template>
       </v-list>
 
