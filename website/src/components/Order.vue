@@ -15,13 +15,13 @@
       </v-stepper-header>
 
       <v-stepper-items>
-        <v-stepper-content step="1">
+        <v-stepper-content step="1" >
           <OrderSettings />
         </v-stepper-content>
-        <v-stepper-content step="2">
+        <v-stepper-content step="2" class="ma-0 pa-0">
           <OrderCreate />
         </v-stepper-content>
-        <v-stepper-content step="3">
+        <v-stepper-content step="3" class="ma-0 pa-0">
           <OrderReview />
         </v-stepper-content>
         <v-stepper-content step="4">
