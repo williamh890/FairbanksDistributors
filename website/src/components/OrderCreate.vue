@@ -18,10 +18,9 @@
         ></v-select>
       <v-list subheader>
         <template v-for="category of allItems">
-          <v-subheader :id="category.name" class="headline"> {{ category.name }} </v-subheader>
-
-          <v-divider></v-divider>
-          <v-spacer></v-spacer>
+          <v-toolbar :id="category.name" color="primary" class="headline" dark flat>
+            {{ category.name}}
+          </v-toolbar>
 
           <template v-for="item in category.items">
             <v-list-tile v-on:click="onOpenDialog(item)">
@@ -32,7 +31,7 @@
               </v-list-tile-content>
 
               <v-list-tile-action>
-                 <v-chip v-bind:color="item.amount !== 0 ? 'primary' : '' "
+                 <v-chip v-bind:color="item.amount !== 0 ? 'secondary' : '' "
                          v-bind:dark="item.amount !== 0">
                    {{ item.amount }}
                  </v-chip>
