@@ -19,7 +19,9 @@
       <v-list subheader>
         <template v-for="category of allItems">
           <v-divider></v-divider>
-          <v-toolbar color="primary" class="headline" dark dense flat> {{ category.name}} </v-toolbar>
+          <v-toolbar :id="category.name" color="primary" class="headline" dark flat>
+            {{ category.name}}
+          </v-toolbar>
           <template v-for="item in category.items">
             <v-list-tile
               v-on:click="onOpenDialog(item)"
@@ -144,7 +146,7 @@ export default {
   methods:  {
     onTypeChanged: function(type) {
       this.$store.dispatch(SET_SELECTED_ITEM_TYPE, type);
-      this.scrollPage(this.selectedItems[0].name);
+      this.scrollPage(type);
       window.scrollBy(0, -60);
     },
       scrollPage: function(index) {
