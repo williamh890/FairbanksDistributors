@@ -79,11 +79,9 @@
             required
           ></v-text-field>
 
-          <v-btn fab dark small
+          <v-btn small
             v-on:click="onAddItem"
-            color="primary">
-            <v-icon dark>check</v-icon>
-          </v-btn>
+            color="primary" dark>Set</v-btn>
         </div>
 
         <v-card-actions>
@@ -184,6 +182,7 @@ export default {
 }
 .custom-amount-input {
   display: flex;
+  align-items: center;
 }
 .slide-fade-enter-active {
   transition: all .05s ease;
