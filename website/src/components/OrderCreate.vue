@@ -18,9 +18,9 @@
         ></v-select>
       <v-list subheader>
         <template v-for="category of allItems">
-        <v-subheader class="headline">
-            <v-icon color="primary" style="padding-right: 9px" small>local_offer</v-icon> {{ category.name}}
-        </v-subheader>
+        <v-list subheader class="headline">
+            <v-icon color="primary" style="padding-bottom: 3px">folder</v-icon> {{ category.name}}
+        </v-list>
 
           <template v-for="item in category.items">
             <v-list-tile v-on:click="onOpenDialog(item)">
