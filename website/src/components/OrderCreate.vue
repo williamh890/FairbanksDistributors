@@ -23,6 +23,7 @@
             {{ category.name}}
           </v-toolbar>
           <template v-for="item in category.items">
+            <v-divider></v-divider>
             <v-list-tile
               v-on:click="onOpenDialog(item)"
             >
