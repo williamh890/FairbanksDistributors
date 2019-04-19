@@ -17,17 +17,17 @@
         label="Select Item Category"
         ></v-select>
       <v-list subheader>
-        <template v-for="item in allItems">
+        <template v-for="category of allItems">
+          <v-subheader> {{ category.name }} </v-subheader>
+          <template v-for="item in category.items">
             <v-list-tile
-              :key="item.name"
-              :id="item.name"
               v-on:click="onOpenDialog(item)"
               avatar
             >
 
               <v-list-tile-content>
                 <v-list-tile-title class="title">
-                  {{ item.name }}
+                  {{ item.name.replace(category.name, '') }}
                 </v-list-tile-title>
               </v-list-tile-content>
 
@@ -51,9 +51,10 @@
               </v-list-tile-action>
             </v-list-tile>
         </template>
+        </template>
       </v-list>
 
-  <v-dialog v-model="dialog" max-width="290" transition="slide-fade" hide-overlay="True">
+  <v-dialog v-model="dialog" max-width="290" transition="slide-fade" v-bind:hide-overlay="true">
       <v-card>
          <v-card-title v-if="currentItem">
             <div>
@@ -137,7 +138,7 @@ export default {
       return this.$store.getters.orderItems;
     },
     allItems() {
-      return this.$store.getters.getItems;
+      return this.$store.getters.getCategories;
     },
   },
   methods:  {
@@ -173,16 +174,6 @@ export default {
       this.itemAmount = 0;
       this.currentItem = null;
       this.dialog = false;
-    },
-    amountInOrder: function(item, items) {
-
-      const amount = (items.length === 0) ?
-        0 : items
-          .filter(i => i !== item)
-          .map(i => i.amount)
-          .pop();
-
-      return amount;
     },
   },
   mounted() {

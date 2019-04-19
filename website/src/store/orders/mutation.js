@@ -4,7 +4,7 @@ export const SHOWMAIN = 'showMain';
 export const HIDEMAIN = 'hideMain';
 
 export const SET_SELECTED_ITEM_TYPE = 'setSelectedItemType';
-export const SET_ITEMS = 'setItems';
+export const SET_CATEGORIES = 'setCategories';
 
 export const ADD_ORDER_ITEM = 'addOrderItem';
 export const CLEAR_ORDER_ITEMS = 'clearOrderItems';
@@ -31,11 +31,9 @@ export const mutations = {
     state.password = null;
   },
 
-  [SET_ITEMS]: function(state, items) {
-    state.items = items;
-    state.itemTypes = Array.from(new Set(items
-      .map(item => item.type)
-    ));
+  [SET_CATEGORIES]: function(state, categories) {
+    state.categories = categories;
+    state.itemTypes = categories.map(category => category.name);
   },
 
   [SHOWMAIN]: function(state) {
@@ -47,20 +45,11 @@ export const mutations = {
   },
 
   [ADD_ORDER_ITEM]: function(state, orderItem) {
-    for (const testItem in state.order.items) {
-      if (orderItem.item.name === state.order.items[testItem].item.name) {
-        state.order.items.splice(testItem, 1)
-      }
-    }
-    if (orderItem.amount !== 0) {
-      state.order.items = [
-        ...state.order.items, orderItem
-      ];
-    }
-
-    state.items
-      .filter(item => item === orderItem.item)
-      .forEach(item => item.amount = orderItem.amount)
+    state.categories
+      .map(category => category.items
+        .filter(item => item === orderItem.item)
+        .forEach(item => item.amount = orderItem.amount)
+      )
   },
 
   [SET_SELECTED_ITEM_TYPE]: function(state, type) {
@@ -68,11 +57,14 @@ export const mutations = {
   },
 
   [CLEAR_ORDER_ITEMS]: function(state) {
-    state.order.items = [];
-    state.items = state.items.map(item => {
-      item.amount = 0;
-      return item;
-    });
+    state.categories = state.categories.map(category => ({
+        ...category,
+        items: category.items.map(item => {
+          item.amount = 0;
+          return item;
+        })
+      })
+    );
     state.selectedType = null;
   },
 

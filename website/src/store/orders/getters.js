@@ -1,13 +1,24 @@
+const getOrderItems =
+  state => state.categories.map(
+    category => ({
+      ...category,
+      items: category.items
+        .filter(item => item.amount !== 0)
+    }))
+    .filter(category => category.items.length !== 0)
+
+
 export const getters = {
   getPassword: state => state.password,
   getIsLoggedIn: state => state.isLoggedIn,
   getIsMainMenuActive: state => state.mainMenu,
-  getItems: state => state.items,
+  getCategories: state => state.categories,
   getItemTypes: state => state.itemTypes,
   getSelectedType: state => state.selectedType,
-  getSelectedItems: state => state.items
-    .filter(item => item.type === state.selectedType),
-  getOrderItems: state => state.order.items.map(item => item.item),
+  getSelectedItems: state => state.categories
+    .map(category => category.items
+    .filter(item => item.type === state.selectedType)),
+  getOrderItems,
   getRouteRep: state => state.routeRep,
   getOrderDate: state => state.order.date,
   getOrderType: state => state.order.type,
@@ -17,9 +28,7 @@ export const getters = {
   getOrderNotes: state => state.order.orderNotes,
   getOrder: state => ({
     store: state.order.deliveryLocation,
-    items: state.order.items.map(orderItem => {
-        return {...orderItem.item};
-      }),
+    items: getOrderItems(state),
     date: state.order.date,
     notes: state.order.orderNotes,
   })
