@@ -10,8 +10,6 @@
         <v-stepper-step :complete="element > 3" step="3">Review</v-stepper-step>
         <v-divider></v-divider>
         <v-stepper-step :complete="element > 4" step="4">Add Notes</v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step :complete="element > 5" step="5">Success</v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
