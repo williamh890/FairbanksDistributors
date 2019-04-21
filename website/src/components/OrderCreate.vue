@@ -18,7 +18,10 @@
         ></v-select>
       <v-list subheader>
         <template v-for="category of allItems">
-        <v-list subheader class="headline">
+        <v-list
+          :key="category.name"
+          :id="category.name"
+          subheader class="headline">
             <v-icon color="primary" style="padding-bottom: 3px">
               play_arrow
             </v-icon>
@@ -26,7 +29,8 @@
         </v-list>
 
           <template v-for="item in category.items">
-            <v-list-tile v-on:click="onOpenDialog(item)">
+            <v-list-tile
+              v-on:click="onOpenDialog(item)">
               <v-list-tile-content>
                 <v-list-tile-title>
                   {{ item.name.replace(category.name, '') }}
