@@ -18,12 +18,19 @@
         ></v-select>
       <v-list subheader>
         <template v-for="category of allItems">
-          <v-toolbar :id="category.name" color="primary" class="headline" dark flat>
-            {{ category.name}}
-          </v-toolbar>
+        <v-list
+          :key="category.name"
+          :id="category.name"
+          subheader class="headline">
+            <v-icon color="primary" style="padding-bottom: 3px">
+              play_arrow
+            </v-icon>
+          {{category.name}}
+        </v-list>
 
           <template v-for="item in category.items">
-            <v-list-tile v-on:click="onOpenDialog(item)">
+            <v-list-tile
+              v-on:click="onOpenDialog(item)">
               <v-list-tile-content>
                 <v-list-tile-title>
                   {{ item.name.replace(category.name, '') }}
@@ -31,7 +38,7 @@
               </v-list-tile-content>
 
               <v-list-tile-action>
-                 <v-chip v-bind:color="item.amount !== 0 ? 'secondary' : '' "
+                 <v-chip v-bind:color="item.amount !== 0 ? 'primary' : '' "
                          v-bind:dark="item.amount !== 0">
                    {{ item.amount }}
                  </v-chip>
@@ -79,11 +86,9 @@
             required
           ></v-text-field>
 
-          <v-btn fab dark small
+          <v-btn small
             v-on:click="onAddItem"
-            color="primary">
-            <v-icon dark>check</v-icon>
-          </v-btn>
+            color="primary" dark>Set</v-btn>
         </div>
 
         <v-card-actions>
@@ -184,6 +189,7 @@ export default {
 }
 .custom-amount-input {
   display: flex;
+  align-items: center;
 }
 .slide-fade-enter-active {
   transition: all .05s ease;
