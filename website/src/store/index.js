@@ -19,7 +19,7 @@ export default new Vuex.Store({
     password: null,
     isLoggedIn: false,
     mainMenu: false,
-    items: [],
+    categories: [],
     itemTypes: [],
     selectedType: null,
     order: {

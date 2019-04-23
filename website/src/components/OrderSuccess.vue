@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1> Order Sumbitted </h1>
+    <h1> Order Submitted </h1>
     <h2> Delivery Location: {{ deliveryLocation }}</h2>
     <h2> Delivery date: {{ orderDate }} </h2>
   </v-container>

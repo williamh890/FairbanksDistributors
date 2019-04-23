@@ -17,43 +17,32 @@
         label="Select Item Category"
         ></v-select>
       <v-list subheader>
-        <template v-for="item in allItems">
-            <v-list-tile
-              :key="item.name"
-              :id="item.name"
-              v-on:click="onOpenDialog(item)"
-              avatar
-            >
+        <template v-for="category of allItems">
+        <v-toolbar :id="category.name" color="primary" class="headline" dark flat>
+            {{ category.name}}
+        </v-toolbar>
 
+          <template v-for="item in category.items">
+            <v-list-tile
+              v-on:click="onOpenDialog(item)">
               <v-list-tile-content>
-                <v-list-tile-title class="title">
-                  {{ item.name }}
+                <v-list-tile-title>
+                  {{ item.name.replace(category.name, '') }}
                 </v-list-tile-title>
               </v-list-tile-content>
 
-              <v-list-tile-action class="hidden-xs-only">
-                <v-btn icon>
-                  <v-icon>remove</v-icon>
-                </v-btn>
-              </v-list-tile-action>
               <v-list-tile-action>
-                 <v-chip v-if="item.amount !== 0" color="primary" text-color="white">
+                 <v-chip v-bind:color="item.amount !== 0 ? 'primary' : '' "
+                         v-bind:dark="item.amount !== 0">
                    {{ item.amount }}
                  </v-chip>
-                 <v-chip v-else>
-                   {{ item.amount }}
-                 </v-chip>
-              </v-list-tile-action>
-              <v-list-tile-action class="hidden-xs-only">
-                <v-btn icon>
-                  <v-icon>add</v-icon>
-                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
+          </template>
         </template>
       </v-list>
 
-  <v-dialog v-model="dialog" max-width="290" transition="slide-fade" hide-overlay="True">
+  <v-dialog v-model="dialog" max-width="290" transition="slide-fade" v-bind:hide-overlay="true">
       <v-card>
          <v-card-title v-if="currentItem">
             <div>
@@ -68,14 +57,6 @@
             </div>
           </v-card-title>
 
-            <v-text-field
-              style="margin: 10px;"
-              label="Amount"
-              v-model="itemAmount"
-              type="number"
-              required
-          ></v-text-field>
-
       <v-list>
           <v-list-tile
             v-for="(number, i) in numbers"
@@ -86,12 +67,23 @@
             <v-list-tile-content>
               <v-list-tile-title>{{ number }} </v-list-tile-title>
             </v-list-tile-content>
-
-            <v-list-tile-avatar>
-                <v-icon v-if="number === itemAmount">done</v-icon>
-            </v-list-tile-avatar>
           </v-list-tile>
         </v-list>
+
+        <div class="custom-amount-input">
+          <v-text-field
+            style="margin-left: 10px;"
+            label="Custom Amount"
+            v-model="itemAmount"
+            type="number"
+            v-on:keyup.enter="onAddItem"
+            required
+          ></v-text-field>
+
+          <v-btn small
+            v-on:click="onAddItem"
+            color="primary" dark>Set</v-btn>
+        </div>
 
         <v-card-actions>
           <v-btn
@@ -100,13 +92,6 @@
             v-on:click="onCloseDialog"
           >
             Cancel
-          </v-btn>
-          <v-btn
-            block
-            color="primary"
-            v-on:click="onAddItem"
-          >
-            Add To Order
           </v-btn>
         </v-card-actions>
 
@@ -137,13 +122,13 @@ export default {
       return this.$store.getters.orderItems;
     },
     allItems() {
-      return this.$store.getters.getItems;
+      return this.$store.getters.getCategories;
     },
   },
   methods:  {
     onTypeChanged: function(type) {
       this.$store.dispatch(SET_SELECTED_ITEM_TYPE, type);
-      this.scrollPage(this.selectedItems[0].name);
+      this.scrollPage(type);
       window.scrollBy(0, -60);
     },
       scrollPage: function(index) {
@@ -174,16 +159,6 @@ export default {
       this.currentItem = null;
       this.dialog = false;
     },
-    amountInOrder: function(item, items) {
-
-      const amount = (items.length === 0) ?
-        0 : items
-          .filter(i => i !== item)
-          .map(i => i.amount)
-          .pop();
-
-      return amount;
-    },
   },
   mounted() {
     window.addEventListener('scroll', () => {
@@ -192,7 +167,7 @@ export default {
     });
   },
   data: () => ({
-    numbers: [0,1,2,3,4,5,6],
+    numbers: [0,1,2,3,4,5],
     dialog: false,
     currentItem: null,
     itemAmount: 1,
@@ -205,6 +180,10 @@ export default {
 .size {
   max-width: 100%;
   width: 600px;
+}
+.custom-amount-input {
+  display: flex;
+  align-items: center;
 }
 .slide-fade-enter-active {
   transition: all .05s ease;

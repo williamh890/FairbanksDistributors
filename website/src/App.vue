@@ -45,7 +45,7 @@ import { apiUrl } from './data/api';
 
 import {
   LOGIN, LOGOUT, HIDEMAIN,
-  SHOWMAIN, SET_ITEMS
+  SHOWMAIN, SET_CATEGORIES
 } from './store/orders/mutation';
 
 export default {
@@ -63,18 +63,18 @@ export default {
       this.$http.get(url)
         .then(resp => {
           const { categories } = resp.body;
-          let chips = [];
+          let categoriesWithAmount = [];
 
           for (const category of categories) {
             const { items, name } = category;
 
-            const withType = items
-              .map(item => ({...item, type: name, amount: 0}));
+            const withAmount = items
+              .map(item => ({...item, amount: 0}));
 
-            chips = [...chips, ...withType];
+            categoriesWithAmount = [...categoriesWithAmount, { name, items: withAmount }];
           }
 
-          this.$store.dispatch(SET_ITEMS, chips);
+          this.$store.dispatch(SET_CATEGORIES, categoriesWithAmount);
           this.$store.dispatch(LOGIN, password);
         })
     },
