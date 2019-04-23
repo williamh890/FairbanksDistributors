@@ -18,15 +18,9 @@
         ></v-select>
       <v-list subheader>
         <template v-for="category of allItems">
-        <v-list
-          :key="category.name"
-          :id="category.name"
-          subheader class="headline">
-            <v-icon color="primary" style="padding-bottom: 3px">
-              play_arrow
-            </v-icon>
-          {{category.name}}
-        </v-list>
+        <v-toolbar :id="category.name" color="primary" class="headline" dark flat>
+            {{ category.name}}
+        </v-toolbar>
 
           <template v-for="item in category.items">
             <v-list-tile
