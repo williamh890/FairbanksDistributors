@@ -34,8 +34,9 @@
         </v-stepper-content>
       </v-stepper-items>
 
-      <v-snackbar v-model="unselectedSettingsNotifier" :timeout="3000" :color="color">
-        {{ text }}
+      <v-snackbar v-model="snackbarNotifier" :timeout="3000" :color="color">
+        <v-icon dark>error</v-icon>
+        {{ snackbarText }}
       </v-snackbar>
 
       <v-dialog v-model="returnToHomeDialog">
@@ -115,9 +116,9 @@ export default {
       element: 1,
       isLoading: false,
       resp: null,
-      unselectedSettingsNotifier: false,
+      snackbarNotifier: false,
       color: "error",
-      text: "Please select all settings.",
+      snackbarText: "Please select all settings.",
       returnToHomeDialog: false,
     };
   },
@@ -144,7 +145,8 @@ export default {
         this.element++;
       }
       else {
-        this.unselectedSettingsNotifier = true;
+        this.snackbarText = "Please select all settings.";
+        this.snackbarNotifier = true;
       }
     },
     onSubmitOrder(order, password) {
@@ -168,7 +170,12 @@ export default {
             this.isLoading = false;
             this.resp = resp;
           }
-        );
+        )
+              .catch(err=> {
+                this.snackbarText = "No Network Connection";
+                this.isLoading = false;
+                this.snackbarNotifier = true;
+              });
     }
   }
 }
