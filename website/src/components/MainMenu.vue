@@ -6,23 +6,27 @@
           text-xs-center
           pa-5
           column>
-              <v-flex>
-                <v-btn round block large dark
-                  color=primary
-                  v-on:click=newOrder>
-                    Create Order
-                </v-btn>
-              </v-flex>
+              <div class="headline">
+                  Choose Order Type
+              </div>
+              <v-divider></v-divider>
+              <template v-for="type of orderTypes">
+                  <v-flex>
+                      <v-btn round block large dark color="primary"
+                              @click="onOrderTypeSelected(type)">{{type}}
+                      </v-btn>
+                  </v-flex>
+              </template>
               <v-flex>
                 <v-btn round block large dark
                   v-on:click=spreadsheetUpload
-                  color=primary>
+                  color=info>
                    Update Order Items
                 </v-btn>
               </v-flex>
               <v-flex>
                 <v-btn round block large dark
-                  color=primary>
+                  color=info>
                     Settings
                 </v-btn>
               </v-flex>
@@ -40,11 +44,16 @@
 
 <script>
 import store from '../store';
-import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS } from "../store/orders/mutation";
+import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS, SET_ORDER_TYPE } from "../store/orders/mutation";
 
 export default {
   name: 'MainMenu',
   store,
+  computed: {
+    orderTypes() {
+        return this.$store.getters.getOrderTypes;
+    },
+  },
   methods:    {
     newOrder: function () {
       this.$store.dispatch(CLEAR_ORDER_ITEMS);
@@ -53,7 +62,12 @@ export default {
     },
     spreadsheetUpload: function() {
       this.$emit('spreadsheetUpload');
-    }
+    },
+    onOrderTypeSelected: function(type) {
+        this.$store.dispatch(SET_ORDER_TYPE, type);
+        console.log(this.$store.getters.getOrderType);
+        this.newOrder()
+    },
   }
 }
 </script>
