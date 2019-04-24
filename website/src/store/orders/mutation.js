@@ -2,6 +2,8 @@ export const LOGIN = 'login';
 export const LOGOUT = 'logout';
 export const SHOWMAIN = 'showMain';
 export const HIDEMAIN = 'hideMain';
+export const SHOW_UPLOAD = 'showUpload';
+export const HIDE_UPLOAD = 'hideUpload';
 
 export const SET_SELECTED_ITEM_TYPE = 'setSelectedItemType';
 export const SET_CATEGORIES = 'setCategories';
@@ -42,6 +44,14 @@ export const mutations = {
 
   [HIDEMAIN]: function(state) {
     state.mainMenu = false;
+  },
+
+  [SHOW_UPLOAD]: function(state) {
+    state.orderUpdateScreen = true;
+  },
+
+  [HIDE_UPLOAD]: function(state) {
+    state.orderUpdateScreen = false;
   },
 
   [ADD_ORDER_ITEM]: function(state, orderItem) {

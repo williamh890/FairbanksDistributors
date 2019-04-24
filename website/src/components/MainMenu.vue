@@ -15,8 +15,9 @@
               </v-flex>
               <v-flex>
                 <v-btn round block large dark
+                  v-on:click=spreadsheetUpload
                   color=primary>
-                    Edit Order
+                   Update Order Items
                 </v-btn>
               </v-flex>
               <v-flex>
@@ -42,15 +43,18 @@ import store from '../store';
 import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS } from "../store/orders/mutation";
 
 export default {
-    name: 'MainMenu',
-    store,
-    methods:    {
-        newOrder: function () {
-            this.$store.dispatch(CLEAR_ORDER_ITEMS);
-            this.$store.dispatch(CLEAR_ORDER_SETTINGS);
-            this.$emit('createOrder')
-        }
+  name: 'MainMenu',
+  store,
+  methods:    {
+    newOrder: function () {
+      this.$store.dispatch(CLEAR_ORDER_ITEMS);
+      this.$store.dispatch(CLEAR_ORDER_SETTINGS);
+      this.$emit('createOrder');
+    },
+    spreadsheetUpload: function() {
+      this.$emit('spreadsheetUpload');
     }
+  }
 }
 </script>
 

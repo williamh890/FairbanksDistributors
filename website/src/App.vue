@@ -26,10 +26,14 @@
         v-if="!isLoggedIn"
         v-on:login="onLoggin($event)"
       />
+      <SpreadsheetUpload
+        v-else-if="uploadScreenActive"
+        />
       <MainMenu
         v-else-if="mainMenuActive"
         v-on:createOrder="createOrder"
         v-on:Logout="onLogout"
+        v-on:spreadsheetUpload="setUploadSpreadsheetMenu"
       />
       <Order v-else/>
     </v-content>
@@ -39,13 +43,15 @@
 <script>
 import Login from './components/Login';
 import Order from './components/Order';
-import MainMenu from './components/MainMenu'
+import MainMenu from './components/MainMenu';
+import SpreadsheetUpload from './components/SpreadsheetUpload';
 import store from './store';
 import { apiUrl } from './data/api';
 
 import {
   LOGIN, LOGOUT, HIDEMAIN,
-  SHOWMAIN, SET_CATEGORIES
+  SHOWMAIN, SET_CATEGORIES,
+  SHOW_UPLOAD
 } from './store/orders/mutation';
 
 export default {
@@ -54,7 +60,8 @@ export default {
   components: {
     Login,
     MainMenu,
-    Order
+    Order,
+    SpreadsheetUpload
   },
   methods: {
     onLoggin: function(password) {
@@ -87,6 +94,10 @@ export default {
     goHome: function() {
       this.$store.dispatch(SHOWMAIN);
     },
+    setUploadSpreadsheetMenu: function() {
+      console.log('show upload')
+      this.$store.dispatch(SHOW_UPLOAD);
+    }
   },
   computed: {
     isLoggedIn() {
@@ -94,6 +105,9 @@ export default {
     },
     mainMenuActive() {
       return this.$store.getters.getIsMainMenuActive;
+    },
+    uploadScreenActive() {
+      return this.$store.getters.getIsOrderUpdateActive;
     }
   }
 }
