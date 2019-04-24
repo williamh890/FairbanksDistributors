@@ -14,7 +14,7 @@
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn round block large dark
+                <v-btn round disabled block large dark
                   v-on:click=spreadsheetUpload
                   color=primary>
                    Update Order Items
