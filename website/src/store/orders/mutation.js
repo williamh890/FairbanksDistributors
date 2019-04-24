@@ -96,17 +96,17 @@ export const mutations = {
 
   [SET_ORDER_TYPE]: function(state, type) {
     state.order.type = type;
-    if (type === 'Chips') {
-      state.itemTypes = chipTypes;
-      state.items = chips.map(item => {
-      item.amount = 0;
-      return item
-      })
-    }
-    else {
+    // if (type === 'Chips') {
+    //   state.itemTypes = chipTypes;
+    //   state.items = chips.map(item => {
+    //   item.amount = 0;
+    //   return item
+    //   })
+    // }
+    // else {
       state.itemTypes = [];
       state.items = null;
-    }
+    // }
   },
 
   [ADD_ORDER_NOTES]: function(state, notes) {
