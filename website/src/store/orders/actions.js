@@ -11,6 +11,8 @@ import {
   SET_CATEGORIES,
   HIDEMAIN,
   SHOWMAIN,
+  SHOW_UPLOAD,
+  HIDE_UPLOAD,
   ADD_ORDER_NOTES, SET_ORDER_TYPE,
 } from './mutation';
 
@@ -25,6 +27,14 @@ export default {
 
   hideMain({ commit }) {
     commit(HIDEMAIN);
+  },
+
+  showUpload({ commit }) {
+    commit(SHOW_UPLOAD);
+  },
+
+  hideUpload({ commit }) {
+    commit(HIDE_UPLOAD);
   },
 
   setCategories({ commit }, categories) {

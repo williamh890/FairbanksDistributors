@@ -141,10 +141,10 @@ export default {
     },
     canProgress() {
       if (this.$store.getters.getOrderDate != null && this.$store.getters.getDeliveryLocation != null){
-        this.element++
+        this.element++;
       }
       else {
-        this.unselectedSettingsNotifier=true
+        this.unselectedSettingsNotifier = true;
       }
     },
     onSubmitOrder(order, password) {

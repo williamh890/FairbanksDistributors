@@ -12,6 +12,7 @@ export const getters = {
   getPassword: state => state.password,
   getIsLoggedIn: state => state.isLoggedIn,
   getIsMainMenuActive: state => state.mainMenu,
+  getIsOrderUpdateActive: state => state.orderUpdateScreen,
   getCategories: state => state.categories,
   getItemTypes: state => state.itemTypes,
   getSelectedType: state => state.selectedType,
