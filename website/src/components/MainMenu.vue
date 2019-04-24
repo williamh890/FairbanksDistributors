@@ -65,7 +65,6 @@ export default {
     },
     onOrderTypeSelected: function(type) {
         this.$store.dispatch(SET_ORDER_TYPE, type);
-        console.log(this.$store.getters.getOrderType);
         this.newOrder()
     },
   }
