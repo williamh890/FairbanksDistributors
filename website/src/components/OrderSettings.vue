@@ -2,16 +2,6 @@
     <v-container>
         <h1> Order Settings </h1>
         <v-divider></v-divider>
-        <p class="subheading">Delivery Location</p>
-        <v-radio-group @change="onStoreNameChanged">
-            <template v-for="location in storeNames">
-                <v-radio :label="location" :value="location"></v-radio>
-            </template>
-        </v-radio-group>
-        <v-select class='pb-4' disabled label="Order Type" v-on:change="onOrderTypeChanged" :items="orderTypes"
-                  hint="More order types coming soon!" persistent-hint placeholder="Chips">
-                    <!--Remove the pb-4 when you remove the hint-->
-        </v-select>
         <v-menu
           v-model="menu"
           :close-on-content-click="true"
@@ -31,6 +21,16 @@
           ></v-text-field>
           <v-date-picker v-model="date" v-on:input="menu = onDateChanged(date)"></v-date-picker>
         </v-menu>
+        <p class="subheading">Delivery Location</p>
+        <v-radio-group @change="onStoreNameChanged">
+            <template v-for="location in storeNames">
+                <v-radio :label="location" :value="location"></v-radio>
+            </template>
+        </v-radio-group>
+        <v-select class='pb-4' disabled label="Order Type" v-on:change="onOrderTypeChanged" :items="orderTypes"
+                  hint="More order types coming soon!" persistent-hint placeholder="Chips">
+                    <!--Remove the pb-4 when you remove the hint-->
+        </v-select>
     </v-container>
 </template>
 
