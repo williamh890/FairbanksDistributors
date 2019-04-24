@@ -1,7 +1,6 @@
 <template>
     <v-container>
         <h1> Order Settings </h1>
-        <v-divider></v-divider>
         <v-menu
           v-model="menu"
           :close-on-content-click="true"
@@ -21,10 +20,14 @@
           ></v-text-field>
           <v-date-picker v-model="date" v-on:input="menu = onDateChanged(date)"></v-date-picker>
         </v-menu>
-        <p class="subheading">Delivery Location</p>
         <v-radio-group @change="onStoreNameChanged">
+            <template slot="label"> <div class="headline black--text">Delivery Location</div></template>
+            <v-divider></v-divider>
             <template v-for="location in storeNames">
-                <v-radio :label="location" :value="location"></v-radio>
+                <v-radio  :value="location" color="primary">
+                    <template slot="label"> <div class="subheading black--text">{{location}}</div></template>
+                </v-radio>
+
             </template>
         </v-radio-group>
         <v-select class='pb-4' disabled label="Order Type" v-on:change="onOrderTypeChanged" :items="orderTypes"
@@ -86,6 +89,11 @@ function nextDay(date){
 
 </script>
 
-<style scoped>
+<style>
+    /*.v-label {*/
+        /*font-size: 32px*/
+    /*}*/
+</style>
+
 
 </style>
