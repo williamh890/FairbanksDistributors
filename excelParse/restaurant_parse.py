@@ -1,5 +1,4 @@
 import xlrd
-from pprint import pprint
 import json
 
 
@@ -14,19 +13,6 @@ def get_columns_dictionary(sheet):
             elif str(sheet.cell_value(r, c)).lower().strip() in ['product', 'product code']:
                 col_dic['upc'] = c
     return col_dic
-
-
-def is_category(row, names_column):
-    return False
-    # return str(row[names_column-1]).strip().lower() in ['', 'rack'] and \
-    #     str(row[names_column]).strip().lower() not in ['', "denny's", 'bread type']
-
-
-def get_categories(data, names_column):
-    categories = [row[names_column].strip() for row in data if is_category(row, names_column)]
-    print("Categories: ", categories)
-    # return categories if len(categories) != 0 else ['Bread']
-    return ['Bread']
 
 
 def get_starting_row(sheet, names_column):
@@ -64,9 +50,7 @@ def get_bread_data(xls_path):
         sheet = [[data.cell_value(r, c) for c in range(0, data.ncols)] for r in range(0, data.nrows)]
         all_items, current_category = {category: [] for category in ['Bread']}, 'Bread'
         for row in sheet[get_starting_row(data, names_column):]:
-            if is_category(row, names_column):
-                current_category = row[names_column].strip()
-            elif row[names_column].lower() not in ['product description', 'bread type', '', "denny's"]:
+            if row[names_column].lower() not in ['product description', 'bread type', '', "denny's"]:
                 name = row[names_column]
                 tray = row[tray_column] if tray_column else ''
                 upc = row[upc_column]
@@ -89,4 +73,4 @@ def get_bread_data(xls_path):
 
 
 if __name__ == "__main__":
-    pprint(get_bread_data('./restaurant.xls'))
+    get_bread_data('./restaurant.xls')
