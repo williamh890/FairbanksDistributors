@@ -22,12 +22,12 @@
         </v-menu>
         <v-radio-group @change="onStoreNameChanged">
             <template slot="label"> <div class="headline black--text">Delivery Location</div></template>
-            <v-divider></v-divider>
+            <v-divider style="margin-bottom: 10px"></v-divider>
+
             <template v-for="location in storeNames">
                 <v-radio  :value="location" color="primary">
                     <template slot="label"> <div class="subheading black--text">{{location}}</div></template>
                 </v-radio>
-
             </template>
         </v-radio-group>
         <v-select class='pb-4' disabled label="Order Type" v-on:change="onOrderTypeChanged" :items="orderTypes"
