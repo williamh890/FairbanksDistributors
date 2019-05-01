@@ -26,10 +26,14 @@
         v-if="!isLoggedIn"
         v-on:login="onLoggin($event)"
       />
+      <SpreadsheetUpload
+        v-else-if="uploadScreenActive"
+        />
       <MainMenu
         v-else-if="mainMenuActive"
         v-on:createOrder="createOrder"
         v-on:Logout="onLogout"
+        v-on:spreadsheetUpload="setUploadSpreadsheetMenu"
       />
       <!--add new screen for order confirmation here-->
       <Order v-else/>
@@ -40,13 +44,15 @@
 <script>
 import Login from './components/Login';
 import Order from './components/Order';
-import MainMenu from './components/MainMenu'
+import MainMenu from './components/MainMenu';
+import SpreadsheetUpload from './components/SpreadsheetUpload';
 import store from './store';
 import { apiUrl } from './data/api';
 
 import {
   LOGIN, LOGOUT, HIDEMAIN,
-  SHOWMAIN, SET_ITEMS
+  SHOWMAIN, SET_CATEGORIES,
+  SHOW_UPLOAD
 } from './store/orders/mutation';
 
 export default {
@@ -55,7 +61,8 @@ export default {
   components: {
     Login,
     MainMenu,
-    Order
+    Order,
+    SpreadsheetUpload
   },
   methods: {
     onLoggin: function(password) {
@@ -64,18 +71,18 @@ export default {
       this.$http.get(url)
         .then(resp => {
           const { categories } = resp.body;
-          let chips = [];
+          let categoriesWithAmount = [];
 
           for (const category of categories) {
             const { items, name } = category;
 
-            const withType = items
-              .map(item => ({...item, type: name, amount: 0}));
+            const withAmount = items
+              .map(item => ({...item, amount: 0}));
 
-            chips = [...chips, ...withType];
+            categoriesWithAmount = [...categoriesWithAmount, { name, items: withAmount }];
           }
 
-          this.$store.dispatch(SET_ITEMS, chips);
+          this.$store.dispatch(SET_CATEGORIES, categoriesWithAmount);
           this.$store.dispatch(LOGIN, password);
         })
     },
@@ -88,6 +95,10 @@ export default {
     goHome: function() {
       this.$store.dispatch(SHOWMAIN);
     },
+    setUploadSpreadsheetMenu: function() {
+      console.log('show upload')
+      this.$store.dispatch(SHOW_UPLOAD);
+    }
   },
   computed: {
     isLoggedIn() {
@@ -95,6 +106,9 @@ export default {
     },
     mainMenuActive() {
       return this.$store.getters.getIsMainMenuActive;
+    },
+    uploadScreenActive() {
+      return this.$store.getters.getIsOrderUpdateActive;
     }
   }
 }
