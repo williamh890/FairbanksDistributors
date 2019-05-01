@@ -6,17 +6,16 @@
           text-xs-center
           pa-5
           column>
-              <div class="headline">
-                  Choose Order Type
-              </div>
-              <v-divider></v-divider>
               <template v-for="type of orderTypes">
                   <v-flex>
                       <v-btn round block large dark color="primary"
-                              @click="onOrderTypeSelected(type)">{{type}}
+                              @click="onOrderTypeSelected(type)">{{type}} Order
                       </v-btn>
                   </v-flex>
               </template>
+
+              <v-divider style="margin: 10px 0"></v-divider>
+
               <v-flex>
                 <v-btn round block large dark
                   v-on:click=spreadsheetUpload
