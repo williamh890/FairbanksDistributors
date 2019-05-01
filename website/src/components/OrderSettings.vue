@@ -1,15 +1,6 @@
 <template>
     <v-container>
         <h1> Order Settings </h1>
-        <v-select
-          :items="storeNames"
-          v-on:change="onStoreNameChanged"
-          label="Store"
-      ></v-select>
-        <v-select class='pb-4' disabled label="Order Type" v-on:change="onOrderTypeChanged" :items="orderTypes"
-                  hint="More order types coming soon!" persistent-hint placeholder="Chips">
-                    <!--Remove the pb-4 when you remove the hint-->
-        </v-select>
         <v-menu
           v-model="menu"
           :close-on-content-click="true"
@@ -29,6 +20,20 @@
           ></v-text-field>
           <v-date-picker v-model="date" v-on:input="menu = onDateChanged(date)"></v-date-picker>
         </v-menu>
+        <v-radio-group @change="onStoreNameChanged">
+            <template slot="label"> <div class="headline black--text">Delivery Location</div></template>
+            <v-divider style="margin-bottom: 10px"></v-divider>
+
+            <template v-for="location in storeNames">
+                <v-radio  :value="location" color="primary">
+                    <template slot="label"> <div class="subheading black--text">{{location}}</div></template>
+                </v-radio>
+            </template>
+        </v-radio-group>
+        <v-select class='pb-4' disabled label="Order Type" v-on:change="onOrderTypeChanged" :items="orderTypes"
+                  hint="More order types coming soon!" persistent-hint placeholder="Chips">
+                    <!--Remove the pb-4 when you remove the hint-->
+        </v-select>
     </v-container>
 </template>
 
@@ -78,11 +83,17 @@ function nextDay(date){
             routeRep: 'test',
             date: new nextDay(alaskaTime()).toISOString().substr(0, 10),
             menu: false,
+            location: null,
         })
     }
 
 </script>
 
-<style scoped>
+<style>
+    /*.v-label {*/
+        /*font-size: 32px*/
+    /*}*/
+</style>
+
 
 </style>
