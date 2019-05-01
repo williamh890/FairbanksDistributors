@@ -42,6 +42,7 @@
         </template>
       </v-list>
 
+
   <v-dialog v-model="dialog" max-width="290" transition="slide-fade" v-bind:hide-overlay="true">
       <v-card>
          <v-card-title v-if="currentItem">
