@@ -7,24 +7,30 @@
           pa-5
           column>
               <template v-for="type of orderTypes">
-                  <v-flex>
-                      <v-btn round block large dark color="primary"
-                              @click="onOrderTypeSelected(type)">{{type}} Order
-                      </v-btn>
-                  </v-flex>
+                <v-flex v-if="type === 'Chips'">
+                  <v-btn round block large color="primary"
+                          @click="onOrderTypeSelected(type)">{{type}} Order
+                  </v-btn>
+                </v-flex>
+
+                <v-flex v-else>
+                  <v-btn round block large disabled color="primary"
+                          @click="onOrderTypeSelected(type)">{{type}} Order
+                  </v-btn>
+                </v-flex>
               </template>
 
               <v-divider style="margin: 10px 0"></v-divider>
 
               <v-flex>
-                <v-btn round block large dark
+                <v-btn round block large disabled
                   v-on:click=spreadsheetUpload
                   color=info>
                    Update Order Items
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn round block large dark
+                <v-btn round block large disabled
                   color=info>
                     Settings
                 </v-btn>
