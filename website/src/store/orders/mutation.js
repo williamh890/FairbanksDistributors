@@ -25,6 +25,7 @@ export const mutations = {
     state.isLoggedIn = true;
     state.mainMenu = true;
     state.password = password;
+    localStorage.setItem("password", password);
   },
 
   [LOGOUT]: function(state) {
