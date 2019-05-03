@@ -7,7 +7,7 @@
           pa-5
           column>
               <template v-for="type of orderTypes">
-                <v-flex v-if="type === 'Chip'">
+                <v-flex v-if="type === 'Chips'">
                   <v-btn round block large color="primary"
                           @click="onOrderTypeSelected(type)">{{type}} Order
                   </v-btn>
