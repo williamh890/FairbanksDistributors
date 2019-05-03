@@ -175,6 +175,18 @@ def format_date(date_iso):
     return delivery_date_str
 
 
+def get_order_date():
+    time_str = str(datetime.now().time())
+    am_pm = "AM"
+    hours = int(time_str[0:2])
+    if hours > 12:
+        am_pm = "PM"
+        hours = hours % 12
+    minutes = int(time_str[3:5])
+    return format_date(str(date.today())).upper() + " " + \
+        str(hours) + ":" + str(minutes) + " " + am_pm
+
+
 def is_next_week(delivery_date):
     today = date.today()
     return ((delivery_date - today) +
@@ -182,7 +194,7 @@ def is_next_week(delivery_date):
 
 
 def write_header(worksheet, order_info):
-    worksheet.oddHeader.left.text = format_date(str(date.today())).upper()
+    worksheet.oddHeader.left.text = get_order_date()
     worksheet.oddHeader.left.size = "12"
     worksheet.oddHeader.left.font = "Arial"
     worksheet.oddHeader.center.text = "CUSTOMER: " + order_info['store']
