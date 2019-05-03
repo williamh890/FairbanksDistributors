@@ -33,7 +33,7 @@ def write_xlsx(dest_dir, order_info):
 
     format_xlsx(ws)
 
-    write_note(ws, order_info, max(left_row, right_row)+1)
+    write_note(ws, order_info, max(left_row, right_row) + 1)
 
     wb.save(filename=dest_dir)
 
@@ -70,7 +70,10 @@ def make_top(worksheet):
                 pack_cell.value = "PACK"
                 pack_cell.font = small_font
                 worksheet.merge_cells(
-                    start_row=1, start_column=col, end_row=1, end_column=col+1)
+                    start_row=1,
+                    start_column=col,
+                    end_row=1,
+                    end_column=col + 1)
             else:
                 pack_cell.value = "UPC"
                 pack_cell.font = medium_font
@@ -117,13 +120,13 @@ def write_category(worksheet, category, row_index, column):
     if column == "right":
         col = 6
     cat = category[0]['type']
-    category_cell = worksheet.cell(column=col+1, row=row_index)
+    category_cell = worksheet.cell(column=col + 1, row=row_index)
     category_cell.value = cat
     category_cell.font = large_font
     category_cell.alignment = center
     category_cell.fill = category_color
 
-    for cols in range(col, col+5):
+    for cols in range(col, col + 5):
         cell = worksheet.cell(column=cols, row=row_index)
         cell.border = box_border
         cell.fill = category_color
@@ -131,8 +134,8 @@ def write_category(worksheet, category, row_index, column):
     row_increase = 1
     for item in category:
         for col_increase in range(5):
-            cell = worksheet.cell(column=col+col_increase,
-                                  row=row_index+row_increase)
+            cell = worksheet.cell(column=col + col_increase,
+                                  row=row_index + row_increase)
             if col_increase in [0, 1, 3]:
                 cell.font = medium_font
             else:
@@ -152,8 +155,8 @@ def write_category(worksheet, category, row_index, column):
                 cell.alignment = center
         row_increase += 1
 
-    for cols in range(col, col+5):
-        cell = worksheet.cell(column=cols, row=row_index+row_increase)
+    for cols in range(col, col + 5):
+        cell = worksheet.cell(column=cols, row=row_index + row_increase)
         cell.border = side_with_bot_border
 
     return row_index + row_increase + 1
@@ -168,13 +171,26 @@ def format_date(date_iso):
     return delivery_date_str
 
 
+def get_order_date():
+    time_str = str(datetime.now().time())
+    am_pm = "AM"
+    hours = int(time_str[0:2])
+    if hours > 12:
+        am_pm = "PM"
+        hours = hours % 12
+    minutes = int(time_str[3:5])
+    return format_date(str(date.today())).upper() + " " + \
+        str(hours) + ":" + str(minutes) + " " + am_pm
+
+
 def is_next_week(delivery_date):
     today = date.today()
-    return ((delivery_date - today) + timedelta(days=today.weekday()) >= timedelta(days=7))
+    return ((delivery_date - today) +
+            timedelta(days=today.weekday()) >= timedelta(days=7))
 
 
 def write_header(worksheet, order_info):
-    worksheet.oddHeader.left.text = format_date(str(date.today())).upper()
+    worksheet.oddHeader.left.text = get_order_date()
     worksheet.oddHeader.left.size = "12"
     worksheet.oddHeader.left.font = "Arial"
     worksheet.oddHeader.center.text = "CUSTOMER: " + order_info['store']
@@ -206,7 +222,7 @@ def write_note(worksheet, order_info, row_index):
     cell.value = "NOTE:"
     cell.font = medium_font
 
-    cell = worksheet.cell(column=1, row=row_index+1)
+    cell = worksheet.cell(column=1, row=row_index + 1)
     note = list(order_info['notes'])
     index = 1
     rows = 2
@@ -220,8 +236,8 @@ def write_note(worksheet, order_info, row_index):
     wrap_alignment = Alignment(wrap_text=True, vertical="top")
     cell.alignment = wrap_alignment
     cell.value = "".join(note)
-    worksheet.merge_cells(start_row=row_index+1, start_column=1,
-                          end_row=row_index+rows, end_column=10)
+    worksheet.merge_cells(start_row=row_index + 1, start_column=1,
+                          end_row=row_index + rows, end_column=10)
     cell.font = note_font
 
 
@@ -229,7 +245,7 @@ def format_xlsx(worksheet):
     col2_length = 0
     col7_length = 0
     for col, column_cells in enumerate(worksheet.columns):
-        length = max(len(str(cell.value) or "") for cell in column_cells)*1.2
+        length = max(len(str(cell.value) or "") for cell in column_cells) * 1.2
         if col == 1:
             col2_length = length
         if col == 6:
