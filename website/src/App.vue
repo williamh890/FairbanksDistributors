@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-show="checkedStorage">
     <v-toolbar app v-if="isLoggedIn">
       <v-toolbar-items>
         <v-btn large icon v-on:click="goHome">
@@ -35,6 +35,7 @@
         v-on:Logout="onLogout"
         v-on:spreadsheetUpload="setUploadSpreadsheetMenu"
       />
+      <!--add new screen for order confirmation here-->
       <Order v-else/>
     </v-content>
   </v-app>
@@ -63,12 +64,24 @@ export default {
     Order,
     SpreadsheetUpload
   },
+  data: () => ({
+    checkedStorage: false,
+  }),
   methods: {
+    checkStorage: function() {
+      if (localStorage.getItem("password")) {
+          this.onLoggin(localStorage.getItem("password"));
+        }
+      else {
+        this.checkedStorage = true;
+      }
+    },
     onLoggin: function(password) {
       const url = `${apiUrl}/items/chips?auth_key=${password}`;
 
       this.$http.get(url)
         .then(resp => {
+          this.checkedStorage = true;
           const { categories } = resp.body;
           let categoriesWithAmount = [];
 
@@ -87,6 +100,7 @@ export default {
     },
     onLogout: function() {
       this.$store.dispatch(LOGOUT);
+      localStorage.removeItem("password");
     },
     createOrder: function() {
       this.$store.dispatch(HIDEMAIN);
@@ -95,12 +109,13 @@ export default {
       this.$store.dispatch(SHOWMAIN);
     },
     setUploadSpreadsheetMenu: function() {
-      console.log('show upload')
+      console.log('show upload');
       this.$store.dispatch(SHOW_UPLOAD);
     }
   },
   computed: {
     isLoggedIn() {
+      this.checkStorage();
       return this.$store.getters.getIsLoggedIn;
     },
     mainMenuActive() {
