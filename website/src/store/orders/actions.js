@@ -8,9 +8,11 @@ import {
   SET_SELECTED_ITEM_TYPE,
   SET_ORDER_DATE,
   SET_DELIVERY_LOCATION,
-  SET_ITEMS,
+  SET_CATEGORIES,
   HIDEMAIN,
   SHOWMAIN,
+  SHOW_UPLOAD,
+  HIDE_UPLOAD,
   ADD_ORDER_NOTES, SET_ORDER_TYPE,
 } from './mutation';
 
@@ -27,8 +29,16 @@ export default {
     commit(HIDEMAIN);
   },
 
-  setItems({ commit }, items) {
-    commit(SET_ITEMS, items)
+  showUpload({ commit }) {
+    commit(SHOW_UPLOAD);
+  },
+
+  hideUpload({ commit }) {
+    commit(HIDE_UPLOAD);
+  },
+
+  setCategories({ commit }, categories) {
+    commit(SET_CATEGORIES, categories);
   },
 
   showMain({ commit }) {

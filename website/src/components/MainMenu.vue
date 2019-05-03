@@ -6,22 +6,33 @@
           text-xs-center
           pa-5
           column>
+              <template v-for="type of orderTypes">
+                <v-flex v-if="type === 'Chips'">
+                  <v-btn round block large color="primary"
+                          @click="onOrderTypeSelected(type)">{{type}} Order
+                  </v-btn>
+                </v-flex>
+
+                <v-flex v-else>
+                  <v-btn round block large disabled color="primary"
+                          @click="onOrderTypeSelected(type)">{{type}} Order
+                  </v-btn>
+                </v-flex>
+              </template>
+
+              <v-divider style="margin: 10px 0"></v-divider>
+
               <v-flex>
-                <v-btn round block large dark
-                  color=primary
-                  v-on:click=newOrder>
-                    Create Order
+                <v-btn round block large disabled
+
+                  v-on:click=spreadsheetUpload
+                  color=info>
+                   Update Order Items
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn round block large dark
-                  color=primary>
-                    Edit Order
-                </v-btn>
-              </v-flex>
-              <v-flex>
-                <v-btn round block large dark
-                  color=primary>
+                <v-btn round block large disabled
+                  color=info>
                     Settings
                 </v-btn>
               </v-flex>
@@ -39,18 +50,30 @@
 
 <script>
 import store from '../store';
-import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS } from "../store/orders/mutation";
+import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS, SET_ORDER_TYPE } from "../store/orders/mutation";
 
 export default {
-    name: 'MainMenu',
-    store,
-    methods:    {
-        newOrder: function () {
-            this.$store.dispatch(CLEAR_ORDER_ITEMS);
-            this.$store.dispatch(CLEAR_ORDER_SETTINGS);
-            this.$emit('createOrder')
-        }
-    }
+  name: 'MainMenu',
+  store,
+  computed: {
+    orderTypes() {
+        return this.$store.getters.getOrderTypes;
+    },
+  },
+  methods:    {
+    newOrder: function () {
+      this.$store.dispatch(CLEAR_ORDER_ITEMS);
+      this.$store.dispatch(CLEAR_ORDER_SETTINGS);
+      this.$emit('createOrder');
+    },
+    spreadsheetUpload: function() {
+      this.$emit('spreadsheetUpload');
+    },
+    onOrderTypeSelected: function(type) {
+        this.$store.dispatch(SET_ORDER_TYPE, type);
+        this.newOrder()
+    },
+  }
 }
 </script>
 

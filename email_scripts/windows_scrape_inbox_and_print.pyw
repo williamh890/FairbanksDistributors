@@ -36,7 +36,7 @@ def extract_and_write_attachment(msg):
 def scrape_inbox():
     server = get_server()
     server.select('inbox')
-    emails = server.search(None, '(FROM "fdist.smtp@gmail.com" NOT SUBJECT "Test")')
+    emails = server.search(None, 'FROM', '"fdist.smtp@gmail.com"')
     ids = emails[1][0]
     ids = list((ids.decode()).split(' '))
     if ids == ['']:

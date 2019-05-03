@@ -16,57 +16,47 @@
         v-on:input="onTypeChanged"
         label="Select Item Category"
         ></v-select>
-      <v-list two-line subheader>
-        <template v-for="item in allItems">
+      <v-list subheader>
+        <template v-for="category of allItems">
+        <v-toolbar :id="category.name" color="primary" class="headline" dark flat>
+            {{ category.name}}
+        </v-toolbar>
+
+          <template v-for="item in category.items">
             <v-list-tile
-              :key="item.name"
-              :id="item.name"
-              v-on:click="onOpenDialog(item)"
-              avatar
-            >
-
+              v-on:click="onOpenDialog(item)">
               <v-list-tile-content>
-                <v-list-tile-title class="title">
-                  {{ item.name }}
+                <v-list-tile-title>
+                  {{ item.name.replace(category.name, '') }}
                 </v-list-tile-title>
-                <v-list-tile-sub-title>
-                  <b>upc:</b> {{ item.upc }}, <b>oz:</b> {{ item.oz }}, <b>case:</b> {{ item.case }}
-
-                </v-list-tile-sub-title>
               </v-list-tile-content>
 
-              <v-list-tile-action class="hidden-xs-only">
-                <v-btn icon>
-                  <v-icon>remove</v-icon>
-                </v-btn>
-              </v-list-tile-action>
               <v-list-tile-action>
-                 <v-chip color="secondary" text-color="white">
+                 <v-chip v-bind:color="item.amount !== 0 ? 'primary' : '' "
+                         v-bind:dark="item.amount !== 0">
                    {{ item.amount }}
                  </v-chip>
               </v-list-tile-action>
-              <v-list-tile-action class="hidden-xs-only">
-                <v-btn icon>
-                  <v-icon>add</v-icon>
-                </v-btn>
-              </v-list-tile-action>
             </v-list-tile>
+          </template>
         </template>
       </v-list>
 
-  <v-dialog v-model="dialog" max-width="290">
-      <v-card>
-        <v-card-title>
-          {{ currentItem ? currentItem.name : '' }}
-        </v-card-title>
 
-            <v-text-field
-              style="margin: 10px;"
-              label="Amount"
-              v-model="itemAmount"
-              type="number"
-              required
-          ></v-text-field>
+  <v-dialog v-model="dialog" max-width="290" transition="slide-fade" v-bind:hide-overlay="true">
+      <v-card>
+         <v-card-title v-if="currentItem">
+            <div>
+              <div>
+                <h3>{{ currentItem.name }}</h3>
+              </div>
+              <span>
+                upc: {{ currentItem.upc }},
+                oz: {{ currentItem.oz }},
+                case: {{ currentItem.case }}
+              </span>
+            </div>
+          </v-card-title>
 
       <v-list>
           <v-list-tile
@@ -78,20 +68,31 @@
             <v-list-tile-content>
               <v-list-tile-title>{{ number }} </v-list-tile-title>
             </v-list-tile-content>
-
-            <v-list-tile-avatar>
-                <v-icon v-if="number === itemAmount">done</v-icon>
-            </v-list-tile-avatar>
           </v-list-tile>
         </v-list>
+
+        <div class="custom-amount-input">
+          <v-text-field
+            style="margin-left: 10px;"
+            label="Custom Amount"
+            v-model="itemAmount"
+            type="number"
+            v-on:keyup.enter="onAddItem"
+            required
+          ></v-text-field>
+
+          <v-btn small
+            v-on:click="onAddItem"
+            color="primary" dark>Set</v-btn>
+        </div>
 
         <v-card-actions>
           <v-btn
             block
-            color="primary"
-            v-on:click="onAddItem"
+            color="error"
+            v-on:click="onCloseDialog"
           >
-            Add To Order
+            Cancel
           </v-btn>
         </v-card-actions>
 
@@ -122,13 +123,13 @@ export default {
       return this.$store.getters.orderItems;
     },
     allItems() {
-      return this.$store.getters.getItems;
+      return this.$store.getters.getCategories;
     },
   },
   methods:  {
     onTypeChanged: function(type) {
       this.$store.dispatch(SET_SELECTED_ITEM_TYPE, type);
-      this.scrollPage(this.selectedItems[0].name);
+      this.scrollPage(type);
       window.scrollBy(0, -60);
     },
       scrollPage: function(index) {
@@ -139,8 +140,11 @@ export default {
     },
     onOpenDialog: function(item) {
       this.dialog = true;
-      this.itemAmount = 1;
+      this.itemAmount = 0;
       this.currentItem = item;
+    },
+    onCloseDialog: function() {
+      this.dialog = false;
     },
     onAmountClicked: function(amount) {
       this.itemAmount = amount;
@@ -152,29 +156,19 @@ export default {
         item: this.currentItem, amount: parseInt(this.itemAmount)
       });
 
-      this.itemAmount = 1;
+      this.itemAmount = 0;
       this.currentItem = null;
       this.dialog = false;
-    },
-    amountInOrder: function(item, items) {
-
-      const amount = (items.length === 0) ?
-        0 : items
-          .filter(i => i !== item)
-          .map(i => i.amount)
-          .pop();
-
-      return amount;
     },
   },
   mounted() {
     window.addEventListener('scroll', () => {
-      this.showScrollSelector = (Math.round(window.scrollY) > 175);
-      this.setStick(window.scrollY>220);
+      this.showScrollSelector = Math.round(window.scrollY) > 175;
+      this.setStick(window.scrollY > 220);
     });
   },
   data: () => ({
-    numbers: [1,2,3,4,5,6],
+    numbers: [0,1,2,3,4,5],
     dialog: false,
     currentItem: null,
     itemAmount: 1,
@@ -187,5 +181,20 @@ export default {
 .size {
   max-width: 100%;
   width: 600px;
+}
+.custom-amount-input {
+  display: flex;
+  align-items: center;
+}
+.slide-fade-enter-active {
+  transition: all .05s ease;
+}
+.slide-fade-leave-active {
+  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateY(30px);
+  opacity: 0;
 }
 </style>

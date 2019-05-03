@@ -19,7 +19,8 @@ export default new Vuex.Store({
     password: null,
     isLoggedIn: false,
     mainMenu: false,
-    items: [],
+    orderUpdateScreen: false,
+    categories: [],
     itemTypes: [],
     selectedType: null,
     order: {

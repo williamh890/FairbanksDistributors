@@ -3,6 +3,7 @@ from datetime import datetime, date, timedelta
 from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 import pytz
+import math
 
 # set fonts for sheet
 small_font = Font(b=True, name='Arial', size=8)
@@ -88,10 +89,11 @@ def make_top(worksheet):
 
 def write_categories(worksheet, order_info):
     categories = make_categories(order_info)
+    rows_height = math.ceil(get_order_rows(order_info, categories)/2) + 3
     left_row = 3
     right_row = 3
     for category in categories:
-        if left_row <= right_row:
+        if left_row <= rows_height:
             left_row = write_category(
                 worksheet, categories[category], left_row, "left")
         else:
@@ -114,6 +116,8 @@ def make_categories(order_info):
 
     return categories
 
+def get_order_rows(order_info, order_catagories):
+    return len(order_info['items']) + 2*len(order_catagories)
 
 def write_category(worksheet, category, row_index, column):
     if column == "left":
@@ -226,14 +230,21 @@ def write_note(worksheet, order_info, row_index):
 
     cell = worksheet.cell(column=1, row=row_index + 1)
     note = list(order_info['notes'])
-    index = 1
+    index = 0
+    lineLength = 0
     rows = 2
     while index < len(note):
-        if index % 100 == 0:
-            while note[index] != " ":
+        if note[index] == '\n':
+            rows += 1
+            lineLength = 0
+        elif lineLength == 100:
+            while note[index] != " " and note[index] != "\n":
+                lineLength += 1
                 index += 1
             note[index] = '\n'
+            lineLength = 0
             rows += 1
+        lineLength += 1
         index += 1
     wrap_alignment = Alignment(wrap_text=True, vertical="top")
     cell.alignment = wrap_alignment
