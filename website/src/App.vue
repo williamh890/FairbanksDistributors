@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-show="checkedStorage">
     <v-toolbar app v-if="isLoggedIn">
       <v-toolbar-items>
         <v-btn large icon v-on:click="goHome">
