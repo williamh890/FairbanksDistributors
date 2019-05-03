@@ -2,6 +2,7 @@ from openpyxl import Workbook
 from datetime import datetime, date, timedelta
 from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
+import pytz
 
 # set fonts for sheet
 small_font = Font(b=True, name='Arial', size=8)
@@ -172,15 +173,16 @@ def format_date(date_iso):
 
 
 def get_order_date():
-    time_str = str(datetime.now().time())
+    timezone = pytz.timezone("America/Anchorage")
+    time_str = str(timezone.localize(datetime.now()).time())
     am_pm = "AM"
     hours = int(time_str[0:2])
     if hours > 12:
         am_pm = "PM"
         hours = hours % 12
-    minutes = int(time_str[3:5])
+    minutes = time_str[3:5]
     return format_date(str(date.today())).upper() + " " + \
-        str(hours) + ":" + str(minutes) + " " + am_pm
+        str(hours) + ":" + minutes + " " + am_pm
 
 
 def is_next_week(delivery_date):
