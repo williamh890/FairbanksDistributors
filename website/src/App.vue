@@ -76,7 +76,6 @@ export default {
         this.checkedStorage = true;
       }
     },
-  methods: {
     onLoggin: function(password) {
       const url = `${apiUrl}/items/chips?auth_key=${password}`;
 
@@ -110,7 +109,7 @@ export default {
       this.$store.dispatch(SHOWMAIN);
     },
     setUploadSpreadsheetMenu: function() {
-      console.log('show upload')
+      console.log('show upload');
       this.$store.dispatch(SHOW_UPLOAD);
     }
   },
