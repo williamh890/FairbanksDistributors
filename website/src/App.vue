@@ -64,12 +64,25 @@ export default {
     Order,
     SpreadsheetUpload
   },
+  data: () => ({
+    checkedStorage: false,
+  }),
+  methods: {
+    checkStorage: function() {
+      if (localStorage.getItem("password")) {
+          this.onLoggin(localStorage.getItem("password"));
+        }
+      else {
+        this.checkedStorage = true;
+      }
+    },
   methods: {
     onLoggin: function(password) {
       const url = `${apiUrl}/items/chips?auth_key=${password}`;
 
       this.$http.get(url)
         .then(resp => {
+          this.checkedStorage = true;
           const { categories } = resp.body;
           let categoriesWithAmount = [];
 
@@ -88,6 +101,7 @@ export default {
     },
     onLogout: function() {
       this.$store.dispatch(LOGOUT);
+      localStorage.removeItem("password");
     },
     createOrder: function() {
       this.$store.dispatch(HIDEMAIN);
@@ -102,6 +116,7 @@ export default {
   },
   computed: {
     isLoggedIn() {
+      this.checkStorage();
       return this.$store.getters.getIsLoggedIn;
     },
     mainMenuActive() {
