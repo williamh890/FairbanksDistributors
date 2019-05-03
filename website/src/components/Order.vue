@@ -166,9 +166,16 @@ export default {
       this.$http.post(url, formData)
         .then(
           resp => {
-            this.element = 5;
-            this.isLoading = false;
-            this.resp = resp;
+            if (resp.body.status === "order failed") {
+              this.snackbarText = "Order Failed";
+              this.isLoading = false;
+              this.snackbarNotifier = true;
+            }
+            else {
+              this.element = 5;
+              this.isLoading = false;
+              this.resp = resp;
+            }
           }
         )
               .catch(err=> {
