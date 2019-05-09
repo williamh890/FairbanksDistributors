@@ -5,6 +5,10 @@ export const routes = [
       "rsr": [""]
     },
     {
+      "storeName": "Eielson Shoppette",
+      "rsr": [""]
+    },
+    {
         "storeName": "West Freds",
         "rsr": ["Nick T.", "Bill", "Angus", "Aaron"]
     },
