@@ -39,7 +39,11 @@ export const routes = [
     {
         "storeName": "Wainwright Commissary",
         "rsr": ["Terry C.", "Ryan"]
-    }
+    },
+    {
+      "storeName": "Eielson Shoppette",
+      "rsr": [""]
+    },
 ];
 
 export const routeServiceReps = Array.from( new Set(routes
