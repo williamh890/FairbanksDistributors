@@ -37,13 +37,22 @@ def login():
 @order.route('/items/chips', methods=['GET'])
 @authenticate
 def get_chips():
+    return load_from_s3('chips.json')
+
+
+@order.route('/items/bread', methods=['GET'])
+@authenticate
+def get_bread():
+    return load_from_s3('bread.json')
+
+
+def load_from_s3(filename):
     BUCKET_NAME = 'fd-order-app-storage'
-    KEY = 'chips.json'
 
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(BUCKET_NAME)
 
-    download_path = pl.Path('/') / 'tmp' / KEY
+    download_path = pl.Path('/') / 'tmp' / key
     bucket.download_file(KEY, str(download_path))
 
     with download_path.open('r') as f:
@@ -69,15 +78,16 @@ def place_order():
     if request.method == 'POST':
         try:
             data = json.loads(request.form['order'])
-            write_xlsx(f"/tmp/{filename}",data)
+            write_xlsx(f"/tmp/{filename}", data)
             send_order(filename, data['store'])
         except Exception as e:
             return order_failure(str(e))
     else:
-        write_xlsx(f"/tmp/{filename}",{"date": "2002-02-02", "store": "safeway",
-                         "items": [{"name": "chip", "upc": "test", "amount": 0}]})
+        write_xlsx(f"/tmp/{filename}", {"date": "2002-02-02", "store": "safeway",
+                                        "items": [{"name": "chip", "upc": "test", "amount": 0}]})
         send_order(filename, "safeway")
     return order_success()
+
 
 def send_order(filename, store_name):
     smtp_config = get_smtp_config()

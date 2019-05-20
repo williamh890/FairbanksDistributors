@@ -82,21 +82,8 @@ export default {
       this.$http.get(url)
         .then(resp => {
           this.checkedStorage = true;
-          const { categories } = resp.body;
-          let categoriesWithAmount = [];
-
-          for (const category of categories) {
-            const { items, name } = category;
-
-            const withAmount = items
-              .map(item => ({...item, amount: 0}));
-
-            categoriesWithAmount = [...categoriesWithAmount, { name, items: withAmount }];
-          }
-
-          this.$store.dispatch(SET_CATEGORIES, categoriesWithAmount);
           this.$store.dispatch(LOGIN, password);
-        })
+        });
     },
     onLogout: function() {
       this.$store.dispatch(LOGOUT);

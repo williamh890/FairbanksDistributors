@@ -9,13 +9,13 @@
               <template v-for="type of orderTypes">
                 <v-flex v-if="type === 'Chips'">
                   <v-btn round block large color="primary"
-                          @click="onOrderTypeSelected(type)">{{type}} Order
+                          @click="onOrderTypeSelected(type, password)">{{type}} Order
                   </v-btn>
                 </v-flex>
 
                 <v-flex v-else>
                   <v-btn round block large disabled color="primary"
-                          @click="onOrderTypeSelected(type)">{{type}} Order
+                          @click="onOrderTypeSelected(type, password)">{{type}} Order
                   </v-btn>
                 </v-flex>
               </template>
@@ -50,7 +50,11 @@
 
 <script>
 import store from '../store';
-import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS, SET_ORDER_TYPE } from "../store/orders/mutation";
+import {
+  CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS,
+  SET_ORDER_TYPE, SET_CATEGORIES,
+} from "../store/orders/mutation";
+import { apiUrl } from '../data/api.js';
 
 export default {
   name: 'MainMenu',
@@ -58,6 +62,9 @@ export default {
   computed: {
     orderTypes() {
         return this.$store.getters.getOrderTypes;
+    },
+    password() {
+      return this.$store.getters.getPassword;
     },
   },
   methods:    {
@@ -69,9 +76,27 @@ export default {
     spreadsheetUpload: function() {
       this.$emit('spreadsheetUpload');
     },
-    onOrderTypeSelected: function(type) {
-        this.$store.dispatch(SET_ORDER_TYPE, type);
-        this.newOrder()
+    onOrderTypeSelected: function(type, password) {
+      const url = `${apiUrl}/items/${type.toLowerCase()}?auth_key=${password}`;
+
+      this.$http.get(url)
+        .then(resp => {
+          const { categories } = resp.body;
+          let categoriesWithAmount = [];
+
+          for (const category of categories) {
+            const { items, name } = category;
+
+            const withAmount = items
+              .map(item => ({...item, amount: 0}));
+
+            categoriesWithAmount = [...categoriesWithAmount, { name, items: withAmount }];
+          }
+
+          this.$store.dispatch(SET_CATEGORIES, categoriesWithAmount);
+          this.$store.dispatch(SET_ORDER_TYPE, type);
+          this.newOrder()
+        });
     },
   }
 }
