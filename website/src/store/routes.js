@@ -44,6 +44,10 @@ export const routes = [
       "storeName": "Eielson Shoppette",
       "rsr": [""]
     },
+    {
+      "storeName": "SD Bulk Plant",
+      "rsr": [""]
+    },
 ];
 
 export const routeServiceReps = Array.from( new Set(routes
