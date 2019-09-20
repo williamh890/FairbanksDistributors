@@ -54,7 +54,7 @@ def get_chips():
 
 @order.route('/items/freezer_bread', methods=['GET'])
 @authenticate
-def get_chips(): 
+def get_freeze_bread(): 
     BUCKET_NAME = 'fd-order-app-storage'
     KEY = 'freezer_bread.json'
 
