@@ -7,6 +7,9 @@ export const HIDE_UPLOAD = 'hideUpload';
 
 export const SET_SELECTED_ITEM_TYPE = 'setSelectedItemType';
 export const SET_CATEGORIES = 'setCategories';
+export const SET_DATA = 'setData';
+
+export const LOAD_ITEM_DATA = 'loadItemData';
 
 export const ADD_ORDER_ITEM = 'addOrderItem';
 export const CLEAR_ORDER_ITEMS = 'clearOrderItems';
@@ -35,6 +38,28 @@ export const mutations = {
   },
 
   [SET_CATEGORIES]: function(state, categories) {
+    state.categories = categories;
+    state.itemTypes = categories.map(category => category.name);
+  },
+
+  [SET_DATA]: function(state, data_tuple) {
+    const data_type = data_tuple.data_type;
+    const data = data_tuple.data;
+    state [{data_type} ] = data;
+  },
+
+  [LOAD_ITEM_DATA]: function(state, item_type) {
+    const { categories } = state[{item_type}];
+    let categoriesWithAmount = [];
+
+    for (const category of categories) {
+      const { items, name } = category;
+
+      const withAmount = items
+        .map(item => ({...item, amount: 0}));
+
+      categoriesWithAmount = [...categoriesWithAmount, { name, items: withAmount }];
+    }
     state.categories = categories;
     state.itemTypes = categories.map(category => category.name);
   },

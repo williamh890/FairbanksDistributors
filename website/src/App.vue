@@ -51,7 +51,7 @@ import { apiUrl } from './data/api';
 
 import {
   LOGIN, LOGOUT, HIDEMAIN,
-  SHOWMAIN, SET_CATEGORIES,
+  SHOWMAIN, SET_CATEGORIES, SET_DATA,
   SHOW_UPLOAD
 } from './store/orders/mutation';
 
@@ -82,19 +82,10 @@ export default {
       this.$http.get(url)
         .then(resp => {
           this.checkedStorage = true;
-          const { categories } = resp.body;
-          let categoriesWithAmount = [];
-
-          for (const category of categories) {
-            const { items, name } = category;
-
-            const withAmount = items
-              .map(item => ({...item, amount: 0}));
-
-            categoriesWithAmount = [...categoriesWithAmount, { name, items: withAmount }];
-          }
-
-          this.$store.dispatch(SET_CATEGORIES, categoriesWithAmount);
+          const chip_tuple = {data_type: 'chips', data: resp.body};
+          this.$store.dispatch(SET_DATA, chip_tuple);
+          const freezer_bread_tuple = {data_type: 'freezer_bread', data: resp.body};
+          this.$store.dispatch(SET_DATA, freezer_bread_tuple);
           this.$store.dispatch(LOGIN, password);
         })
     },

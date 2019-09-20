@@ -22,6 +22,8 @@ export default new Vuex.Store({
     orderUpdateScreen: false,
     categories: [],
     itemTypes: [],
+    chips: [],
+    freezer_bread: [],
     selectedType: null,
     order: {
       items:[],
