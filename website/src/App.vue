@@ -78,15 +78,20 @@ export default {
     },
     onLoggin: function(password) {
       const url = `${apiUrl}/items/chips?auth_key=${password}`;
-
+      const freezer_bread_url = `${apiUrl}/items/freezer_bread?auth_key=${password}`;
+      
       this.$http.get(url)
         .then(resp => {
           this.checkedStorage = true;
           const chip_tuple = {data_type: 'chips', data: resp.body};
           this.$store.dispatch(SET_DATA, chip_tuple);
+          this.$store.dispatch(LOGIN, password);
+        })
+
+      this.$http.get(freezer_bread_url)
+        .then(resp => {
           const freezer_bread_tuple = {data_type: 'freezer_bread', data: resp.body};
           this.$store.dispatch(SET_DATA, freezer_bread_tuple);
-          this.$store.dispatch(LOGIN, password);
         })
     },
     onLogout: function() {
