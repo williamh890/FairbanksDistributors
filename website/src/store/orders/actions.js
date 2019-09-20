@@ -43,8 +43,8 @@ export default {
     commit(SET_CATEGORIES, categories);
   },
 
-  setData({ commit }, data_type, data) {
-    commit(SET_DATA, data_type, data);
+  setData({ commit }, data_tuple) {
+    commit(SET_DATA, data_tuple);
   },
 
   loadItemData({ commit}, data_type) {
