@@ -7,7 +7,7 @@
           pa-5
           column>
               <template v-for="type of orderTypes">
-                <v-flex v-if="type === 'Chips'">
+                <v-flex v-if="type === 'Chips' || type === 'Frozen Bread'">
                   <v-btn round block large color="primary"
                           @click="onOrderTypeSelected(type)">{{type}} Order
                   </v-btn>
@@ -50,7 +50,7 @@
 
 <script>
 import store from '../store';
-import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS, SET_ORDER_TYPE } from "../store/orders/mutation";
+import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS, SET_ORDER_TYPE, SET_DATA, LOAD_ITEM_DATA } from "../store/orders/mutation";
 
 export default {
   name: 'MainMenu',
@@ -71,6 +71,7 @@ export default {
     },
     onOrderTypeSelected: function(type) {
         this.$store.dispatch(SET_ORDER_TYPE, type);
+        this.$store.dispatch(LOAD_ITEM_DATA, type);
         this.newOrder()
     },
   }

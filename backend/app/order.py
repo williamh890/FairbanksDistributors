@@ -36,9 +36,27 @@ def login():
 
 @order.route('/items/chips', methods=['GET'])
 @authenticate
-def get_chips():
+def get_chips(): 
     BUCKET_NAME = 'fd-order-app-storage'
     KEY = 'chips.json'
+
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket(BUCKET_NAME)
+
+    download_path = pl.Path('/') / 'tmp' / KEY
+    bucket.download_file(KEY, str(download_path))
+
+    with download_path.open('r') as f:
+        items = json.load(f)
+
+    return jsonify(items)
+
+
+@order.route('/items/freezer_bread', methods=['GET'])
+@authenticate
+def get_chips(): 
+    BUCKET_NAME = 'fd-order-app-storage'
+    KEY = 'freezer_bread.json'
 
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(BUCKET_NAME)
