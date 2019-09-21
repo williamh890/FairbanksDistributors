@@ -161,7 +161,12 @@ export default {
         }
       }
       else if (direction === "Left") {
-        this.canProgress();
+        if (this.element === 4) {
+          this.onSubmitOrder();
+        }
+        else {
+          this.canProgress();
+        }
       }
     },
     onSubmitOrder(order, password) {
