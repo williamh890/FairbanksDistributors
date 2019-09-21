@@ -151,7 +151,9 @@ def write_category(worksheet, category, row_index, column):
             elif col_increase == 1:
                 cell.value = item['name']
             elif col_increase == 2:
-                cell.value = item['oz']
+                if item['oz']:
+                    cell.value = item['oz']
+                cell.value = 0
             elif col_increase == 3:
                 cell.value = item['upc']
             elif col_increase == 4:
