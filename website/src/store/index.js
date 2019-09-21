@@ -32,7 +32,7 @@ export default new Vuex.Store({
       orderNotes: '',
     },
     storeNames: storeNames,
-    orderTypes: ['Chips', 'Frozen Bread', 'Fresh Bread', 'Tortillas/Salsa'],
+    orderTypes: ['Chips', 'Freezer Bread', 'Fresh Bread', 'Tortillas/Salsa'],
   },
   actions,
   mutations,
