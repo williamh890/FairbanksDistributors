@@ -161,10 +161,7 @@ export default {
         }
       }
       else if (direction === "Left") {
-        if (this.element === 4) {
-          this.onSubmitOrder();
-        }
-        else {
+        if (this.element !== 4) {
           this.canProgress();
         }
       }
@@ -189,6 +186,7 @@ export default {
               this.snackbarText = "Order Failed";
               this.isLoading = false;
               this.snackbarNotifier = true;
+              console.log(resp.body);
             }
             else {
               this.element = 5;
