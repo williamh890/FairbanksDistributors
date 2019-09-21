@@ -60,8 +60,8 @@ export const mutations = {
 
       categoriesWithAmount = [...categoriesWithAmount, { name, items: withAmount }];
     }
-    state.categories = categories;
-    state.itemTypes = categories.map(category => category.name);
+    state.categories = categoriesWithAmount;
+    state.itemTypes = categoriesWithAmount.map(category => category.name);
   },
 
   [SHOWMAIN]: function(state) {
