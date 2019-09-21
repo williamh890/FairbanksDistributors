@@ -70,9 +70,16 @@ export default {
       this.$emit('spreadsheetUpload');
     },
     onOrderTypeSelected: function(type) {
-        this.$store.dispatch(SET_ORDER_TYPE, type);
-        this.$store.dispatch(LOAD_ITEM_DATA, type);
-        this.newOrder()
+      var item_type;
+      if (type === 'Chips') {
+        item_type = 'chips';
+      }
+      else if (type === 'Freezer Bread') {
+        item_type = 'freezer_bread';
+      }
+      this.$store.dispatch(SET_ORDER_TYPE, item_type);
+      this.$store.dispatch(LOAD_ITEM_DATA, item_type);
+      this.newOrder()
     },
   }
 }
