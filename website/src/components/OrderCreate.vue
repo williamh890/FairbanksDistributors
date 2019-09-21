@@ -135,7 +135,7 @@ export default {
       return this.$store.getters.getSelectedType;
     },
     orderItems() {
-      return this.$store.getters.orderItems;
+      return this.$store.getters.getOrderItems;
     },
     allItems() {
       return this.$store.getters.getCategories;
