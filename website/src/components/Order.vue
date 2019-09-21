@@ -1,6 +1,11 @@
 <template>
   <v-container class="size" fluid grid-list-xl>
-    <v-stepper v-model="element">
+    <v-stepper v-model="element" v-touch="{
+        left: () => swipe('Left'),
+        right: () => swipe('Right'),
+        up: () => swipe('Up'),
+        down: () => swipe('Down')
+      }">
 
       <v-stepper-header>
         <v-stepper-step :complete="element > 1" step="1">Settings</v-stepper-step>
