@@ -7,7 +7,7 @@
           pa-5
           column>
               <template v-for="type of orderTypes">
-                <v-flex v-if="type === 'Chips' || type === 'Frozen Bread'">
+                <v-flex v-if="type === 'Chips' || type === 'Freezer Bread'">
                   <v-btn round block large color="primary"
                           @click="onOrderTypeSelected(type)">{{type}} Order
                   </v-btn>
@@ -70,9 +70,16 @@ export default {
       this.$emit('spreadsheetUpload');
     },
     onOrderTypeSelected: function(type) {
-        this.$store.dispatch(SET_ORDER_TYPE, type);
-        this.$store.dispatch(LOAD_ITEM_DATA, type);
-        this.newOrder()
+      var item_type;
+      if (type === 'Chips') {
+        item_type = 'chips';
+      }
+      else if (type === 'Freezer Bread') {
+        item_type = 'freezer_bread';
+      }
+      this.$store.dispatch(SET_ORDER_TYPE, item_type);
+      this.$store.dispatch(LOAD_ITEM_DATA, item_type);
+      this.newOrder()
     },
   }
 }

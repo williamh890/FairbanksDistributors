@@ -43,13 +43,11 @@ export const mutations = {
   },
 
   [SET_DATA]: function(state, data_tuple) {
-    const data_type = data_tuple.data_type;
-    const data = data_tuple.data;
-    state [{data_type} ] = data;
+    state.order_data_tuples[data_tuple.data_type] = data_tuple.data;
   },
 
-  [LOAD_ITEM_DATA]: function(state, item_type) {
-    const { categories } = state[{item_type}];
+  [LOAD_ITEM_DATA]: function(state, type) {
+    const { categories } = state.order_data_tuples[type];
     let categoriesWithAmount = [];
 
     for (const category of categories) {
@@ -60,8 +58,8 @@ export const mutations = {
 
       categoriesWithAmount = [...categoriesWithAmount, { name, items: withAmount }];
     }
-    state.categories = categories;
-    state.itemTypes = categories.map(category => category.name);
+    state.categories = categoriesWithAmount;
+    state.itemTypes = categoriesWithAmount.map(category => category.name);
   },
 
   [SHOWMAIN]: function(state) {

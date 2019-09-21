@@ -1,6 +1,11 @@
 <template>
   <v-container class="size" fluid grid-list-xl>
-    <v-stepper v-model="element">
+    <v-stepper v-model="element" v-touch="{
+        left: () => swipe('Left'),
+        right: () => swipe('Right'),
+        up: () => swipe('Up'),
+        down: () => swipe('Down')
+      }">
 
       <v-stepper-header>
         <v-stepper-step :complete="element > 1" step="1">Settings</v-stepper-step>
@@ -149,9 +154,23 @@ export default {
         this.snackbarNotifier = true;
       }
     },
+    swipe (direction) {
+      if (direction === "Right") {
+        if (this.element !== 5){
+          this.goBack();
+        }
+      }
+      else if (direction === "Left") {
+        if (this.element === 4) {
+          this.onSubmitOrder();
+        }
+        else {
+          this.canProgress();
+        }
+      }
+    },
     onSubmitOrder(order, password) {
       this.isLoading = true;
-
       order.items = order.items.map(
         category => category.items
           .map(item => ({ ...item, type: category.name }))
