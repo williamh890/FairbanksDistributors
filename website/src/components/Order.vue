@@ -154,9 +154,18 @@ export default {
         this.snackbarNotifier = true;
       }
     },
+    swipe (direction) {
+      if (direction === "Right") {
+        if (this.element !== 5){
+          this.goBack();
+        }
+      }
+      else if (direction === "Left") {
+        this.canProgress();
+      }
+    },
     onSubmitOrder(order, password) {
       this.isLoading = true;
-
       order.items = order.items.map(
         category => category.items
           .map(item => ({ ...item, type: category.name }))
