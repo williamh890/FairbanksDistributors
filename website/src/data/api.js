@@ -1,1 +1,1 @@
-export const apiUrl = 'https://api-prod.fdak-orders.com';
+export const apiUrl = 'https://bcpyv36lol.execute-api.us-west-2.amazonaws.com/dev';
