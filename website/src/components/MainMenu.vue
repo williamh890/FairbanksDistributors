@@ -73,11 +73,12 @@ export default {
       var item_type;
       if (type === 'Chips') {
         item_type = 'chips';
+        this.$store.dispatch(SET_ORDER_TYPE, type);
       }
       else if (type === 'Freezer Bread') {
         item_type = 'freezer_bread';
+        this.$store.dispatch(SET_ORDER_TYPE, item_type);
       }
-      this.$store.dispatch(SET_ORDER_TYPE, item_type);
       this.$store.dispatch(LOAD_ITEM_DATA, item_type);
       this.newOrder()
     },
