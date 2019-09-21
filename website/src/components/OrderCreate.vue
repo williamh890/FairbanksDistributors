@@ -44,21 +44,22 @@
 
 
   <v-dialog v-model="dialog" max-width="290" transition="slide-fade" v-bind:hide-overlay="true">
-      <v-card>
-         <v-card-title v-if="currentItem">
+      <v-card v-if="currentItem">
+         <v-card-title>
             <div>
               <div>
                 <h3>{{ currentItem.name }}</h3>
               </div>
               <span>
                 upc: {{ currentItem.upc }},
-                oz: {{ currentItem.oz }},
-                case: {{ currentItem.case }}
+                <span v-if="currentItem.oz"> oz: {{ currentItem.oz }}, </span>
+                <span v-if="currentItem.case"> case: {{ currentItem.case}} </span>
+                <span v-else> tray: {{currentItem.tray}} </span>
               </span>
             </div>
           </v-card-title>
 
-      <v-list>
+      <v-list v-if="currentItem && currentItem.case">
           <v-list-tile
             v-for="(number, i) in numbers"
             :key="i"
@@ -70,6 +71,20 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
+
+        <v-list v-else-if="currentItem && currentItem.tray">
+          <v-list-tile
+            v-for="(number, i) in Array.from(new Set([0, 3, 4, Math.floor(currentItem.tray/2), currentItem.tray]))"
+            :key="i"
+            avatar
+            v-on:click="onAmountClicked(number)"
+          >
+            <v-list-tile-content>
+              <v-list-tile-title>{{ number }} </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+
 
         <div class="custom-amount-input">
           <v-text-field
