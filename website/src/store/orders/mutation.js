@@ -89,7 +89,9 @@ export const mutations = {
   },
 
   [RESTORE_ORDER]: function(state) {
-    state.categories = JSON.parse(localStorage.getItem('order_items'));
+    if (localStorage.getItem('order_items') != null) {
+      state.categories = JSON.parse(localStorage.getItem('order_items'));
+    }
   },
 
   [SET_SELECTED_ITEM_TYPE]: function(state, type) {
