@@ -25,11 +25,19 @@
               <v-flex>
                 <v-btn round block large
 
-                  v-on:click=spreadsheetUpload
+                  v-on:click="$emit('createOrder')"
                   color=info>
                    Continue Order
                 </v-btn>
               </v-flex>
+              <!-- <v-flex>
+                <v-btn round block large disabled
+
+                  v-on:click=spreadsheetUpload
+                  color=info>
+                   Update Order Items
+                </v-btn>
+              </v-flex> -->
               <v-flex>
                 <v-btn round block large disabled
                   color=info>
