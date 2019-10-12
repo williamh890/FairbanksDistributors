@@ -96,7 +96,7 @@ import OrderNotes from './OrderNotes';
 import OrderSuccess from './OrderSuccess';
 import store from '../store';
 import { apiUrl } from '../data/api'
-import { SHOWMAIN } from '../store/orders/mutation';
+import { SHOWMAIN, CLEAR_ORDER_SETTINGS, CLEAR_ORDER_ITEMS } from '../store/orders/mutation';
 
 export default {
   name: 'Order',
@@ -200,7 +200,8 @@ export default {
               this.element = 5;
               this.isLoading = false;
               this.resp = resp;
-              localStorage.removeItem('order_type')
+              this.$store.dispatch(CLEAR_ORDER_ITEMS)
+              this.$store.dispatch(CLEAR_ORDER_SETTINGS)
             }
           }
         )
