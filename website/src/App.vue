@@ -13,12 +13,6 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn flat
-         v-if="isLoggedIn"
-         v-on:click="onLogout">
-        Logout
-      </v-btn>
-
     </v-toolbar>
 
     <v-content>
