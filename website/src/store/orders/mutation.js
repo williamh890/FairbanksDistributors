@@ -92,6 +92,11 @@ export const mutations = {
     if (localStorage.getItem('order_items') != null) {
       state.categories = JSON.parse(localStorage.getItem('order_items'));
     }
+    if (localStorage.getItem('order_notes') != null) {
+      state.order.orderNotes = localStorage.getItem('order_notes')
+    }
+    state.order.deliveryLocation = localStorage.getItem('order_location')
+    
   },
 
   [SET_SELECTED_ITEM_TYPE]: function(state, type) {
@@ -114,6 +119,8 @@ export const mutations = {
   [CLEAR_ORDER_SETTINGS]: function(state) {
     state.order.deliveryLocation = null;
     state.order.orderNotes = '';
+    localStorage.removeItem('order_notes')
+    localStorage.removeItem('order_location')
   },
 
   [SUBMIT_ORDER]: function(state) {
@@ -122,6 +129,7 @@ export const mutations = {
 
   [SET_DELIVERY_LOCATION]: function(state, storeName) {
     state.order.deliveryLocation = storeName;
+    localStorage.setItem('order_location', storeName)
   },
 
   [SET_ORDER_DATE]: function(state, date) {
@@ -134,5 +142,7 @@ export const mutations = {
 
   [ADD_ORDER_NOTES]: function(state, notes) {
     state.order.orderNotes = notes;
+    localStorage.setItem('order_notes', notes)
+    console.log(localStorage.getItem('order_notes'))
   }
 };
