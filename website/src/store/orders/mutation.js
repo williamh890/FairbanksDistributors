@@ -111,6 +111,7 @@ export const mutations = {
   [CLEAR_ORDER_SETTINGS]: function(state) {
     state.order.deliveryLocation = null;
     state.order.orderNotes = '';
+    localStorage.removeItem('order_type');
   },
 
   [SUBMIT_ORDER]: function(state) {

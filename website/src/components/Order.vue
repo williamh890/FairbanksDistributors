@@ -96,7 +96,7 @@ import OrderNotes from './OrderNotes';
 import OrderSuccess from './OrderSuccess';
 import store from '../store';
 import { apiUrl } from '../data/api'
-import { SHOWMAIN } from '../store/orders/mutation';
+import { SHOWMAIN, CLEAR_ORDER_SETTINGS } from '../store/orders/mutation';
 
 export default {
   name: 'Order',
@@ -186,12 +186,12 @@ export default {
               this.snackbarText = "Order Failed";
               this.isLoading = false;
               this.snackbarNotifier = true;
-              console.log(resp.body);
             }
             else {
               this.element = 5;
               this.isLoading = false;
               this.resp = resp;
+              this.$store.dispatch(CLEAR_ORDER_SETTINGS);
             }
           }
         )
