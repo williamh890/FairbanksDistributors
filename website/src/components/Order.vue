@@ -127,7 +127,16 @@ export default {
       returnToHomeDialog: false,
     };
   },
+  created: function() {
+    this.isOrderContinue()
+  },
+
   methods: {
+    isOrderContinue() {
+      if (localStorage.getItem('order_items') != null) {
+        this.element++
+      }
+    },
     goBack() {
       if (this.element === 1) {
         if (this.$store.getters.getOrderItems.length === 0) {
