@@ -25,7 +25,7 @@
               <v-flex>
                 <v-btn round block large
 
-                  v-on:click="$emit('createOrder')"
+                  v-on:click=onOrderContinue
                   color=info>
                    Continue Order
                 </v-btn>
@@ -87,8 +87,13 @@ export default {
         item_type = 'freezer_bread';
         this.$store.dispatch(SET_ORDER_TYPE, item_type);
       }
+      localStorage.setItem('order_type', item_type)
       this.$store.dispatch(LOAD_ITEM_DATA, item_type);
       this.newOrder()
+    },
+    onOrderContinue: function() {
+      this.$store.dispatch(LOAD_ITEM_DATA, localStorage.getItem('order_type'));
+      this.$emit('createOrder');
     },
   }
 }
