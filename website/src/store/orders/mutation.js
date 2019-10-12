@@ -7,6 +7,10 @@ export const HIDE_UPLOAD = 'hideUpload';
 
 export const SET_SELECTED_ITEM_TYPE = 'setSelectedItemType';
 export const SET_CATEGORIES = 'setCategories';
+export const SET_DATA = 'setData';
+
+export const LOAD_ITEM_DATA = 'loadItemData';
+export const RESTORE_ORDER = 'restoreOrder';
 
 export const ADD_ORDER_ITEM = 'addOrderItem';
 export const CLEAR_ORDER_ITEMS = 'clearOrderItems';
@@ -39,6 +43,26 @@ export const mutations = {
     state.itemTypes = categories.map(category => category.name);
   },
 
+  [SET_DATA]: function(state, data_tuple) {
+    state.order_data_tuples[data_tuple.data_type] = data_tuple.data;
+  },
+
+  [LOAD_ITEM_DATA]: function(state, type) {
+    const { categories } = state.order_data_tuples[type];
+    let categoriesWithAmount = [];
+
+    for (const category of categories) {
+      const { items, name } = category;
+
+      const withAmount = items
+        .map(item => ({...item, amount: 0}));
+
+      categoriesWithAmount = [...categoriesWithAmount, { name, items: withAmount }];
+    }
+    state.categories = categoriesWithAmount;
+    state.itemTypes = categoriesWithAmount.map(category => category.name);
+  },
+
   [SHOWMAIN]: function(state) {
     state.mainMenu = true;
   },
@@ -61,6 +85,18 @@ export const mutations = {
         .filter(item => item === orderItem.item)
         .forEach(item => item.amount = orderItem.amount)
       )
+    localStorage.setItem('order_items', JSON.stringify(state.categories))
+  },
+
+  [RESTORE_ORDER]: function(state) {
+    if (localStorage.getItem('order_items') != null) {
+      state.categories = JSON.parse(localStorage.getItem('order_items'));
+    }
+    if (localStorage.getItem('order_notes') != null) {
+      state.order.orderNotes = localStorage.getItem('order_notes')
+    }
+    state.order.deliveryLocation = localStorage.getItem('order_location')
+    
   },
 
   [SET_SELECTED_ITEM_TYPE]: function(state, type) {
@@ -77,11 +113,14 @@ export const mutations = {
       })
     );
     state.selectedType = null;
+    localStorage.removeItem('order_items')
   },
 
   [CLEAR_ORDER_SETTINGS]: function(state) {
     state.order.deliveryLocation = null;
     state.order.orderNotes = '';
+    localStorage.removeItem('order_notes')
+    localStorage.removeItem('order_location')
   },
 
   [SUBMIT_ORDER]: function(state) {
@@ -90,6 +129,7 @@ export const mutations = {
 
   [SET_DELIVERY_LOCATION]: function(state, storeName) {
     state.order.deliveryLocation = storeName;
+    localStorage.setItem('order_location', storeName)
   },
 
   [SET_ORDER_DATE]: function(state, date) {
@@ -102,5 +142,7 @@ export const mutations = {
 
   [ADD_ORDER_NOTES]: function(state, notes) {
     state.order.orderNotes = notes;
+    localStorage.setItem('order_notes', notes)
+    console.log(localStorage.getItem('order_notes'))
   }
 };

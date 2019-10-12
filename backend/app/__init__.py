@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "Send emails"
+    return "Please access the backend using the app."
 
 
 def create_app():

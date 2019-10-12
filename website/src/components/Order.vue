@@ -1,6 +1,11 @@
 <template>
   <v-container class="size" fluid grid-list-xl>
-    <v-stepper v-model="element">
+    <v-stepper v-model="element" v-touch="{
+        left: () => swipe('Left'),
+        right: () => swipe('Right'),
+        up: () => swipe('Up'),
+        down: () => swipe('Down')
+      }">
 
       <v-stepper-header>
         <v-stepper-step :complete="element > 1" step="1">Settings</v-stepper-step>
@@ -39,27 +44,6 @@
         {{ snackbarText }}
       </v-snackbar>
 
-      <v-dialog v-model="returnToHomeDialog">
-        <v-card>
-          <v-card-title class="headline">Discard Order?</v-card-title>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" flat
-              @click="returnToHomeDialog = false"
-            >
-              No
-            </v-btn>
-
-            <v-btn
-              color="primary" flat
-              @click="mainMenu"
-            >
-              Yes
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
       <v-footer style="left: 50%; margin-right: -50%; transform: translate(-50%, 0); max-width: 600px"
                 fixed height="auto">
         <v-btn v-if="element !== 5" color="primary" flat large @click=goBack>
@@ -91,7 +75,7 @@ import OrderNotes from './OrderNotes';
 import OrderSuccess from './OrderSuccess';
 import store from '../store';
 import { apiUrl } from '../data/api'
-import { SHOWMAIN } from '../store/orders/mutation';
+import { SHOWMAIN, CLEAR_ORDER_SETTINGS, CLEAR_ORDER_ITEMS } from '../store/orders/mutation';
 
 export default {
   name: 'Order',
@@ -122,22 +106,25 @@ export default {
       returnToHomeDialog: false,
     };
   },
+  created: function() {
+    this.isOrderContinue()
+  },
+
   methods: {
+    isOrderContinue() {
+      if (localStorage.getItem('order_items') != null) {
+        this.element++
+      }
+    },
     goBack() {
       if (this.element === 1) {
-        if (this.$store.getters.getOrderItems.length === 0) {
-          this.mainMenu();
+        this.mainMenu();
         }
-        else {
-          this.returnToHomeDialog = true;
-        }
-      }
       else {
         this.element--;
       }
     },
     mainMenu() {
-      this.returnToHomeDialog = false;
       this.$store.dispatch(SHOWMAIN);
     },
     canProgress() {
@@ -149,9 +136,20 @@ export default {
         this.snackbarNotifier = true;
       }
     },
+    swipe (direction) {
+      if (direction === "Right") {
+        if (this.element !== 5){
+          this.goBack();
+        }
+      }
+      else if (direction === "Left") {
+        if (this.element !== 4) {
+          this.canProgress();
+        }
+      }
+    },
     onSubmitOrder(order, password) {
       this.isLoading = true;
-
       order.items = order.items.map(
         category => category.items
           .map(item => ({ ...item, type: category.name }))
@@ -175,6 +173,8 @@ export default {
               this.element = 5;
               this.isLoading = false;
               this.resp = resp;
+              this.$store.dispatch(CLEAR_ORDER_ITEMS)
+              this.$store.dispatch(CLEAR_ORDER_SETTINGS)
             }
           }
         )

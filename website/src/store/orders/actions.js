@@ -9,11 +9,15 @@ import {
   SET_ORDER_DATE,
   SET_DELIVERY_LOCATION,
   SET_CATEGORIES,
+  SET_DATA,
+  LOAD_ITEM_DATA,
   HIDEMAIN,
   SHOWMAIN,
   SHOW_UPLOAD,
   HIDE_UPLOAD,
-  ADD_ORDER_NOTES, SET_ORDER_TYPE,
+  ADD_ORDER_NOTES, 
+  SET_ORDER_TYPE,
+  RESTORE_ORDER,
 } from './mutation';
 
 export default {
@@ -39,6 +43,18 @@ export default {
 
   setCategories({ commit }, categories) {
     commit(SET_CATEGORIES, categories);
+  },
+
+  setData({ commit }, data_tuple) {
+    commit(SET_DATA, data_tuple);
+  },
+
+  loadItemData({ commit}, data_type) {
+    commit(LOAD_ITEM_DATA, data_type);
+  },
+
+  restoreOrder({ commit }) {
+    commit(RESTORE_ORDER);
   },
 
   showMain({ commit }) {

@@ -151,11 +151,17 @@ def write_category(worksheet, category, row_index, column):
             elif col_increase == 1:
                 cell.value = item['name']
             elif col_increase == 2:
-                cell.value = item['oz']
+                if 'oz' in item:
+                    cell.value = item['oz']
+                else:
+                    cell.value = 0
             elif col_increase == 3:
                 cell.value = item['upc']
             elif col_increase == 4:
-                cell.value = item['case']
+                if 'case' in item:
+                    cell.value = item['case']
+                elif 'tray' in item:
+                    cell.value = item['tray']
             if col_increase != 1:
                 cell.alignment = center
         row_increase += 1
