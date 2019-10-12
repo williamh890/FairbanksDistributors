@@ -20,7 +20,7 @@
           ></v-text-field>
           <v-date-picker v-model="date" v-on:input="menu = onDateChanged(date)"></v-date-picker>
         </v-menu>
-        <v-radio-group @change="onStoreNameChanged">
+        <v-radio-group @change="onStoreNameChanged" v-model="location">
             <template slot="label"> <div class="headline black--text">Delivery Location</div></template>
             <v-divider style="margin-bottom: 10px"></v-divider>
 
@@ -73,6 +73,9 @@ function nextDay(date){
                 },
                 onOrderTypeChanged: function(type) {
                     this.$store.dispatch(SET_ORDER_TYPE, type);
+                },
+                loadOrderLocation: function () {
+                    this.location = this.$store.getters.getDeliveryLocation
                 }
         },
         data: () => ({
@@ -80,7 +83,10 @@ function nextDay(date){
             date: new nextDay(alaskaTime()).toISOString().substr(0, 10),
             menu: false,
             location: null,
-        })
+        }),
+        created: function () {
+            this.loadOrderLocation()
+        },
     }
 
 </script>
