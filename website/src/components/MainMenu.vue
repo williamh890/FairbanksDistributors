@@ -1,5 +1,25 @@
 <template>
   <v-container fill-height class="size">
+    <v-dialog v-model="createNewOrderDialog">
+        <v-card>
+          <v-card-title class="headline">Discard Order?</v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" flat
+              @click="createNewOrderDialog = false"
+            >
+              No
+            </v-btn>
+
+            <v-btn
+              color="primary" flat
+              @click="newOrder(tempType)"
+            >
+              Yes
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-container>
           <v-layout
           align-space-around
@@ -63,24 +83,22 @@ import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS, SET_ORDER_TYPE, SET_DATA, LOAD
 export default {
   name: 'MainMenu',
   store,
+  data () {
+    return {
+      createNewOrderDialog: false,
+      tempType: null
+    };
+  },
   computed: {
     orderTypes() {
         return this.$store.getters.getOrderTypes;
     },
     isContinueOrderDisabled() {
-      return localStorage.getItem('order_type') == null;
+      return localStorage.getItem('order_items') == null;
     },
   },
   methods:    {
-    newOrder: function () {
-      this.$store.dispatch(CLEAR_ORDER_ITEMS);
-      this.$store.dispatch(CLEAR_ORDER_SETTINGS);
-      this.$emit('createOrder');
-    },
-    spreadsheetUpload: function() {
-      this.$emit('spreadsheetUpload');
-    },
-    onOrderTypeSelected: function(type) {
+    newOrder: function (type) {
       var item_type;
       if (type === 'Chips') {
         item_type = 'chips';
@@ -92,7 +110,21 @@ export default {
       }
       localStorage.setItem('order_type', item_type)
       this.$store.dispatch(LOAD_ITEM_DATA, item_type);
-      this.newOrder()
+      this.$store.dispatch(CLEAR_ORDER_ITEMS);
+      this.$store.dispatch(CLEAR_ORDER_SETTINGS);
+      this.$emit('createOrder');
+    },
+    spreadsheetUpload: function() {
+      this.$emit('spreadsheetUpload');
+    },
+    onOrderTypeSelected: function(type) {
+      if (localStorage.getItem('order_items') != null) {
+        this.tempType = type;
+        this.createNewOrderDialog = true;
+      }
+      else {
+        this.newOrder(type)
+      }
     },
     onOrderContinue: function() {
       this.$store.dispatch(LOAD_ITEM_DATA, localStorage.getItem('order_type'));
