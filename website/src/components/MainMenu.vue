@@ -23,7 +23,7 @@
               <v-divider style="margin: 10px 0"></v-divider>
 
               <v-flex>
-                <v-btn round block large disabled
+                <v-btn round block large
 
                   v-on:click=spreadsheetUpload
                   color=info>
