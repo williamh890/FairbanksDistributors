@@ -24,7 +24,7 @@
 
               <v-flex>
                 <v-btn round block large
-
+                  :disabled="isContinueOrderDisabled"
                   v-on:click=onOrderContinue
                   color=info>
                    Continue Order
@@ -66,6 +66,9 @@ export default {
   computed: {
     orderTypes() {
         return this.$store.getters.getOrderTypes;
+    },
+    isContinueOrderDisabled() {
+      return localStorage.getItem('order_type') == null;
     },
   },
   methods:    {
