@@ -44,27 +44,6 @@
         {{ snackbarText }}
       </v-snackbar>
 
-      <v-dialog v-model="returnToHomeDialog">
-        <v-card>
-          <v-card-title class="headline">Discard Order?</v-card-title>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" flat
-              @click="returnToHomeDialog = false"
-            >
-              No
-            </v-btn>
-
-            <v-btn
-              color="primary" flat
-              @click="mainMenu"
-            >
-              Yes
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
       <v-footer style="left: 50%; margin-right: -50%; transform: translate(-50%, 0); max-width: 600px"
                 fixed height="auto">
         <v-btn v-if="element !== 5" color="primary" flat large @click=goBack>
@@ -96,7 +75,7 @@ import OrderNotes from './OrderNotes';
 import OrderSuccess from './OrderSuccess';
 import store from '../store';
 import { apiUrl } from '../data/api'
-import { SHOWMAIN } from '../store/orders/mutation';
+import { SHOWMAIN, CLEAR_ORDER_SETTINGS, CLEAR_ORDER_ITEMS } from '../store/orders/mutation';
 
 export default {
   name: 'Order',
@@ -127,22 +106,25 @@ export default {
       returnToHomeDialog: false,
     };
   },
+  created: function() {
+    this.isOrderContinue()
+  },
+
   methods: {
+    isOrderContinue() {
+      if (localStorage.getItem('order_items') != null) {
+        this.element++
+      }
+    },
     goBack() {
       if (this.element === 1) {
-        if (this.$store.getters.getOrderItems.length === 0) {
-          this.mainMenu();
+        this.mainMenu();
         }
-        else {
-          this.returnToHomeDialog = true;
-        }
-      }
       else {
         this.element--;
       }
     },
     mainMenu() {
-      this.returnToHomeDialog = false;
       this.$store.dispatch(SHOWMAIN);
     },
     canProgress() {
@@ -186,12 +168,13 @@ export default {
               this.snackbarText = "Order Failed";
               this.isLoading = false;
               this.snackbarNotifier = true;
-              console.log(resp.body);
             }
             else {
               this.element = 5;
               this.isLoading = false;
               this.resp = resp;
+              this.$store.dispatch(CLEAR_ORDER_ITEMS)
+              this.$store.dispatch(CLEAR_ORDER_SETTINGS)
             }
           }
         )

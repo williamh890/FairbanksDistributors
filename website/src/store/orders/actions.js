@@ -15,7 +15,9 @@ import {
   SHOWMAIN,
   SHOW_UPLOAD,
   HIDE_UPLOAD,
-  ADD_ORDER_NOTES, SET_ORDER_TYPE,
+  ADD_ORDER_NOTES, 
+  SET_ORDER_TYPE,
+  RESTORE_ORDER,
 } from './mutation';
 
 export default {
@@ -49,6 +51,10 @@ export default {
 
   loadItemData({ commit}, data_type) {
     commit(LOAD_ITEM_DATA, data_type);
+  },
+
+  restoreOrder({ commit }) {
+    commit(RESTORE_ORDER);
   },
 
   showMain({ commit }) {

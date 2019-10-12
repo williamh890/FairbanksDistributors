@@ -10,6 +10,7 @@ export const SET_CATEGORIES = 'setCategories';
 export const SET_DATA = 'setData';
 
 export const LOAD_ITEM_DATA = 'loadItemData';
+export const RESTORE_ORDER = 'restoreOrder';
 
 export const ADD_ORDER_ITEM = 'addOrderItem';
 export const CLEAR_ORDER_ITEMS = 'clearOrderItems';
@@ -84,6 +85,18 @@ export const mutations = {
         .filter(item => item === orderItem.item)
         .forEach(item => item.amount = orderItem.amount)
       )
+    localStorage.setItem('order_items', JSON.stringify(state.categories))
+  },
+
+  [RESTORE_ORDER]: function(state) {
+    if (localStorage.getItem('order_items') != null) {
+      state.categories = JSON.parse(localStorage.getItem('order_items'));
+    }
+    if (localStorage.getItem('order_notes') != null) {
+      state.order.orderNotes = localStorage.getItem('order_notes')
+    }
+    state.order.deliveryLocation = localStorage.getItem('order_location')
+    
   },
 
   [SET_SELECTED_ITEM_TYPE]: function(state, type) {
@@ -100,11 +113,14 @@ export const mutations = {
       })
     );
     state.selectedType = null;
+    localStorage.removeItem('order_items')
   },
 
   [CLEAR_ORDER_SETTINGS]: function(state) {
     state.order.deliveryLocation = null;
     state.order.orderNotes = '';
+    localStorage.removeItem('order_notes')
+    localStorage.removeItem('order_location')
   },
 
   [SUBMIT_ORDER]: function(state) {
@@ -113,6 +129,7 @@ export const mutations = {
 
   [SET_DELIVERY_LOCATION]: function(state, storeName) {
     state.order.deliveryLocation = storeName;
+    localStorage.setItem('order_location', storeName)
   },
 
   [SET_ORDER_DATE]: function(state, date) {
@@ -125,5 +142,7 @@ export const mutations = {
 
   [ADD_ORDER_NOTES]: function(state, notes) {
     state.order.orderNotes = notes;
+    localStorage.setItem('order_notes', notes)
+    console.log(localStorage.getItem('order_notes'))
   }
 };

@@ -14,14 +14,20 @@ import { ADD_ORDER_NOTES } from '../store/orders/mutation';
 export default {
   name: 'Notes',
   store,
-    data: () => ({
+  data: () => ({
     orderNotes: '',
   }),
-    methods: {
-      addNotes() {
-          this.$store.dispatch(ADD_ORDER_NOTES, this.orderNotes);
-      }
+  created: function () {
+    this.loadOrderNotes()
+  },
+  methods: {
+    addNotes() {
+      this.$store.dispatch(ADD_ORDER_NOTES, this.orderNotes);
+    },
+    loadOrderNotes() {
+      this.orderNotes = this.$store.getters.getOrderNotes;
     }
+  }
 }
 
 </script>
