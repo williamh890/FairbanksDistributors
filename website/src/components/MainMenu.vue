@@ -27,7 +27,7 @@
 
                   v-on:click=spreadsheetUpload
                   color=info>
-                   Update Order Items
+                   Continue Order
                 </v-btn>
               </v-flex>
               <v-flex>
