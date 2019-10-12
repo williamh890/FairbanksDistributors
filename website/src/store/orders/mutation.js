@@ -108,6 +108,7 @@ export const mutations = {
       })
     );
     state.selectedType = null;
+    localStorage.removeItem('order_items')
   },
 
   [CLEAR_ORDER_SETTINGS]: function(state) {
