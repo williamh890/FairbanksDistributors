@@ -58,7 +58,7 @@
 
 <script>
 import store from '../store';
-import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS, SET_ORDER_TYPE, SET_DATA, LOAD_ITEM_DATA } from "../store/orders/mutation";
+import { CLEAR_ORDER_ITEMS, CLEAR_ORDER_SETTINGS, SET_ORDER_TYPE, SET_DATA, LOAD_ITEM_DATA, RESTORE_ORDER } from "../store/orders/mutation";
 
 export default {
   name: 'MainMenu',
@@ -96,6 +96,7 @@ export default {
     },
     onOrderContinue: function() {
       this.$store.dispatch(LOAD_ITEM_DATA, localStorage.getItem('order_type'));
+      this.$store.dispatch(RESTORE_ORDER);
       this.$emit('createOrder');
     },
   }

@@ -10,6 +10,7 @@ export const SET_CATEGORIES = 'setCategories';
 export const SET_DATA = 'setData';
 
 export const LOAD_ITEM_DATA = 'loadItemData';
+export const RESTORE_ORDER = 'restoreOrder';
 
 export const ADD_ORDER_ITEM = 'addOrderItem';
 export const CLEAR_ORDER_ITEMS = 'clearOrderItems';
@@ -84,6 +85,11 @@ export const mutations = {
         .filter(item => item === orderItem.item)
         .forEach(item => item.amount = orderItem.amount)
       )
+    localStorage.setItem('order_items', JSON.stringify(state.categories))
+  },
+
+  [RESTORE_ORDER]: function(state) {
+    state.categories = JSON.parse(localStorage.getItem('order_items'));
   },
 
   [SET_SELECTED_ITEM_TYPE]: function(state, type) {
