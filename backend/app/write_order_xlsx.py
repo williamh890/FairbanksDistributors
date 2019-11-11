@@ -48,7 +48,7 @@ def make_top(worksheet):
             cell.border = box_border
     for col in [1, 6]:
         wt_cell = worksheet.cell(column=col, row=2)
-        wt_cell.value = "ORDER QTY"
+        wt_cell.value = "QTY"
         wt_cell.font = medium_font
         wt_cell.alignment = center
     for col in [2, 7]:
