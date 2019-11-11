@@ -93,7 +93,7 @@ def write_categories(worksheet, order_info):
     left_row = 3
     right_row = 3
     for category in categories:
-        if left_row <= rows_height and len(categories[category]/2) < rows_height - left_row:
+        if left_row <= rows_height:
             left_row = write_category(
                 worksheet, categories[category], left_row, "left")
         else:
@@ -264,8 +264,7 @@ def format_xlsx(worksheet):
     col2_length = 0
     col7_length = 0
     for col, column_cells in enumerate(worksheet.columns):
-        length = max(len(str(cell.value) or "") for cell in column_cells)
-        length = length * 1.2 if length < 15 else length + 2
+        length = max(len(str(cell.value) or "") for cell in column_cells) * 1.2
         if col == 1:
             col2_length = length
         if col == 6:
