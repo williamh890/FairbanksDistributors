@@ -6,9 +6,9 @@ import pytz
 import math
 
 # set fonts for sheet
-small_font = Font(b=True, name='Arial', size=8)
-medium_font = Font(b=True, name='Arial', size=10)
-large_font = Font(b=True, name='Arial', size=12)
+small_font = Font(b=True, name='Arial', size=10)
+medium_font = Font(b=True, name='Arial', size=14)
+large_font = Font(b=True, name='Arial', size=16)
 note_font = Font(name='Arial', size=12)
 
 thin = Side(border_style="thin", color="000000")
@@ -48,7 +48,7 @@ def make_top(worksheet):
             cell.border = box_border
     for col in [1, 6]:
         wt_cell = worksheet.cell(column=col, row=2)
-        wt_cell.value = "ORDER QTY"
+        wt_cell.value = "QTY"
         wt_cell.font = medium_font
         wt_cell.alignment = center
     for col in [2, 7]:
@@ -93,7 +93,7 @@ def write_categories(worksheet, order_info):
     left_row = 3
     right_row = 3
     for category in categories:
-        if left_row <= rows_height:
+        if (left_row <= rows_height) and (len(categories[category])/2 < rows_height - left_row):
             left_row = write_category(
                 worksheet, categories[category], left_row, "left")
         else:
@@ -264,7 +264,8 @@ def format_xlsx(worksheet):
     col2_length = 0
     col7_length = 0
     for col, column_cells in enumerate(worksheet.columns):
-        length = max(len(str(cell.value) or "") for cell in column_cells) * 1.2
+        length = max(len(str(cell.value) or "") for cell in column_cells)
+        length = length * 1.3 if length < 15 else length * 1.2
         if col == 1:
             col2_length = length
         if col == 6:
