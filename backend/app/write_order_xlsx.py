@@ -93,7 +93,7 @@ def write_categories(worksheet, order_info):
     left_row = 3
     right_row = 3
     for category in categories:
-        if left_row <= rows_height:
+        if left_row <= rows_height and len(categories[category]/2) < rows_height - left_row:
             left_row = write_category(
                 worksheet, categories[category], left_row, "left")
         else:
