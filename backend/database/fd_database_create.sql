@@ -45,7 +45,8 @@ create table promos
     price       numeric(4, 2) not null,-- assumes no item costs more than $99.99
     customer_id serial        not null references chains (chain_id) match simple on update no action on delete no action,
     start_date  date          not null,
-    end_date    date          not null -- Need to consider off by one with these dates
+    end_date    date          not null, -- Need to consider off by one with these dates
+    primary key (item_id, customer_id)
 );
 
 create table ordered_items
@@ -53,6 +54,6 @@ create table ordered_items
     order_id      serial   not null references orders (order_id) match simple on update no action on delete no action,
     item_id       serial   not null references items (item_id) match simple on update no action on delete no action,
     qty_ordered   smallint not null,
-    qty_delivered smallint
+    qty_delivered smallint,
+    primary key(order_id, item_id)
 );
-
