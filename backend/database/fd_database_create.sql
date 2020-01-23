@@ -55,5 +55,5 @@ create table ordered_items
     item_id       serial   not null references items (item_id) match simple on update no action on delete no action,
     qty_ordered   smallint not null,
     qty_delivered smallint,
-    primary key(order_id, item_id)
+    primary key (order_id, item_id)
 );
