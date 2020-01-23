@@ -43,7 +43,7 @@ create table promos
 (
     item_id     serial        not null references items (item_id) match simple on update no action on delete no action,
     customer_id serial        not null references chains (chain_id) match simple on update no action on delete no action,
-    price       numeric(4, 2) not null,-- assumes no item costs more than $99.99
+    price       numeric(4, 2) not null, -- assumes no item costs more than $99.99
     start_date  date          not null,
     end_date    date          not null, -- Need to consider off by one with these dates
     primary key (item_id, customer_id)
