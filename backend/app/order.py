@@ -1,4 +1,6 @@
 from .auth import authenticate
+from . import stores
+from .write_order_xlsx import write_xlsx
 
 import csv
 import pathlib as pl
@@ -10,7 +12,6 @@ from email import encoders
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
-from .write_order_xlsx import write_xlsx
 import mimetypes
 
 from flask import Blueprint, jsonify, request, url_for, redirect, make_response
@@ -34,13 +35,25 @@ def login():
     return make_response(jsonify({"Success": "Authentication code is valid"}), 200)
 
 
-@order.route('/items/chips', methods=['GET'])
+@order.route('/chips/stores', methods=['GET'])
+@authenticate
+def get_chip_stores():
+    return stores.load_chips()
+
+
+@order.route('/bread/stores', methods=['GET'])
+@authenticate
+def get_bread_stores():
+    return stores.load_bread()
+
+
+@order.route('/chips/items', methods=['GET'])
 @authenticate
 def get_chips():
     return load_from_s3('chips.json')
 
 
-@order.route('/items/bread', methods=['GET'])
+@order.route('/bread/items', methods=['GET'])
 @authenticate
 def get_bread():
     return load_from_s3('bread.json')
