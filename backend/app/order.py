@@ -1,5 +1,6 @@
 from .auth import authenticate
 from . import stores
+from . import items
 from .write_order_xlsx import write_xlsx
 
 import csv
@@ -35,28 +36,22 @@ def login():
     return make_response(jsonify({"Success": "Authentication code is valid"}), 200)
 
 
-@order.route('/chips/stores', methods=['GET'])
+@order.route('/stores', methods=['GET'])
 @authenticate
-def get_chip_stores():
-    return stores.load_chips()
-
-
-@order.route('/bread/stores', methods=['GET'])
-@authenticate
-def get_bread_stores():
-    return stores.load_bread()
+def get_stores():
+    return stores.load()
 
 
 @order.route('/chips/items', methods=['GET'])
 @authenticate
 def get_chips():
-    return load_from_s3('chips.json')
+    return items.load_chips()
 
 
 @order.route('/bread/items', methods=['GET'])
 @authenticate
 def get_bread():
-    return load_from_s3('bread.json')
+    return items.load_bread()
 
 
 def load_from_s3(filename):
@@ -65,7 +60,7 @@ def load_from_s3(filename):
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(BUCKET_NAME)
 
-    download_path = pl.Path('/') / 'tmp' / key
+    download_path = pl.Path('/') / 'tmp' / filename
     bucket.download_file(KEY, str(download_path))
 
     with download_path.open('r') as f:

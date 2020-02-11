@@ -1,7 +1,7 @@
 import json
 
-import psycopg2
 from flask import jsonify
+from . import db
 
 
 class Store:
@@ -22,41 +22,20 @@ class Store:
         }
 
 
-def load_chips():
-    try:
-        conn = connect()
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM stores')
-        stores = cursor.fetchall()
+def load():
+    with db.connect() as connection:
+        try:
+            cursor = connection.cursor()
+            cursor.execute('SELECT * FROM stores;')
+            stores = cursor.fetchall()
 
-        store_dicts = [
-            Store.from_row(row).to_dict() for row in stores
-        ]
+            store_dicts = [
+                Store.from_row(row).to_dict() for row in stores
+            ]
 
-        return jsonify(store_dicts)
+            return jsonify(store_dicts)
 
-    except Exception as e:
-        return jsonify({
-            'error': str(e)
-        })
-
-
-def load_bread():
-    pass
-
-
-def connect():
-    config = db_config()
-
-    return psycopg2.connect(
-        user=config['user'],
-        password=config['pass'],
-        host=config['host'],
-        port=config['port'],
-        database=config['database']
-        )
-
-
-def db_config():
-    with open('db-config.json', 'r') as f:
-        return json.load(f)
+        except Exception as e:
+            return jsonify({
+                'error': str(e)
+            })
