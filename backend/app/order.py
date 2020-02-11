@@ -1,4 +1,7 @@
 from .auth import authenticate
+from . import stores
+from . import items
+from .write_order_xlsx import write_xlsx
 
 import csv
 import pathlib as pl
@@ -10,7 +13,6 @@ from email import encoders
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
-from .write_order_xlsx import write_xlsx
 import mimetypes
 
 from flask import Blueprint, jsonify, request, url_for, redirect, make_response
@@ -34,40 +36,28 @@ def login():
     return make_response(jsonify({"Success": "Authentication code is valid"}), 200)
 
 
-@order.route('/items/chips', methods=['GET'])
+@order.route('/stores', methods=['GET'])
 @authenticate
-def get_chips(): 
-    return get_bucket_data('chips.json')
+def get_stores():
+    return stores.load()
 
 
-@order.route('/items/freezer_bread', methods=['GET'])
+@order.route('/chips/items', methods=['GET'])
 @authenticate
-def get_freeze_bread(): 
-    return get_bucket_data('freezer_bread.json')
+def get_chips():
+    return items.load_chips()
 
 
-def get_bucket_data(key):
-    BUCKET_NAME = 'fd-order-app-storage'
-
-    s3 = boto3.resource('s3')
-    bucket = s3.Bucket(BUCKET_NAME)
-
-    download_path = pl.Path('/') / 'tmp' / key
-    bucket.download_file(key, str(download_path))
-
-    with download_path.open('r') as f:
-        items = json.load(f)
-
-    return jsonify(items)
+@order.route('/freezer_bread/items', methods=['GET'])
+@authenticate
+def get_freezer_bread():
+    return items.load_freezer_bread()
 
 
-def order_success():
-    return jsonify({"status": "order successful"})
-
-
-def order_failure(message):
-    return jsonify({"status": "order failed",
-                    "message": message})
+@order.route('/fresh_bread/items', methods=['GET'])
+@authenticate
+def get_fresh_bread():
+    return items.load_fresh_bread()
 
 
 @order.route('/place_order', methods=['POST', 'GET'])
@@ -78,15 +68,16 @@ def place_order():
     if request.method == 'POST':
         try:
             data = json.loads(request.form['order'])
-            write_xlsx(f"/tmp/{filename}",data)
+            write_xlsx(f"/tmp/{filename}", data)
             send_order(filename, data['store'])
         except Exception as e:
             return order_failure(str(e))
     else:
-        write_xlsx(f"/tmp/{filename}",{"date": "2002-02-02", "store": "safeway",
-                         "items": [{"name": "chip", "upc": "test", "amount": 0}]})
+        write_xlsx(f"/tmp/{filename}", {"date": "2002-02-02", "store": "safeway",
+                                        "items": [{"name": "chip", "upc": "test", "amount": 0}]})
         send_order(filename, "safeway")
     return order_success()
+
 
 def send_order(filename, store_name):
     smtp_config = get_smtp_config()
@@ -133,3 +124,12 @@ def create_email(smtp_config, filename, store_name):
     email.attach(create_order_attachment(filename))
 
     return email
+
+
+def order_success():
+    return jsonify({"status": "order successful"})
+
+
+def order_failure(message):
+    return jsonify({"status": "order failed",
+                    "message": message})

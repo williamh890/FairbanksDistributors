@@ -45,7 +45,7 @@ import { apiUrl } from './data/api';
 
 import {
   LOGIN, LOGOUT, HIDEMAIN,
-  SHOWMAIN, SET_CATEGORIES, SET_DATA,
+  SHOWMAIN, SET_DATA,
   SHOW_UPLOAD
 } from './store/orders/mutation';
 
@@ -71,9 +71,9 @@ export default {
       }
     },
     onLoggin: function(password) {
-      const url = `${apiUrl}/items/chips?auth_key=${password}`;
-      const freezer_bread_url = `${apiUrl}/items/freezer_bread?auth_key=${password}`;
-      
+      const url = `${apiUrl}/chips/items?auth_key=${password}`;
+      const freezer_bread_url = `${apiUrl}/freezer_bread/items?auth_key=${password}`;
+
       this.$http.get(url)
         .then(resp => {
           this.checkedStorage = true;
@@ -98,7 +98,6 @@ export default {
       this.$store.dispatch(SHOWMAIN);
     },
     setUploadSpreadsheetMenu: function() {
-      console.log('show upload');
       this.$store.dispatch(SHOW_UPLOAD);
     }
   },
