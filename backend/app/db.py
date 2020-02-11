@@ -12,7 +12,6 @@ def db_config():
     secret_name = "fd-orders-db-config"
     region_name = "us-west-2"
 
-    # Create a Secrets Manager client
     session = boto3.session.Session()
     client = session.client(
         service_name='secretsmanager',
