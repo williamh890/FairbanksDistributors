@@ -13,12 +13,6 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn flat
-         v-if="isLoggedIn"
-         v-on:click="onLogout">
-        Logout
-      </v-btn>
-
     </v-toolbar>
 
     <v-content>
@@ -51,7 +45,7 @@ import { apiUrl } from './data/api';
 
 import {
   LOGIN, LOGOUT, HIDEMAIN,
-  SHOWMAIN, SET_CATEGORIES,
+  SHOWMAIN, SET_CATEGORIES, SET_DATA,
   SHOW_UPLOAD
 } from './store/orders/mutation';
 
@@ -78,12 +72,20 @@ export default {
     },
     onLoggin: function(password) {
       const url = `${apiUrl}/items/chips?auth_key=${password}`;
+      const freezer_bread_url = `${apiUrl}/items/freezer_bread?auth_key=${password}`;
 
       this.$http.get(url)
         .then(resp => {
           this.checkedStorage = true;
-          this.$store.dispatch(LOGIN, password);
-        });
+          const chip_tuple = {data_type: 'chips', data: resp.body};
+          this.$store.dispatch(SET_DATA, chip_tuple);
+        })
+      this.$http.get(freezer_bread_url)
+        .then(resp => {
+          const freezer_bread_tuple = {data_type: 'freezer_bread', data: resp.body};
+          this.$store.dispatch(SET_DATA, freezer_bread_tuple);
+        })
+      this.$store.dispatch(LOGIN, password);
     },
     onLogout: function() {
       this.$store.dispatch(LOGOUT);

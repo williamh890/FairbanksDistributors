@@ -48,34 +48,16 @@ def get_chips():
     return items.load_chips()
 
 
-@order.route('/bread/items', methods=['GET'])
+@order.route('/freezer_bread/items', methods=['GET'])
 @authenticate
-def get_bread():
-    return items.load_bread()
+def get_freezer_bread():
+    return items.load_freezer_bread()
 
 
-def load_from_s3(filename):
-    BUCKET_NAME = 'fd-order-app-storage'
-
-    s3 = boto3.resource('s3')
-    bucket = s3.Bucket(BUCKET_NAME)
-
-    download_path = pl.Path('/') / 'tmp' / filename
-    bucket.download_file(KEY, str(download_path))
-
-    with download_path.open('r') as f:
-        items = json.load(f)
-
-    return jsonify(items)
-
-
-def order_success():
-    return jsonify({"status": "order successful"})
-
-
-def order_failure(message):
-    return jsonify({"status": "order failed",
-                    "message": message})
+@order.route('/fresh_bread/items', methods=['GET'])
+@authenticate
+def get_fresh_bread():
+    return items.load_fresh_bread()
 
 
 @order.route('/place_order', methods=['POST', 'GET'])
@@ -142,3 +124,12 @@ def create_email(smtp_config, filename, store_name):
     email.attach(create_order_attachment(filename))
 
     return email
+
+
+def order_success():
+    return jsonify({"status": "order successful"})
+
+
+def order_failure(message):
+    return jsonify({"status": "order failed",
+                    "message": message})

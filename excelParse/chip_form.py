@@ -30,8 +30,8 @@ def get_data(xls_path):
 
 
 def is_category(row):
-    not_categories = ['', 'Bridges', 'TMD Bottoms', 'TMD Tops', 'Clipstrips', 'Weekenders   Empty',
-                      'Weekenders   Product-', '4X4 Display  Empty', '4X4 Display  Product-', 'Rolling Dip Rack']
+    not_categories = ['', 'Bridges', 'TMD Bottoms', 'TMD Tops', 'Clipstrips', 'Weekenders',
+                      '4X4 Display', 'Rolling Dip Rack']
     return '-' not in row[3] and row[1] not in not_categories
 
 

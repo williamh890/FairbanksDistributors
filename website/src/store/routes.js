@@ -41,7 +41,19 @@ export const routes = [
         "rsr": ["Terry C.", "Ryan"]
     },
     {
+      "storeName": "Eielson Commissary",
+      "rsr": [""]
+    },
+    {
       "storeName": "Eielson Shoppette",
+      "rsr": [""]
+    },
+    {
+      "storeName": "SD Bulk Plant",
+      "rsr": [""]
+    },
+    {
+      "storeName": "Campus Cache",
       "rsr": [""]
     },
 ];

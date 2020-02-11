@@ -1,3 +1,3 @@
 export const orderTypes = [
-    'Chips', 'Frozen Bread', 'Fresh Bread', 'Tortillas/Salsa'
+    'Chips', 'Freezer Bread', 'Fresh Bread', 'Tortillas/Salsa'
 ];

@@ -31,8 +31,12 @@ def load_chips():
     return load_items('Chips')
 
 
-def load_bread():
-    return load_items('BREAD')
+def load_freezer_bread():
+    return load_items('Freezer Bread')
+
+
+def load_fresh_bread():
+    return load_items('Fresh Bread')
 
 
 def load_items(item_type):

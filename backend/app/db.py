@@ -1,4 +1,5 @@
 import base64
+import json
 
 import psycopg2
 import boto3
@@ -26,7 +27,7 @@ def db_config():
         print('Error loading db creds: ', e)
         raise e
 
-    return config
+    return json.loads(config['SecretString'])
 
 
 CONFIG = db_config()
