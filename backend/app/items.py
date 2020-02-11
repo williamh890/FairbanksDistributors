@@ -59,7 +59,16 @@ def load_items(item_type):
             for item in items:
                 items_by_categories[item.category_name].append(item.to_dict())
 
-            return jsonify(items_by_categories)
+            website_format = []
+            for category_name, category_items in items_by_categories.items():
+                website_format.append({
+                    'name': category_name,
+                    'items': category_items
+                })
+
+            return jsonify({
+                'categories': website_format
+            })
 
         except Exception as e:
             return jsonify({
