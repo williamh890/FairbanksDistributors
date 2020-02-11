@@ -89,7 +89,7 @@ pyttsx==1.1
 pyttsx3==2.7
 pytube==9.2.2
 pytz==2018.3
-pyxdg==0.25
+pyxdg==0.26
 PyYAML==3.12
 pyzmq==17.1.2
 qtconsole==4.3.1
