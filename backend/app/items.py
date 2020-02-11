@@ -2,6 +2,17 @@ from . import db
 
 from flask import jsonify
 
+def load_chips():
+    return _load_items('Chips')
+
+
+def load_freezer_bread():
+    return _load_items('Freezer Bread')
+
+
+def load_fresh_bread():
+    return _load_items('Fresh Bread')
+
 
 class Item:
     def __init__(self, item_name, category_name, ounces, pack_quantity, upc):
@@ -27,23 +38,11 @@ class Item:
         return val if val is not None else default_val
 
 
-def load_chips():
-    return load_items('Chips')
-
-
-def load_freezer_bread():
-    return load_items('Freezer Bread')
-
-
-def load_fresh_bread():
-    return load_items('Fresh Bread')
-
-
-def load_items(item_type):
+def _load_items(item_type):
     with db.connect() as connection:
         try:
             cursor = connection.cursor()
-            query = items_query(item_type)
+            query = _items_query(item_type)
             cursor.execute(query)
             item_rows = cursor.fetchall()
 
@@ -76,7 +75,7 @@ def load_items(item_type):
             })
 
 
-def items_query(item_type):
+def _items_query(item_type):
     return f'''
         SELECT item_name,
                category_name,
