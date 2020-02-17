@@ -96,7 +96,7 @@ export const mutations = {
       state.order.orderNotes = localStorage.getItem('order_notes')
     }
     state.order.deliveryLocation = localStorage.getItem('order_location')
-    
+
   },
 
   [SET_SELECTED_ITEM_TYPE]: function(state, type) {
@@ -143,6 +143,5 @@ export const mutations = {
   [ADD_ORDER_NOTES]: function(state, notes) {
     state.order.orderNotes = notes;
     localStorage.setItem('order_notes', notes)
-    console.log(localStorage.getItem('order_notes'))
   }
 };

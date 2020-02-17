@@ -25,7 +25,7 @@
             <v-divider style="margin-bottom: 10px"></v-divider>
 
             <template v-for="location in storeNames">
-                <v-radio  :value="location" color="primary">
+                <v-radio v-bind:key="location" :value="location" color="primary">
                     <template slot="label"> <div class="subheading black--text">{{location}}</div></template>
                 </v-radio>
             </template>
@@ -95,7 +95,4 @@ function nextDay(date){
     /*.v-label {*/
         /*font-size: 32px*/
     /*}*/
-</style>
-
-
 </style>
