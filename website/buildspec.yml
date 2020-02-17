@@ -7,7 +7,6 @@ phases:
       - npm install
       - cp src/data/api-${MATURITY}.js src/data/api.js
       - npm run build
-      - cp src/data/api-${MATURITY} src/data/api.js
       - cd dist
       - aws s3 sync . "s3://${S3_BUCKET}"
       - aws cloudfront create-invalidation --distribution-id ${CDN_ID} --paths /index.html /favicon.ico
