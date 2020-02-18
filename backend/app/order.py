@@ -13,8 +13,9 @@ from .write_order_xlsx import write_xlsx
 
 
 def place():
-    filename = f"{str(datetime.now())}_order.xlsx"
-    filename = filename.replace(' ', '_')
+    filename = f"{str(datetime.now())}_order.xlsx" \
+        .replace(' ', '_')
+
     if request.method == 'POST':
         try:
             data = json.loads(request.form['order'])
