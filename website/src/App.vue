@@ -20,9 +20,6 @@
         v-if="!isLoggedIn"
         v-on:login="onLoggin($event)"
       />
-      <SpreadsheetUpload
-        v-else-if="uploadScreenActive"
-        />
       <MainMenu
         v-else-if="mainMenuActive"
         v-on:createOrder="createOrder"
@@ -39,7 +36,6 @@
 import Login from './components/Login';
 import Order from './components/Order';
 import MainMenu from './components/MainMenu';
-import SpreadsheetUpload from './components/SpreadsheetUpload';
 import store from './store';
 import { apiUrl } from './data/api';
 
@@ -56,7 +52,6 @@ export default {
     Login,
     MainMenu,
     Order,
-    SpreadsheetUpload
   },
   data: () => ({
     checkedStorage: false,
