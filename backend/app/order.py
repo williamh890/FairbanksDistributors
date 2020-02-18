@@ -1,70 +1,21 @@
-from .auth import authenticate
-from . import stores
-from . import items
-from .write_order_xlsx import write_xlsx
-
-import csv
-import pathlib as pl
-from datetime import datetime, date, timedelta
-import configparser
 import json
+from datetime import datetime
+import configparser
 import smtplib
+
 from email import encoders
 from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 import mimetypes
+from flask import jsonify, request
 
-from flask import Blueprint, jsonify, request, url_for, redirect, make_response
-import boto3
-
-order = Blueprint('order', __name__)
+from .write_order_xlsx import write_xlsx
 
 
-@order.after_request
-def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers',
-                         'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,POST')
-    return response
+def place():
+    filename = f"{str(datetime.now())}_order.xlsx" \
+        .replace(' ', '_')
 
-
-@order.route('/login')
-@authenticate
-def login():
-    return make_response(jsonify({"Success": "Authentication code is valid"}), 200)
-
-
-@order.route('/stores', methods=['GET'])
-@authenticate
-def get_stores():
-    return stores.load()
-
-
-@order.route('/chips/items', methods=['GET'])
-@authenticate
-def get_chips():
-    return items.load_chips()
-
-
-@order.route('/freezer_bread/items', methods=['GET'])
-@authenticate
-def get_freezer_bread():
-    return items.load_freezer_bread()
-
-
-@order.route('/fresh_bread/items', methods=['GET'])
-@authenticate
-def get_fresh_bread():
-    return items.load_fresh_bread()
-
-
-@order.route('/place_order', methods=['POST', 'GET'])
-@authenticate
-def place_order():
-    filename = f"{str(datetime.now())}_order.xlsx"
-    filename = filename.replace(' ', '_')
     if request.method == 'POST':
         try:
             data = json.loads(request.form['order'])

@@ -2,6 +2,7 @@ from . import db
 
 from flask import jsonify
 
+
 def load_chips():
     return _load_items('Chips')
 
@@ -50,7 +51,8 @@ def _load_items(item_type):
                 Item.from_row(row) for row in item_rows
             ]
 
-            categories = [item.category_name for item in items]
+            categories = _unique([item.category_name for item in items])
+
             items_by_categories = {
                 category_name: [] for category_name in categories
             }
@@ -75,6 +77,11 @@ def _load_items(item_type):
             })
 
 
+def _unique(sequence):
+    seen = set()
+    return [x for x in sequence if not (x in seen or seen.add(x))]
+
+
 def _items_query(item_type):
     return f'''
         SELECT item_name,
@@ -87,5 +94,5 @@ def _items_query(item_type):
                  JOIN items ON categories.category_id = items.category_id
          WHERE type_name = '{item_type}'
            AND is_active = TRUE
-         ORDER BY category_name, item_name;
+         ORDER BY department, category_name, line_number, item_name;
     '''
