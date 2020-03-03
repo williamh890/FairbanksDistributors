@@ -16,6 +16,7 @@ def place(order_data):
         .replace(' ', '_')
 
     try:
+        order_id = add_order_to_db(order_data)
         send_order(filename, order_data)
     except Exception as e:
         return order_failure(str(e))
@@ -24,10 +25,13 @@ def place(order_data):
 
 
 def send_order(filename, order_data):
-
     write_xlsx(f"/tmp/{filename}", data)
 
     send_order_email(filename, order_data['store'])
+
+
+def add_order_to_db(order_data):
+    print(f'ORDER DATA: {order_data}')
 
 
 def send_order_email(filename, store_name):
@@ -82,7 +86,9 @@ def create_order_attachment(filename):
 
 
 def order_success():
-    return {"status": "order successful"}
+    return {
+        "status": "order successful"
+    }
 
 
 def order_failure(message):
