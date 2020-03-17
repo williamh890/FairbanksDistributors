@@ -24,7 +24,7 @@
 
           <template v-for="item in category.items">
             <v-list-tile
-              v-bind:key="item.name"
+              v-bind:key="item.id"
               v-on:click="onOpenDialog(item)">
               <v-list-tile-content>
                 <v-list-tile-title>
