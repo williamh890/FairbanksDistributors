@@ -17,8 +17,8 @@ class Store:
 
     def to_dict(self):
         return {
-            'storeName': self.name,
-            'rsr': []
+            'name': self.name,
+            'id': self.id
         }
 
 

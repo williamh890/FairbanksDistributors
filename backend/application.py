@@ -1,4 +1,5 @@
-from flask import Flask, make_response, jsonify
+from flask import Flask, make_response, jsonify, request
+import json
 
 from app import authenticate
 from app import stores
@@ -47,7 +48,11 @@ def get_fresh_bread():
 @fd_app.route('/place_order', methods=['POST', 'GET'])
 @authenticate
 def place_order():
-    return order.place()
+    order_data = json.loads(request.form['order'])
+
+    resp = order.place(order_data)
+
+    return jsonify(resp)
 
 
 @fd_app.after_request

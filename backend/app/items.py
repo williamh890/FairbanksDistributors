@@ -16,7 +16,8 @@ def load_fresh_bread():
 
 
 class Item:
-    def __init__(self, item_name, category_name, ounces, pack_quantity, upc):
+    def __init__(self, item_id, item_name, category_name, ounces, pack_quantity, upc):
+        self.item_id = item_id
         self.item_name = item_name
         self.category_name = category_name
         self.ounces = ounces
@@ -32,7 +33,8 @@ class Item:
             'name': self.item_name,
             'case': self.default(self.pack_quantity),
             'oz': self.default(self.ounces),
-            'upc': self.default(self.upc)
+            'upc': self.default(self.upc),
+            'id': self.item_id
         }
 
     def default(self, val, default_val=''):
@@ -43,8 +45,8 @@ def _load_items(item_type):
     with db.connect() as connection:
         try:
             cursor = connection.cursor()
-            query = _items_query(item_type)
-            cursor.execute(query)
+            query = _items_query()
+            cursor.execute(query, (f'{item_type}',))
             item_rows = cursor.fetchall()
 
             items = [
@@ -72,6 +74,7 @@ def _load_items(item_type):
             })
 
         except Exception as e:
+            raise e
             return jsonify({
                 'error': str(e)
             })
@@ -82,9 +85,10 @@ def _unique(sequence):
     return [x for x in sequence if not (x in seen or seen.add(x))]
 
 
-def _items_query(item_type):
+def _items_query():
     return f'''
-        SELECT item_name,
+        SELECT item_id,
+               item_name,
                category_name,
                ounces,
                pack_quantity,
@@ -92,7 +96,7 @@ def _items_query(item_type):
           FROM category_types
                  JOIN categories ON category_types.type_id = categories.type_id
                  JOIN items ON categories.category_id = items.category_id
-         WHERE type_name = '{item_type}'
+         WHERE type_name = %s
            AND is_active = TRUE
          ORDER BY department, category_name, line_number, item_name;
     '''

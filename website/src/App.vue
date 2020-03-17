@@ -42,7 +42,7 @@ import { apiUrl } from './data/api';
 import {
   LOGIN, LOGOUT, HIDEMAIN,
   SHOWMAIN, SET_DATA,
-  SHOW_UPLOAD
+  SHOW_UPLOAD, SET_STORES
 } from './store/orders/mutation';
 
 export default {
@@ -66,21 +66,35 @@ export default {
       }
     },
     onLoggin: function(password) {
-      const url = `${apiUrl}/chips/items?auth_key=${password}`;
+      const chips_url = `${apiUrl}/chips/items?auth_key=${password}`;
       const freezer_bread_url = `${apiUrl}/freezer_bread/items?auth_key=${password}`;
 
-      this.$http.get(url)
+      this.$http.get(chips_url)
         .then(resp => {
           this.checkedStorage = true;
           const chip_tuple = {data_type: 'chips', data: resp.body};
           this.$store.dispatch(SET_DATA, chip_tuple);
         })
+
       this.$http.get(freezer_bread_url)
         .then(resp => {
           const freezer_bread_tuple = {data_type: 'freezer_bread', data: resp.body};
           this.$store.dispatch(SET_DATA, freezer_bread_tuple);
         })
+
+      this.loadStores(password);
+
       this.$store.dispatch(LOGIN, password);
+    },
+    loadStores: function(password) {
+      const storesUrl = `${apiUrl}/stores?auth_key=${password}`;
+
+      this.$http.get(storesUrl).then(
+        resp => {
+          const stores = resp.body;
+          this.$store.dispatch(SET_STORES, stores);
+        }
+      );
     },
     onLogout: function() {
       this.$store.dispatch(LOGOUT);
