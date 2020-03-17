@@ -105,7 +105,11 @@ def get_smtp_config():
 
 def create_email(smtp_config, filename, order_id, store_name):
     email = MIMEMultipart()
-    email['Subject'] = f"Order {order_id} - {store_name}"
+    subject = f"Order {order_id} - {store_name}"
+    if 'test' in store_name.lower():
+        subject = store_name
+
+    email['Subject'] = subject
     email['From'] = smtp_config['USER']['smtpUserAddress']
     email['To'] = smtp_config['DEST']['destAddress']
 
