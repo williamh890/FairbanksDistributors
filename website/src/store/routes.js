@@ -56,6 +56,10 @@ export const routes = [
       "storeName": "Campus Cache",
       "rsr": [""]
     },
+    {
+      "storeName": "Greely Commissary",
+      "rsr": [""]
+    },
 ];
 
 export const routeServiceReps = Array.from( new Set(routes
