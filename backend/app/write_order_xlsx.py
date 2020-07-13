@@ -224,8 +224,7 @@ def write_header(worksheet, order_info):
     worksheet.oddHeader.left.text = get_order_date()
     worksheet.oddHeader.left.size = "18"
     worksheet.oddHeader.left.font = "Arial"
-    worksheet.oddHeader.center.text = "CUSTOMER: " + \
-        order_info['store']['name']
+    worksheet.oddHeader.center.text = "CUSTOMER: " + order_info['store']
     worksheet.oddHeader.center.size = "22"
     worksheet.oddHeader.center.font = "Arial"
     worksheet.oddHeader.right.text = "DATE ORDER TAKEN: " + str(date.today())
