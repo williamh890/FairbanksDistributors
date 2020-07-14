@@ -44,9 +44,9 @@ def write_xlsx(dest_dir, order_info):
 
     max_name_width = max([len(row['name']) * 2.62 for row in order_info['items']])
 
-    format_xlsx(ws, max_name_width)
+    format_xlsx(ws, max_name_width, number_of_rows < number_of_rows_per_page)
 
-    write_note(ws, order_info, max(left_row, right_row) + 1)
+    # write_note(ws, order_info, max(left_row, right_row) + 1)
 
     wb.save(filename=dest_dir)
 
@@ -110,7 +110,8 @@ def write_categories(worksheet, order_info):
             left_row = write_category(worksheet, categories[category], left_row, "left")
     else:
         for category in categories:
-            if (left_row <= rows_height) and (len(categories[category])/2 < rows_height - left_row):
+            # if (left_row <= rows_height) and (len(categories[category])/2 < rows_height - left_row):
+            if (left_row <= right_row):
                 left_row = write_category(
                     worksheet, categories[category], left_row, "left")
             else:
@@ -224,7 +225,8 @@ def write_header(worksheet, order_info):
     worksheet.oddHeader.left.text = get_order_date()
     worksheet.oddHeader.left.size = "18"
     worksheet.oddHeader.left.font = "Arial"
-    worksheet.oddHeader.center.text = "CUSTOMER: " + order_info['store']
+    worksheet.oddHeader.center.text = "CUSTOMER: " + \
+        order_info['store']
     worksheet.oddHeader.center.size = "22"
     worksheet.oddHeader.center.font = "Arial"
     worksheet.oddHeader.right.text = "DATE ORDER TAKEN: " + str(date.today())
@@ -233,16 +235,25 @@ def write_header(worksheet, order_info):
 
 
 def write_footer(worksheet, order_info):
-    worksheet.oddFooter.left.text = "PULLED BY:____________"
-    worksheet.oddFooter.left.size = "18"
+    num_rows = len(order_info['notes'].split('\n'))
+
+    comprehension_notes = '\n'
+    left_notes = comprehension_notes.join(
+        [line for num, line in enumerate(order_info['notes'].split('\n')) if num <= math.ceil(num_rows / 2)-1])
+    right_notes = comprehension_notes.join(
+        [line for num, line in enumerate(order_info['notes'].split('\n')) if num > math.ceil(num_rows / 2)-1])
+
+    worksheet.oddFooter.left.text = "Notes: " + left_notes
+    worksheet.oddFooter.left.size = "22"
     worksheet.oddFooter.left.font = "Arial"
-    worksheet.oddFooter.center.text = "FOR DELIVERY ON: " + \
-        format_date(order_info['date']).upper()
+    worksheet.oddFooter.center.text = right_notes
     worksheet.oddFooter.center.size = "22"
     worksheet.oddFooter.center.font = "Arial"
-    worksheet.oddFooter.right.text = "DELIVERED BY:____________"
-    worksheet.oddFooter.right.size = "18"
+    worksheet.oddFooter.right.text = "FOR DELIVERY ON: " + \
+        format_date(order_info['date']).upper()
+    worksheet.oddFooter.right.size = "22"
     worksheet.oddFooter.right.font = "Arial"
+
 
 
 def write_note(worksheet, order_info, row_index):
@@ -280,7 +291,7 @@ def write_note(worksheet, order_info, row_index):
     cell.font = note_font
 
 
-def format_xlsx(worksheet, max_name_width):
+def format_xlsx(worksheet, max_name_width, single_column):
     col_widths = {'A': 8.08984375,
                   'B': max_name_width,
                   'C': 8.7265625,
@@ -301,7 +312,7 @@ def format_xlsx(worksheet, max_name_width):
 
     worksheet.page_setup.orientation = 'portrait'
     worksheet.page_setup.fitToPage = True
-    worksheet.page_setup.fitToHeight = 2
+    worksheet.page_setup.fitToHeight = 1 if single_column else 2
     worksheet.page_setup.copies = 2
 
     worksheet.page_margins.left = 0.25
