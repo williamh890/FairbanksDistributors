@@ -313,7 +313,6 @@ def format_xlsx(worksheet, max_name_width, single_column):
     worksheet.page_setup.orientation = 'portrait'
     worksheet.page_setup.fitToPage = True
     worksheet.page_setup.fitToHeight = 1 if single_column else 2
-    worksheet.page_setup.copies = 2
 
     worksheet.page_margins.left = 0.25
     worksheet.page_margins.right = 0.25
