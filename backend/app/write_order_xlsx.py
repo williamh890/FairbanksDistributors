@@ -174,7 +174,7 @@ def write_category(worksheet, category, row_index, column):
                 else:
                     cell.value = 0
             elif col_increase == 3:
-                cell.value = item['upc']
+                cell.value = item['upc'].lstrip('0').lstrip().replace(' ', '-').replace('72220', 'FZ')[:8]
             elif col_increase == 4:
                 if 'case' in item:
                     cell.value = item['case']
