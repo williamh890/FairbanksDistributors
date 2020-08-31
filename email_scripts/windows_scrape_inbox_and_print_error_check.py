@@ -29,11 +29,11 @@ def get_server():
     return server
 
 
-#def extract_and_write_attachment(msg):
-    #attachment = msg.get_payload()[0]
-    #if attachment.get_content_type() == 'application/octet-stream':
-        #open('order.xlsx', 'wb').write(attachment.get_payload(decode=True))
-        #os.startfile(".\{}".format('order.xlsx'), "print")
+##def extract_and_write_attachment(msg):
+##    attachment = msg.get_payload()[0]
+##    if attachment.get_content_type() == 'application/octet-stream':
+##        open('order.xlsx', 'wb').write(attachment.get_payload(decode=True))
+##        os.startfile(".\{}".format('order.xlsx'), "print")
 
 
 def scrape_inbox():
@@ -51,15 +51,16 @@ def scrape_inbox():
         typ, data = server.fetch(id, '(RFC822)')
         msg = email.message_from_bytes(data[0][1])
         if msg.is_multipart():
-            smtplib.SMTP.starttls()
-            msg = EmailMessage()
-            msg.set_content("Email scrape not reading")
-            msg['From'] = 'orders.fbxdist@gmail.com'
-            msg['To'] = '9073785223@att.com'
-            s = smtplib.SMTP('smtp.gmail.com')
-            s.send_message(msg)
+            config = get_imap_config()
+            s = smtplib.SMTP('smtp.gmail.com',587)
+##            s.ehlo()
+            s.login(config['CREDS']['email']
+                        config['CREDS']['pass'])
+            s.starttls()
+            s.sendmail('orders.fbxdist@gmail.com','9073785223@txt.att.net', 'Subject: Scrape Error\n Email scrape hanging')
+            {}
             s.quit()
-            #extract_and_write_attachment(msg)
+##            extract_and_write_attachment(msg)
         #server.store(id, '+X-GM-LABELS', '\\Trash')
 
 
