@@ -52,11 +52,11 @@ def scrape_inbox():
         msg = email.message_from_bytes(data[0][1])
         if msg.is_multipart():
             config = get_imap_config()
-            s = smtplib.SMTP('smtp.gmail.com',587)
-##            s.ehlo()
-            s.login(config['CREDS']['email']
-                        config['CREDS']['pass'])
-            s.starttls()
+            s = smtplib.SMTP_SSL('smtp.gmail.com')
+            s.connect("smtp.gmail.com")
+            s.ehlo()
+            s.login(config['CREDS']['email'],
+                    config['CREDS']['pass'])
             s.sendmail('orders.fbxdist@gmail.com','9073785223@txt.att.net', 'Subject: Scrape Error\n Email scrape hanging')
             {}
             s.quit()
