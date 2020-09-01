@@ -3,13 +3,15 @@ import smtplib
 from smtplib import SMTP
 import logging
 import email
+import email.utils
 from email.contentmanager import ContentManager
 from email.message import EmailMessage
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 import configparser
 import os
 import time
+
 
 
 def get_imap_config():
@@ -39,7 +41,7 @@ def get_server():
 def scrape_inbox():
     server = get_server()
     server.select('inbox')
-    emails = server.search(None, '(FROM "fdist.smtp@gmail.com" SUBJECT "Test")')
+    emails = server.search(None, '(FROM "fdist.smtp@gmail.com" NOT SUBJECT "Test")')
     ids = emails[1][0]
     ids = list((ids.decode()).split(' '))
     if ids == ['']:
@@ -50,14 +52,18 @@ def scrape_inbox():
     for id in ids:
         typ, data = server.fetch(id, '(RFC822)')
         msg = email.message_from_bytes(data[0][1])
-        if msg.is_multipart():
+        timestamp = email.utils.parsedate_to_datetime(msg['Date'])
+        current = datetime.now(timezone.utc)
+        timeDiff = (current - timestamp).total_seconds()
+        print (timeDiff)
+        if timeDiff > 60:
             config = get_imap_config()
             s = smtplib.SMTP_SSL('smtp.gmail.com')
             s.connect("smtp.gmail.com")
             s.ehlo()
             s.login(config['CREDS']['email'],
                     config['CREDS']['pass'])
-            s.sendmail('orders.fbxdist@gmail.com','9073785223@txt.att.net', 'Subject: Scrape Error\n Email scrape hanging')
+            s.sendmail('orders.fbxdist@gmail.com','9073785223@txt.att.net', 'Subject: Inbox scrape hanging')
             {}
             s.quit()
 ##            extract_and_write_attachment(msg)
@@ -90,5 +96,5 @@ if __name__ == "__main__":
             scrape_inbox()
         except Exception as e:
             log_error(e, log_dir)
-        time.sleep(15)
+        time.sleep(60)
     # variable = input("Press something")
