@@ -58,7 +58,7 @@ def scrape_inbox():
                     config['CREDS']['pass'])
             s.sendmail('orders.fbxdist@gmail.com','sarah.c@fdak.net,caroline.c@fdak.net,greg.s@fdak.net', 'Subject: Inbox scrape hanging')
             {}
-            s.quit())
+            s.quit()
 
 
 def make_log_dir(log_dir):
