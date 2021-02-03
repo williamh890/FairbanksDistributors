@@ -60,6 +60,10 @@ export const routes = [
       "storeName": "Greely Commissary",
       "rsr": [""]
     },
+    {
+      "storeName": "Gold Star Liquor",
+      "rsr": [""]
+    },
 ];
 
 export const routeServiceReps = Array.from( new Set(routes
