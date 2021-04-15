@@ -61,6 +61,10 @@ export const routes = [
       "rsr": [""]
     },
     {
+      "storeName": "Walgreens",
+      "rsr": [""]
+    },
+    {
       "storeName": "Gold Star Liquor",
       "rsr": [""]
     },
